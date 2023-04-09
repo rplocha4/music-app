@@ -33,7 +33,7 @@ const CreatePlaylist: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   if (nameIsValid && imageUrlIsValid && descriptionIsValid) {
     formIsValid = true;
   }
-  const sumbitFormHandler = (event) => {
+  const sumbitFormHandler = (event: React.FormEvent) => {
     event.preventDefault();
     if (!formIsValid) return;
     nameReset();
@@ -49,9 +49,7 @@ const CreatePlaylist: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     <div className="flex flex-col justify-center p-10 items-center h-full text-white">
       <form
         action=""
-        onSubmit={(e) => {
-          sumbitFormHandler(e);
-        }}
+        onSubmit={sumbitFormHandler}
         className="flex flex-col gap-5 justify-center items-center w-5/6"
       >
         <div className={` ${inputClasses}`}>

@@ -24,7 +24,7 @@ const useInput = (checkIfValid: (value: string) => boolean) => {
   const enteredValueIsValid = checkIfValid(inputState.value);
   const enteredValueHasErrors = !enteredValueIsValid && inputState.isTouched;
 
-  const valueChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const valueChangeHandler = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     dispatch({ type: 'INPUT', value: event.target.value });
   };
   const valueBlurHandler = () => {
