@@ -15,222 +15,61 @@ export type Song = {
   artists: { name: string; id: string; uri: string }[];
 };
 
-class Node {
-  prev: Node | null;
-  next: Node | null;
-  data: Song;
+class SongQueue {
+  public queue: Song[] = [];
+  public previousQueue: Song[] = [];
+  public currentSong: Song | null | undefined = null;
 
-  constructor(data: Song) {
-    this.prev = null;
-    this.next = null;
-    this.data = data;
-  }
-}
-
-class DoublyLinkedList {
-  head: Node | null;
-  tail: Node | null;
-  size: number;
-  private previousSongs: Song[] = [];
-
-  constructor() {
-    this.head = null;
-    this.tail = null;
-    this.size = 0;
+  public append(song: Song) {
+    this.queue.push(song);
   }
 
-  clear(): void {
-    this.head = null;
-    this.tail = null;
-    this.size = 0;
+  public removeSong(song: Song) {
+    this.queue = this.queue.filter((s) => s.id !== song.id);
+  }
+  public dequeue() {
+    const song = this.queue.shift();
+    if (song) {
+      this.previousQueue.push(this.currentSong!);
+
+      this.currentSong = song;
+    }
+    return song;
+  }
+  public isPreviousEmpty(){
+    return this.previousQueue.length === 0;
   }
 
-  overrideQueue(songs: Song[]): void {
-    this.clear();
-    this.append(songs);
+  public playPrevious() {
+    const song = this.previousQueue.pop();
+    if (song) {
+      this.currentSong = song;
+      this.queue.unshift(this.currentSong);
+    }
+    return song;
   }
 
-  append(data: Song | Song[]) {
-    if (Array.isArray(data)) {
-      for (const item of data) {
-        const newNode = new Node(item);
 
-        if (this.size === 0) {
-          this.head = newNode;
-          this.tail = newNode;
-        } else {
-          newNode.prev = this.tail;
-          this.tail!.next = newNode;
-          this.tail = newNode;
-        }
+  public peek() {
+    return this.queue[0];
+  }
+  public isEmpty() {
+    return this.queue.length === 0;
+  }
+  public makeQueue(queue: Song[]) {
+    this.currentSong = queue[0];
+    if(queue.length > 2)
+      this.queue = queue.slice(1);
 
-        this.size++;
-      }
-    } else {
-      const newNode = new Node(data);
-
-      if (this.size === 0) {
-        this.head = newNode;
-        this.tail = newNode;
-      } else {
-        newNode.prev = this.tail;
-        this.tail!.next = newNode;
-        this.tail = newNode;
-      }
-
-      this.size++;
-    }
+  }
+  public overrideQueue(queue: Song[]) {
+    this.queue = queue;
   }
 
-  insertAt(data: Song, index: number) {
-    if (index < 0 || index > this.size) {
-      throw new Error('Index out of bounds');
-    }
-
-    const newNode = new Node(data);
-    if (this.size === 0) {
-      this.head = newNode;
-      this.tail = newNode;
-      this.size++;
-      return;
-    }
-
-    if (index === 0) {
-      newNode.next = this.head;
-      this.head!.prev = newNode;
-      this.head = newNode;
-    } else if (index === this.size) {
-      newNode.prev = this.tail;
-      this.tail!.next = newNode;
-      this.tail = newNode;
-    } else {
-      let current = this.head!;
-      for (let i = 0; i < index; i++) {
-        current = current.next!;
-      }
-      newNode.prev = current.prev;
-      newNode.next = current;
-      current.prev!.next = newNode;
-      current.prev = newNode;
-    }
-
-    this.size++;
+  public containsSong(uri:string){
+    return this.queue.some(song => song.uri === uri)
   }
 
-  removeAt(index: number) {
-    if (index < 0 || index >= this.size) {
-      throw new Error('Index out of bounds');
-    }
-
-    let current = this.head!;
-
-    if (this.size === 1) {
-      this.head = null;
-      this.tail = null;
-    } else if (index === 0) {
-      this.head = current.next;
-      this.head!.prev = null;
-    } else if (index === this.size - 1) {
-      current = this.tail!;
-      this.tail = current.prev;
-      this.tail!.next = null;
-    } else {
-      for (let i = 0; i < index; i++) {
-        current = current.next!;
-      }
-      current.prev!.next = current.next;
-      current.next!.prev = current.prev;
-    }
-
-    this.size--;
-    return current.data;
-  }
-  removeSong(uri: string): void {
-    let current = this.head;
-    while (current !== null) {
-      if (current.data.uri === uri) {
-        if (current.prev !== null) {
-          current.prev.next = current.next;
-        } else {
-          this.head = current.next;
-        }
-        if (current.next !== null) {
-          current.next.prev = current.prev;
-        } else {
-          this.tail = current.prev;
-        }
-        this.size--;
-        return;
-      }
-      current = current.next;
-    }
-  }
-
-  print() {
-    let current = this.head;
-
-    while (current !== null) {
-      console.log(current.data);
-      current = current.next;
-    }
-  }
-  playNextSong(): Song | null {
-    if (this.head === null) {
-      console.log('queue is empty');
-      return null;
-    }
-
-    if (this.head.next === null) {
-      this.head = null;
-      this.size = 0;
-      return null;
-    }
-    this.previousSongs.push(this.head.data);
-    console.log(this.head.data);
-
-    this.head = this.head.next;
-    const songToPlay = this.head.data;
-    this.size--;
-    return songToPlay;
-  }
-
-  playPreviousSong(): Song | null {
-    if (this.previousSongs.length === 0) {
-      return null;
-    }
-    const previousSong = this.previousSongs.pop();
-    this.insertAt(previousSong!, 0);
-
-    return previousSong!;
-  }
-  toArray(startNode: Node | null = null): Song[] {
-    const result = [];
-    let current = startNode !== null ? startNode : this.head;
-    while (current !== null) {
-      result.push(current.data);
-      current = current.next;
-    }
-    return result;
-  }
-  containsSong(uri: string): boolean {
-    let current = this.head;
-    while (current !== null) {
-      if (current.data.uri === uri) {
-        return true;
-      }
-      current = current.next;
-    }
-    return false;
-  }
-  // toArray(): Song[] {
-  //   const arr: Song[] = [];
-  //   let currentNode = this.head;
-  //   while (currentNode) {
-  //     arr.push(currentNode.data);
-  //     currentNode = currentNode.next;
-  //   }
-  //   return arr;
-  // }
 }
 
 export interface PlayerState {
@@ -240,7 +79,7 @@ export interface PlayerState {
   current_song: Song;
   previousSong: string;
   nextSong: string;
-  queue: DoublyLinkedList;
+  queue: SongQueue;
 }
 
 const initialState: PlayerState = {
@@ -258,7 +97,7 @@ const initialState: PlayerState = {
   },
   previousSong: '',
   nextSong: '',
-  queue: new DoublyLinkedList(),
+  queue: new SongQueue(),
 };
 
 export const playerSlice = createSlice({
@@ -267,10 +106,10 @@ export const playerSlice = createSlice({
   reducers: {
  
     playNext(state) {
-      
+      state.current_song = state.queue.dequeue() || state.current_song;
     },
     playPrevious(state) {
-      
+      state.current_song = state.queue.playPrevious() || state.current_song;
     },
     setShuffle(state,action) {
       state.shuffle = action.payload;
@@ -307,8 +146,11 @@ export const playerSlice = createSlice({
       state.volume = action.payload;
     },
 
-    setQueue(state, action) {
+    makeQueue(state, action) {
+      state.queue.makeQueue(action.payload);
 
+    },
+    overrideQueue(state, action) {
       state.queue.overrideQueue(action.payload);
 
     },
@@ -323,6 +165,7 @@ export const playerSlice = createSlice({
 
 export const {
   setPlaying,
+  overrideQueue,
   setCurrentSong,
   setDuration,
   pause,
@@ -331,7 +174,7 @@ export const {
   playNext,
   playPrevious,
   setShuffle,
-  setQueue,
+  makeQueue,
   updateVolume,
   seekToPosition,
   addToQueue,
