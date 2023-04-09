@@ -42,9 +42,9 @@ const Controlls: React.FC = () => {
       <FaStepBackward
         className="cursor-pointer active:scale-90"
         onClick={() => {
-          playerSelector.queue.head?.prev?.data.uri
-            ? playSong([playerSelector.queue.head?.prev.data.uri])
-            : console.log('no prev song');
+          !playerSelector.queue.isPreviousEmpty()
+            ? playSong([playerSelector.queue.playPrevious()?.uri])
+            : console.log('no previous song');
         }}
       />
       {playerSelector.playing ? (
@@ -65,8 +65,8 @@ const Controlls: React.FC = () => {
       <FaStepForward
         className="cursor-pointer active:scale-90"
         onClick={() => {
-          playerSelector.queue.head?.next?.data.uri
-            ? playSong([playerSelector.queue.head?.next.data.uri])
+          !playerSelector.queue.isEmpty()
+            ? playSong([playerSelector.queue.dequeue()?.uri])
             : console.log('no next song');
         }}
       />

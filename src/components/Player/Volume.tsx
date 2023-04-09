@@ -22,9 +22,7 @@ const Volume: React.FC = () => {
 
   return (
     <>
-      <Link to="lyricks">
-        <TbMicrophone2 className="cursor-pointer active:scale-90" />
-      </Link>
+
       {playerSelector.volume < 1 ? (
         <BsFillVolumeMuteFill
           onClick={() => {

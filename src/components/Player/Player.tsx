@@ -7,7 +7,7 @@ import {
   setCurrentSong,
   setPlaying,
 } from '../../store/playerSlice';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import Volume from './Volume';
 import Controlls from './Controlls';
 import SongProgress from './SongProgress';
@@ -16,6 +16,7 @@ import {
   MdOutlineKeyboardArrowUp,
   MdOutlineKeyboardArrowDown,
 } from 'react-icons/md';
+import { TbMicrophone2 } from 'react-icons/tb';
 
 const Player: React.FC = () => {
   const [accessToken, setAccessToken] = useState(
@@ -55,7 +56,7 @@ const Player: React.FC = () => {
       });
 
       player.addListener('ready', ({ device_id }) => {
-        console.log('Ready with Device ID', device_id);
+        // console.log('Ready with Device ID', device_id);
         localStorage.setItem('device_id', device_id);
         setDeviceId(device_id);
       });
@@ -175,6 +176,18 @@ const Player: React.FC = () => {
         </div>
       </div>
       <div className="flex items-center gap-1">
+        <NavLink
+          to={`/lyricks`}
+          className={({ isActive, isPending }) =>
+            isPending
+              ? 'text-gray-400'
+              : isActive
+              ? 'text-green-500 font-bold scale-110'
+              : ''
+          }
+        >
+          <TbMicrophone2 className="cursor-pointer active:scale-90" />
+        </NavLink>
         <Volume />
       </div>
     </div>
