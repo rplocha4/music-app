@@ -2,12 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { GoPlay } from 'react-icons/go';
 import { useDispatch } from 'react-redux';
-import {
-  Song,
-  setQueue,
-} from '../../../../../spotify/frontend/src/store/playerSlice';
+import { Song, makeQueue } from '../../store/playerSlice';
 import classes from '../Playlist/Modal.module.css';
-import { usePlayContextMutation } from '../../../../../spotify/frontend/src/store/features/SpotifyApi';
+import { usePlayContextMutation } from '../../store/features/SpotifyApi';
 const AlbumCard: React.FC<{
   name: string;
   image: string;
@@ -41,12 +38,12 @@ const AlbumCard: React.FC<{
       };
     });
     playContext(albumUri);
-    dispatch(setQueue(songs));
+    dispatch(makeQueue(songs));
   };
 
   return (
     <Link
-      className="flex flex-col p-5 gap-2 bg-zinc-900 hover:bg-zinc-700 cursor-pointer rounded-md "
+      className="flex  flex-col p-5 gap-2 bg-zinc-900 hover:bg-zinc-700 cursor-pointer rounded-md "
       title={name}
       to={`${!hoverButton ? '/album/' + id : '#'}`}
       onMouseEnter={() => setHover(true)}
