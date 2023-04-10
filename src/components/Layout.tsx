@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import useAuth from '../hooks/useAuth';
 import Player from './Player/Player';
-import { Link, NavLink, Outlet } from 'react-router-dom';
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useNavigate,
+  useRoutes,
+} from 'react-router-dom';
 import { BsSearch } from 'react-icons/bs';
 import { MdQueueMusic } from 'react-icons/md';
 import { FiHome } from 'react-icons/fi';
@@ -17,18 +23,11 @@ const routes = [
     path: '/playlists',
     icon: <RiPlayList2Fill className="mr-2" />,
   },
-  {
-    name: 'Logout',
-    path: '/',
-    icon: (
-      <IoLogOutOutline className="mr-2" onClick={() => localStorage.clear()} />
-    ),
-  },
 ];
 
 const Layout: React.FC<{}> = () => {
   // const accessToken = useAuth(code);
-
+  const navigate = useNavigate();
   return (
     <div className="flex" style={{ minHeight: '100vh', width: '100%' }}>
       <div className="flex flex-col w-1/6 items-start p-5 gap-7 bg-zinc-900 text-white overflow-y-hidden fixed h-screen text-2xl ">
@@ -50,6 +49,16 @@ const Layout: React.FC<{}> = () => {
             </span>
           </NavLink>
         ))}
+        <span
+          className="mr-2 flex items-center gap-2 cursor-pointer justify-center"
+          onClick={() => {
+            localStorage.clear();
+            navigate('/login');
+          }}
+        >
+          <IoLogOutOutline />
+          Logout
+        </span>
       </div>
       <div className="w-1/6"></div>
       <div className="flex flex-col w-5/6 bg-zinc-800   ">

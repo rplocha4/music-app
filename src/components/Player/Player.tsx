@@ -70,7 +70,7 @@ const Player: React.FC = () => {
           return;
         }
         const current_track = state.track_window.current_track;
-        current_track?.name !== null &&
+        current_track?.name !== undefined &&
           dispatch(
             setCurrentSong({
               name: current_track.name,
@@ -101,7 +101,7 @@ const Player: React.FC = () => {
 
   return (
     <div className="flex justify-between items-center p-4 bg-zinc-900 text-white opacity-95 h-24">
-      <div className="flex justify-start items-center gap-2 w-80 text-left">
+      <div className="flex justify-start items-center gap-2 w-80 text-left ">
         <div
           className={`w-1/6 h-auto ${
             isExpanded && 'absolute bottom-24 left-0'
@@ -131,7 +131,7 @@ const Player: React.FC = () => {
                 />
               ))}
             <img
-              className="object-cover"
+              className="object-cover w-full"
               src={
                 playerSelector.current_song.uri &&
                 playerSelector.current_song.album.images[0].url

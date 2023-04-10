@@ -15,9 +15,9 @@ import { loader as homeLoader } from './pages/Home';
 import Search from './pages/Search';
 import Queue from './pages/Queue';
 import Playlists from './pages/Playlists';
-import CreatePlaylist from './components/Playlist/CreatePlaylist';
 import Home from './pages/Home';
 import Lyricks from './pages/Lyricks';
+import Login from './pages/Login';
 
 const router = createBrowserRouter([
   {
@@ -57,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: 'lyricks',
         element: <Lyricks />,
+      },
+      {
+        path: 'login',
+        element: <Login />,
       },
     ],
   },

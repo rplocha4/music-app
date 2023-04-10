@@ -3,22 +3,55 @@ import Layout from './components/Layout';
 import Login from './pages/Login';
 import './App.css';
 import useAuth from './hooks/useAuth';
+import axios from 'axios';
 
-const code = new URLSearchParams(window.location.search).get('code');
+const code = new URLSearchParams(window.location.search).get('code') as string;
 
 const App: React.FC = () => {
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem('accessToken')
   );
   const [newAccessToken, setNewAccessToken] = useState(useAuth(code));
-
   useEffect(() => {
-    if (accessToken !== null && accessToken !== undefined) {
-      return;
-    } else {
-      setAccessToken(localStorage.getItem('accessToken'));
-    }
-  }, [localStorage.getItem('accessToken'), code]);
+    const token = localStorage.getItem('accessToken');
+    setAccessToken(token);
+  }, [localStorage.getItem('accessToken')]);
+  useEffect(() => {
+    if (!localStorage.getItem('expiresAt')) return;
+    const timeout = setTimeout(
+      () => {
+        const refreshToken = localStorage.getItem('refreshToken');
+        axios
+          .post('https://music-backend-2hi1.onrender.com/auth/refresh', {
+            refreshToken,
+          })
+          .then((res) => {
+            setAccessToken(res.data.accessToken);
+            localStorage.setItem('accessToken', res.data.accessToken);
+            localStorage.setItem(
+              'expiresAt',
+              `${Date.now() + res.data.expiresIn * 1000}`
+            );
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      },
+      Number(localStorage.getItem('expiresAt')) - Date.now() > 0
+        ? Number(localStorage.getItem('expiresAt')) - Date.now()
+        : 0
+    );
+
+    return () => clearTimeout(timeout);
+  }, [localStorage.getItem('expiresAt')]);
+
+  // useEffect(() => {
+  //   if (accessToken !== null && accessToken !== undefined) {
+  //     return;
+  //   } else {
+  //     setAccessToken(localStorage.getItem('accessToken'));
+  //   }
+  // }, [localStorage.getItem('accessToken'), code]);
 
   return (
     <div className="min-h-screen bg-slate-100">
