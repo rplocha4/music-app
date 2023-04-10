@@ -1,6 +1,6 @@
 import React from 'react';
 
-const redirectUri = 'http://localhost:5173';
+const redirectUri = 'https://music-app-oq29.onrender.com/';
 
 const client_id = '36308efa2dd24d35a35792a4c4698fda';
 
