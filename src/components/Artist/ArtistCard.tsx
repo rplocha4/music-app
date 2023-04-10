@@ -16,8 +16,7 @@ const ArtistCard: React.FC<{
       <img
         src={image}
         alt="artist image"
-        className="rounded-full object-cover self-center"
-        style={{ width: '130px', height: '130px' }}
+        className="rounded-full self-center w-52 h-52 object-cover"
       />
       <div className="">
         <p>{name}</p>
