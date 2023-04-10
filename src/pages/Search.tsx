@@ -96,7 +96,7 @@ const Search: React.FC = ({}) => {
             )}
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5 px-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
             {search && currentFilter === 'artists' && (
               <ArtistsResults key={Math.random()} artists={artists} />
             )}
