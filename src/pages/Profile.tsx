@@ -3,6 +3,7 @@ import { Await, defer, useLoaderData } from 'react-router-dom';
 import Loading from '../components/Animate/Loading';
 import { FaUserAlt } from 'react-icons/fa';
 import ArtistsResults from '../components/Artist/ArtistsResults';
+import AlbumResults from '../components/Album/AlbumResults';
 function Profile() {
   const data = useLoaderData();
   const { user }: any = data;
@@ -42,14 +43,28 @@ function Profile() {
                   </div>
                 </div>
                 <div className="text-white flex flex-col gap-2">
-                  <p className="p-2 text-3xl font-semi-bold">
-                    Following Artists
-                  </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
-                    <ArtistsResults
-                      artists={loadedUser.user.followingArtists}
-                    />
-                  </div>
+                  {loadedUser?.user.followingArtists.length > 0 && (
+                    <>
+                      <p className="p-2 text-3xl font-semi-bold">
+                        Following Artists
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
+                        <ArtistsResults
+                          artists={loadedUser.user.followingArtists}
+                        />
+                      </div>
+                    </>
+                  )}
+                  {loadedUser?.user.likedAlbums.length > 0 && (
+                    <>
+                      <p className="p-2 text-3xl font-semi-bold">
+                        Liked Albums
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
+                        <AlbumResults albums={loadedUser.user.likedAlbums} />
+                      </div>
+                    </>
+                  )}
                 </div>
               </>
             );
