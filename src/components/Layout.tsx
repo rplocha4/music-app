@@ -8,12 +8,17 @@ import {
   useNavigate,
   useRoutes,
 } from 'react-router-dom';
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
+import { FaUserAlt } from 'react-icons/fa';
 import { BsSearch } from 'react-icons/bs';
 import { MdQueueMusic } from 'react-icons/md';
 import { FiHome } from 'react-icons/fi';
 import { TbPlaylist } from 'react-icons/tb';
 import { RiPlayList2Fill } from 'react-icons/ri';
 import { IoLogOutOutline } from 'react-icons/io5';
+import Cookies from 'universal-cookie';
+import UserButton from './UserButton';
+const cookies = new Cookies();
 const routes = [
   { name: 'Home', path: '/home', icon: <FiHome className="mr-2" /> },
   { name: 'Search', path: '/search', icon: <BsSearch className="mr-2" /> },
@@ -24,7 +29,6 @@ const routes = [
     icon: <RiPlayList2Fill className="mr-2" />,
   },
 ];
-
 const Layout: React.FC<{}> = () => {
   // const accessToken = useAuth(code);
   const navigate = useNavigate();
@@ -61,7 +65,10 @@ const Layout: React.FC<{}> = () => {
         </span>
       </div>
       <div className="w-1/6"></div>
-      <div className="flex flex-col w-5/6 bg-zinc-800   ">
+      <div className="flex flex-col w-5/6 bg-zinc-800 relative">
+        <div className="text-white right-3 top-1 fixed z-20 ">
+          <UserButton />
+        </div>
         <div className="min-h-screen pb-24">
           <Outlet />
         </div>
