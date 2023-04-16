@@ -18,6 +18,8 @@ import Playlists from './pages/Playlists';
 import Home from './pages/Home';
 import Lyricks from './pages/Lyricks';
 import Login from './pages/Login';
+import SpotifyAuth from './pages/SpotifyAuth';
+import Register from './pages/Register';
 
 const router = createBrowserRouter([
   {
@@ -58,11 +60,19 @@ const router = createBrowserRouter([
         path: 'lyricks',
         element: <Lyricks />,
       },
-      {
-        path: 'login',
-        element: <Login />,
-      },
     ],
+  },
+  {
+    path: '/auth',
+    element: <SpotifyAuth />,
+  },
+  {
+    path: '/register',
+    element: <Register />,
+  },
+  {
+    path: '/login',
+    element: <Login />,
   },
 ]);
 

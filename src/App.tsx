@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Layout from './components/Layout';
-import Login from './pages/Login';
 import './App.css';
 import useAuth from './hooks/useAuth';
 import axios from 'axios';
+import SpotifyAuth from './pages/SpotifyAuth';
 
 const code = new URLSearchParams(window.location.search).get('code') as string;
 
@@ -22,7 +22,7 @@ const App: React.FC = () => {
       () => {
         const refreshToken = localStorage.getItem('refreshToken');
         axios
-          .post('https://music-backend-2hi1.onrender.com/auth/refresh', {
+          .post('http://localhost:5000', {
             refreshToken,
           })
           .then((res) => {
@@ -57,9 +57,9 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-slate-100">
       {/* {accessToken ? <WebPlayback /> : <Login />} */}
       {!accessToken && !code ? (
-        <Login />
+        <SpotifyAuth />
       ) : !accessToken ? (
-        <Login />
+        <SpotifyAuth />
       ) : (
         <Layout />
       )}
