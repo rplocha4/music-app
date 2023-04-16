@@ -8,6 +8,10 @@ import { Artist as ArtistT } from '../types/types';
 
 import Loading from '../components/Animate/Loading';
 import Cookies from 'universal-cookie';
+import {
+  useFollowArtistMutation,
+  useUnfollowArtistMutation,
+} from '../store/features/ServerApi';
 const cookies = new Cookies();
 const Artist = () => {
   const data: any = useLoaderData();
@@ -15,50 +19,21 @@ const Artist = () => {
 
   const [isFollowingState, setIsFollowingState] = React.useState(isFollowing);
   // console.log(artist.images[0].url);
-
+  const [followArtist, followArtistResult] = useFollowArtistMutation();
+  const [unFollowArtist, unFollowArtistResult] = useUnfollowArtistMutation();
   const unfollowArtistHandler = (artist: ArtistT) => {
     setIsFollowingState(false);
 
-    const username = cookies.get('USERNAME');
-    fetch(`http://localhost:5000/api/unfollowArtist/${username}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        artist,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    unFollowArtist(artist.id).then((res) => {
+      console.log(res.data.message);
+    });
   };
   const followArtistHandler = (artist: ArtistT) => {
     setIsFollowingState(true);
 
-    const username = cookies.get('USERNAME');
-    console.log(artist);
-
-    fetch(`http://localhost:5000/api/followArtist/${username}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        artist,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    followArtist(artist).then((res) => {
+      console.log(res.data.message);
+    });
   };
 
   return (
