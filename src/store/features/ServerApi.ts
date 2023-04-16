@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import Cookies from 'universal-cookie';    
-import { Artist } from '../../types/types';
+import { Album, Artist } from '../../types/types';
 const cookies = new Cookies();
 
 const username = cookies.get('USERNAME');
@@ -25,8 +25,24 @@ export const serverApi = createApi({
             }),
         }),
 
+        likeAlbum: builder.mutation({
+            query: (album: Album) => ({
+                url: `likeAlbum/${username}`,
+                method: 'POST',
+                body: {album},
+            }),
+        }),
+        unlikeAlbum: builder.mutation({
+            query: (albumId: string) => ({
+                url: `unlikeAlbum/${username}`,
+                method: 'POST',
+                body: {albumId},
+            }),
+        }),
+
+
 
     })
 })
 
-export const { useFollowArtistMutation, useUnfollowArtistMutation  } = serverApi;
+export const { useFollowArtistMutation, useUnfollowArtistMutation,useLikeAlbumMutation,useUnlikeAlbumMutation  } = serverApi;
