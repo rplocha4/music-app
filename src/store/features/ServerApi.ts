@@ -59,6 +59,30 @@ export const serverApi = createApi({
         body: { trackId },
       }),
     }),
+    createPlaylist: builder.mutation({
+      query: (playlist: {
+        name: string;
+        description: string;
+        image: string;
+        owner: { display_name: string };
+        songs: [];
+        id: string;
+      }) => ({
+        url: `createPlaylist/${username}`,
+        method: 'POST',
+        body: { playlist },
+      }),
+    }),
+    getUserPlaylists: builder.query<any,void>({
+      query: () => `getUserPlaylists/${username}`,
+    }),
+    addTrackToPlaylist: builder.mutation({
+      query: ({playlistId,track}) => ({
+        url: `addTrackToPlaylist/${username}`,
+        method: 'POST',
+        body: { playlistId, track },
+      }),
+    }),
   }),
 });
 
@@ -71,4 +95,7 @@ export const {
   useLikeTrackMutation,
   useUnlikeTrackMutation,
   useIsLikingTrackQuery,
+  useCreatePlaylistMutation,
+  useGetUserPlaylistsQuery,
+  useAddTrackToPlaylistMutation,
 } = serverApi;

@@ -3,7 +3,10 @@ import { BiTime } from 'react-icons/bi';
 import TrackCard from './TrackCard';
 import { getSmallestImage } from '../../utils';
 import { Song } from '../../store/playerSlice';
-import { useGetLikedTracksQuery } from '../../store/features/ServerApi';
+import {
+  useGetLikedTracksQuery,
+  useGetUserPlaylistsQuery,
+} from '../../store/features/ServerApi';
 import { TrackItem } from '../../types/types';
 
 const TrackResults: React.FC<{
@@ -12,14 +15,17 @@ const TrackResults: React.FC<{
   start?: number;
 }> = ({ tracks, showInfo, start }) => {
   const [openTrackIndex, setOpenTrackIndex] = useState(-1);
-
+  const { data: playlists, refetch } = useGetUserPlaylistsQuery();
+  const [userPlaylists, setUserPlaylists] = useState(playlists?.userPlaylists);
   const handleTrackCardClick = (index: number) => {
     setOpenTrackIndex(index === openTrackIndex ? -1 : index);
   };
   const handleClosing = () => {
     setOpenTrackIndex(-1);
   };
-
+  useEffect(() => {
+    setUserPlaylists(playlists.userPlaylists);
+  }, [playlists]);
 
   return (
     <div className="flex flex-col justify-start gap-3 bg-zinc-800 text-white">
@@ -37,6 +43,7 @@ const TrackResults: React.FC<{
                 }
                 handleClick={() => handleTrackCardClick(start ? start + i : i)}
                 handleClosing={handleClosing}
+                userPlaylists={userPlaylists}
               />
             </div>
           );

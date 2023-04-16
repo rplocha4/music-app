@@ -20,6 +20,8 @@ import {
   useSetResumeMutation,
 } from '../../store/features/SpotifyApi';
 import {
+  useAddTrackToPlaylistMutation,
+  useGetUserPlaylistsQuery,
   useIsLikingTrackQuery,
   useLikeTrackMutation,
   useUnlikeTrackMutation,
@@ -31,7 +33,8 @@ const TrackCard: React.FC<{
   isOpen?: boolean;
   handleClick?: () => void;
   handleClosing?: () => void;
-}> = ({ track, i, isOpen, handleClick, handleClosing }) => {
+  userPlaylists?: any;
+}> = ({ track, i, isOpen, handleClick, handleClosing, userPlaylists }) => {
   const { name, uri, duration_ms, album, artists, id } = track;
   const dispatch = useDispatch();
   const playerSelector = useSelector<RootState, PlayerState>(
@@ -40,12 +43,16 @@ const TrackCard: React.FC<{
   const ref = useRef<any>(null);
   const [inQueue, setInQueue] = useState(false);
   const [hover, setHover] = useState(false);
+  const [hoverPlaylist, setHoverPlaylist] = useState(false);
 
   const [playSong, resultPlay] = usePlaySongsMutation();
   const [setPause, resultPause] = useSetPauseMutation();
   const [setResume, resultResume] = useSetResumeMutation();
   const [likeSong, resultLike] = useLikeTrackMutation();
   const [unlikeSong, resultUnlike] = useUnlikeTrackMutation();
+  const [addSongToPlaylist, resultAddSongToPlaylist] =
+    useAddTrackToPlaylistMutation();
+
   const { data, refetch } = useIsLikingTrackQuery(id);
   const [likedTrack, setLikedTrack] = useState(data?.isLiking || false);
 
@@ -201,13 +208,7 @@ const TrackCard: React.FC<{
               onClick={() => unlikeTrack()}
             />
           ))}
-        <p>
-          {duration_ms >= 0 ? (
-            millisToMinutesAndSeconds(duration_ms)
-          ) : (
-            <BiTime />
-          )}
-        </p>
+        <p>{i !== '#' ? millisToMinutesAndSeconds(duration_ms) : <BiTime />}</p>
         {duration_ms >= 0 && hover && (
           <BsThreeDots
             onClick={isOpen ? handleClosing : handleClick}
@@ -239,9 +240,35 @@ const TrackCard: React.FC<{
             >
               {`${!inQueue ? 'Add to queue' : 'Remove from queue'} `}
             </button>
-            <button className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2">
-              Add to playlist
-            </button>
+            <div className="relative w-full">
+              <button
+                className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2"
+                onMouseEnter={() => {
+                  setHoverPlaylist(true);
+                }}
+              >
+                Add to playlist
+              </button>
+              {hoverPlaylist && (
+                <div className="absolute top-0 -left-full bg-zinc-900 rounded-md z-10 flex flex-col justify-center items-center w-48 ">
+                  {userPlaylists.map((playlist: any) => {
+                    return (
+                      <button
+                        className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2"
+                        key={playlist.id}
+                        onClick={() => {
+                          addSongToPlaylist({ playlistId: playlist.id, track });
+                          handleClosing!();
+                          setHoverPlaylist(false);
+                        }}
+                      >
+                        {playlist.name}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
             <button className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2">
               Go to album
             </button>
