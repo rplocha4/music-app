@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PlaylistCard from './PlaylistCard';
 
 const PlaylistResults: React.FC<{ playlists: any }> = ({ playlists }) => {
-
   return (
     <>
       {playlists.map((playlist: any) => {
@@ -11,10 +10,11 @@ const PlaylistResults: React.FC<{ playlists: any }> = ({ playlists }) => {
             name={playlist.name}
             author={playlist.owner.display_name}
             image={
+              playlist.image ||
               playlist.images[0]?.url ||
               'http://przyjaznycoaching.pl/wp-content/themes/przyjaznycoaching/assets/img/default-image.jpg'
             }
-            uri={playlist.uri}
+            id={playlist.id}
             key={playlist.id}
           />
         );

@@ -1,13 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const PlaylistCard: React.FC<{
   name: string;
   author: string;
   image: string;
-  uri: string;
-}> = ({ name, author, image, uri }) => {
+  id: string;
+}> = ({ name, author, image, id }) => {
   return (
-    <div className="flex flex-col p-5 gap-2 bg-zinc-900 hover:bg-zinc-700 cursor-pointer rounded-md">
+    <Link
+      to={`/playlist/${id}`}
+      className="flex flex-col p-5 gap-2 bg-zinc-900 hover:bg-zinc-700 cursor-pointer rounded-md"
+    >
       <img src={image} alt="album image" className="rounded-md" />
       <div className="flex flex-col">
         <p className="whitespace-nowrap overflow-hidden">{name}</p>
@@ -15,7 +19,7 @@ const PlaylistCard: React.FC<{
           <p>{author}</p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

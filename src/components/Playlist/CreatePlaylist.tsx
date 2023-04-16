@@ -1,6 +1,12 @@
 import React from 'react';
 import useInput from '../../hooks/useInput';
 import Modal from './Modal';
+import { v4 as uuid } from 'uuid';
+import { useCreatePlaylistMutation } from '../../store/features/ServerApi';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
+const username = cookies.get('USERNAME');
 const isNotEmpty = (value: string) => value.trim() !== '';
 
 const CreatePlaylist: React.FC<{ onClose: () => void }> = ({ onClose }) => {
@@ -29,6 +35,8 @@ const CreatePlaylist: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     reset: imageUrlReset,
   } = useInput(isNotEmpty);
 
+  const [createPlaylist, result] = useCreatePlaylistMutation();
+
   let formIsValid = false;
   if (nameIsValid && imageUrlIsValid && descriptionIsValid) {
     formIsValid = true;
@@ -36,6 +44,14 @@ const CreatePlaylist: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const sumbitFormHandler = (event: React.FormEvent) => {
     event.preventDefault();
     if (!formIsValid) return;
+    createPlaylist({
+      name: nameValue,
+      description: descriptionValue,
+      image: imageUrlValue,
+      owner: { display_name: cookies.get('USERNAME') },
+      songs: [],
+      id: uuid(),
+    });
     nameReset();
     descriptionReset();
     imageUrlReset();
