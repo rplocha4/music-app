@@ -6,7 +6,7 @@ import {
   removeFromQueue,
 } from '../../store/playerSlice';
 import { BsThreeDots } from 'react-icons/bs';
-import { AiOutlineHeart } from 'react-icons/ai';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { getIdFromUri, millisToMinutesAndSeconds } from '../../utils';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { RootState } from '../../store/store';
@@ -19,32 +19,20 @@ import {
   useSetPauseMutation,
   useSetResumeMutation,
 } from '../../store/features/SpotifyApi';
+import {
+  useIsLikingTrackQuery,
+  useLikeTrackMutation,
+  useUnlikeTrackMutation,
+} from '../../store/features/ServerApi';
+import { TrackItem } from '../../types/types';
 const TrackCard: React.FC<{
-  name: string;
-  uri: string;
-  duration_ms: number;
+  track: TrackItem;
   i: string;
-  album: {
-    name: string;
-    id: string;
-    uri: string;
-    images: { url: string; uri: string }[];
-  };
-  artists: { name: string; id: string; uri: string }[];
   isOpen?: boolean;
   handleClick?: () => void;
   handleClosing?: () => void;
-}> = ({
-  name,
-  uri,
-  duration_ms,
-  i,
-  album,
-  artists,
-  isOpen,
-  handleClick,
-  handleClosing,
-}) => {
+}> = ({ track, i, isOpen, handleClick, handleClosing }) => {
+  const { name, uri, duration_ms, album, artists, id } = track;
   const dispatch = useDispatch();
   const playerSelector = useSelector<RootState, PlayerState>(
     (state) => state.player
@@ -56,6 +44,10 @@ const TrackCard: React.FC<{
   const [playSong, resultPlay] = usePlaySongsMutation();
   const [setPause, resultPause] = useSetPauseMutation();
   const [setResume, resultResume] = useSetResumeMutation();
+  const [likeSong, resultLike] = useLikeTrackMutation();
+  const [unlikeSong, resultUnlike] = useUnlikeTrackMutation();
+  const { data, refetch } = useIsLikingTrackQuery(id);
+  const [likedTrack, setLikedTrack] = useState(data?.isLiking || false);
 
   useEffect(() => {
     setInQueue(playerSelector.queue.containsSong(uri));
@@ -74,6 +66,23 @@ const TrackCard: React.FC<{
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [ref]);
+  useEffect(() => {
+    data && setLikedTrack(data.isLiking);
+  }, [data]);
+
+  const likeTrack = () => {
+    likeSong(track).then((res: any) => {
+      console.log(res.data.message);
+      refetch();
+    });
+  };
+  const unlikeTrack = () => {
+    refetch();
+    unlikeSong(id).then((res: any) => {
+      console.log(res.data.message);
+      refetch();
+    });
+  };
   return (
     <div
       className={`grid grid-cols-6 gap-10  
@@ -130,7 +139,7 @@ const TrackCard: React.FC<{
             </p>
           )}
         </div>
-        {album.images?.length > 0 && (
+        {album.images?.length > 0 && i !== '#' && (
           <img
             src={album.images ? album.images[0].url : ''}
             style={{ height: '50px', width: '50px' }}
@@ -144,7 +153,7 @@ const TrackCard: React.FC<{
               uri && uri === playerSelector.current_song.uri && 'text-green-400'
             }`}
           >
-            {name}
+            {i === '#' ? 'Title' : name}
           </p>
           {artists &&
             (i === '#' ? (
@@ -179,9 +188,19 @@ const TrackCard: React.FC<{
         </Link>
       )}
       <div className=" flex items-center justify-center gap-2 relative">
-        {duration_ms >= 0 && hover && (
-          <AiOutlineHeart className="cursor-pointer text-xl " />
-        )}
+        {duration_ms >= 0 &&
+          hover &&
+          (!likedTrack ? (
+            <AiOutlineHeart
+              className="cursor-pointer text-xl "
+              onClick={() => likeTrack()}
+            />
+          ) : (
+            <AiFillHeart
+              className="cursor-pointer text-xl text-green-500"
+              onClick={() => unlikeTrack()}
+            />
+          ))}
         <p>
           {duration_ms >= 0 ? (
             millisToMinutesAndSeconds(duration_ms)
