@@ -2,12 +2,15 @@ import React from 'react';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
-export default function Login() {
+export default function Register() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const loginHandler = (event: React.FormEvent<HTMLFormElement>) => {
+
+  const registerSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    fetch('http://localhost:5000/login', {
+    console.log('email', email);
+    console.log('password', password);
+    fetch('http://localhost:5000/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -19,42 +22,44 @@ export default function Login() {
     })
       .then((res) => res.json())
       .then((data) => {
-        window.location.href = 'http://localhost:5173/home';
+        console.log(data);
         cookies.set('TOKEN', data.token, {
           path: '/',
         });
         cookies.set('USERNAME', data.email, {
           path: '/',
         });
-        console.log(data);
+        window.location.href = 'http://localhost:5173/';
       })
       .catch((err) => {
         console.log(err);
       });
   };
   return (
-    <form className="text-white bg-black" onSubmit={loginHandler}>
+    <form onSubmit={registerSubmitHandler} className="text-white bg-black">
       <div className="flex justify-center items-center h-screen ">
         <div className="flex flex-col">
           <label htmlFor="email">Email</label>
           <input
+            className="text-black"
             type="email"
             name="email"
             id="email"
             value={email}
-            className="text-black"
             onChange={(e) => setEmail(e.target.value)}
           />
           <label htmlFor="password">Password</label>
           <input
             type="password"
+            className="text-black"
             name="password"
             id="password"
-            className="text-black"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
           />
-          <button type="submit">Login</button>
+          <button type="submit">Register</button>
         </div>
       </div>
     </form>
