@@ -57,7 +57,7 @@ const Layout: React.FC<{}> = () => {
           className="mr-2 flex items-center gap-2 cursor-pointer justify-center"
           onClick={() => {
             localStorage.clear();
-            navigate('/login');
+            navigate('/auth');
           }}
         >
           <IoLogOutOutline />

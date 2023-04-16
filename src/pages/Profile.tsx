@@ -4,6 +4,7 @@ import Loading from '../components/Animate/Loading';
 import { FaUserAlt } from 'react-icons/fa';
 import ArtistsResults from '../components/Artist/ArtistsResults';
 import AlbumResults from '../components/Album/AlbumResults';
+import PlaylistResults from '../components/Playlist/PlaylistResults';
 function Profile() {
   const data = useLoaderData();
   const { user }: any = data;
@@ -13,14 +14,14 @@ function Profile() {
       <React.Suspense fallback={<Loading />}>
         <Await resolve={user}>
           {(loadedUser) => {
-            console.log();
+            console.log(loadedUser.user.userPlaylists);
 
             return (
               <>
                 <div className="flex p-5 bg-slate-600">
-                  {loadedUser?.image ? (
+                  {loadedUser?.user.image ? (
                     <img
-                      src={loadedUser.image}
+                      src={loadedUser.user.image}
                       alt=""
                       style={{
                         height: '200px',
@@ -64,6 +65,16 @@ function Profile() {
                         <AlbumResults albums={loadedUser.user.likedAlbums} />
                       </div>
                     </>
+                  )}
+                </div>
+                <div className="text-white">
+                  <p className="font-bold text-4xl p-2">Playlists</p>
+                  {loadedUser?.user.userPlaylists.length > 0 && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2 ">
+                      <PlaylistResults
+                        playlists={loadedUser.user.userPlaylists}
+                      />
+                    </div>
                   )}
                 </div>
               </>

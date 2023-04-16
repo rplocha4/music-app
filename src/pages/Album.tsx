@@ -50,13 +50,13 @@ const Album = () => {
 
   const likeAlbumHandler = () => {
     setLikedAlbum(true);
-    likeAlbum(album).then((res) => {
+    likeAlbum(album).then((res: any) => {
       console.log(res.data.message);
     });
   };
   const unlikeAlbumHandler = () => {
     setLikedAlbum(false);
-    unlikeAlbum(album.id).then((res) => {
+    unlikeAlbum(album.id).then((res: any) => {
       console.log(res.data.message);
     });
   };

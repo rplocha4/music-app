@@ -8,11 +8,12 @@ import { Artist as ArtistT } from '../types/types';
 
 import Loading from '../components/Animate/Loading';
 import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+
 import {
   useFollowArtistMutation,
   useUnfollowArtistMutation,
 } from '../store/features/ServerApi';
-const cookies = new Cookies();
 const Artist = () => {
   const data: any = useLoaderData();
   const { artist, topTracks, albums: albums, isFollowing } = data;
@@ -24,14 +25,14 @@ const Artist = () => {
   const unfollowArtistHandler = (artist: ArtistT) => {
     setIsFollowingState(false);
 
-    unFollowArtist(artist.id).then((res) => {
+    unFollowArtist(artist.id).then((res: any) => {
       console.log(res.data.message);
     });
   };
   const followArtistHandler = (artist: ArtistT) => {
     setIsFollowingState(true);
 
-    followArtist(artist).then((res) => {
+    followArtist(artist).then((res: any) => {
       console.log(res.data.message);
     });
   };

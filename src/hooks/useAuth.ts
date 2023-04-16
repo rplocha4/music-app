@@ -11,7 +11,7 @@ const useAuth = (code: string) => {
   useEffect(() => {
     if (!code) return;
     axios
-      .post('https://music-backend-2hi1.onrender.com/auth/login', {
+      .post('http://localhost:5000/auth/login', {
         code,
       })
       .then((res) => {
@@ -35,7 +35,7 @@ const useAuth = (code: string) => {
     if (!refreshToken || !expiresIn) return;
     const interval = setInterval(() => {
       axios
-        .post('https://music-backend-2hi1.onrender.com/auth/refresh', {
+        .post('http://localhost:5000/auth/refresh', {
           refreshToken,
         })
         .then((res) => {

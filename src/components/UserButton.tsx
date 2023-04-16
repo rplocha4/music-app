@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FaUserAlt } from 'react-icons/fa';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 const UserButton: React.FC = ({}) => {
@@ -10,6 +11,8 @@ const UserButton: React.FC = ({}) => {
     cookies.get('USERNAME')
   );
   const [token, setToken] = useState<string | undefined>(cookies.get('TOKEN'));
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setUsername(cookies.get('USERNAME'));
@@ -57,7 +60,12 @@ const UserButton: React.FC = ({}) => {
         <div className="absolute bg-zinc-600  rounded-xl  w-full mt-1 flex flex-col">
           {username ? (
             <>
-              <span className="hover:bg-zinc-500 h-full w-full rounded-xl p-2 cursor-pointer">
+              <span
+                className="hover:bg-zinc-500 h-full w-full rounded-xl p-2 cursor-pointer"
+                onMouseDown={() => {
+                  navigate(`user/${username}`);
+                }}
+              >
                 Profile
               </span>
               <span

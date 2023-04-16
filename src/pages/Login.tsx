@@ -23,7 +23,7 @@ export default function Login() {
         cookies.set('TOKEN', data.token, {
           path: '/',
         });
-        cookies.set('USERNAME', data.email, {
+        cookies.set('USERNAME', data.username, {
           path: '/',
         });
         console.log(data);

@@ -5,6 +5,7 @@ const cookies = new Cookies();
 export default function Register() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [username, setUsername] = React.useState('');
 
   const registerSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -17,6 +18,7 @@ export default function Register() {
       },
       body: JSON.stringify({
         email,
+        username,
         password,
       }),
     })
@@ -26,7 +28,7 @@ export default function Register() {
         cookies.set('TOKEN', data.token, {
           path: '/',
         });
-        cookies.set('USERNAME', data.email, {
+        cookies.set('USERNAME', data.username, {
           path: '/',
         });
         window.location.href = 'http://localhost:5173/';
@@ -47,6 +49,15 @@ export default function Register() {
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+          />
+          <label htmlFor="email">Username</label>
+          <input
+            className="text-black"
+            type="text"
+            name="username"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
           <label htmlFor="password">Password</label>
           <input
