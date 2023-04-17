@@ -18,6 +18,7 @@ import { RiPlayList2Fill } from 'react-icons/ri';
 import { IoLogOutOutline } from 'react-icons/io5';
 import Cookies from 'universal-cookie';
 import UserButton from './UserButton';
+import { AiFillHeart } from 'react-icons/ai';
 const cookies = new Cookies();
 const routes = [
   { name: 'Home', path: '/home', icon: <FiHome className="mr-2" /> },
@@ -28,13 +29,18 @@ const routes = [
     path: '/playlists',
     icon: <RiPlayList2Fill className="mr-2" />,
   },
+  {
+    name: 'Liked Songs',
+    path: '/liked-songs',
+    icon: <AiFillHeart className="mr-2 bg-red-400 p-0.5" />,
+  },
 ];
 const Layout: React.FC<{}> = () => {
   // const accessToken = useAuth(code);
   const navigate = useNavigate();
   return (
     <div className="flex" style={{ minHeight: '100vh', width: '100%' }}>
-      <div className="flex flex-col w-1/6 items-start p-5 gap-7 bg-zinc-900 text-white overflow-y-hidden fixed h-screen text-2xl ">
+      <div className="flex flex-col w-1/6 items-start p-5 gap-7 bg-zinc-900 text-white overflow-y-hidden fixed h-screen text-xl ">
         {routes.map((route, i) => (
           <NavLink
             to={route.path}

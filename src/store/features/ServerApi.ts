@@ -63,9 +63,11 @@ export const serverApi = createApi({
       query: (playlist: {
         name: string;
         description: string;
-        image: string;
+        images: [{ url: string}];
         owner: { display_name: string };
-        songs: [];
+        public: boolean;
+        followers: { total: number };
+        tracks: { items: [] , total: number};
         id: string;
       }) => ({
         url: `createPlaylist/${username}`,

@@ -4,6 +4,7 @@ import Modal from './Modal';
 import { v4 as uuid } from 'uuid';
 import { useCreatePlaylistMutation } from '../../store/features/ServerApi';
 import Cookies from 'universal-cookie';
+import { TrackItem } from '../../types/types';
 const cookies = new Cookies();
 
 const username = cookies.get('USERNAME');
@@ -47,9 +48,11 @@ const CreatePlaylist: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     createPlaylist({
       name: nameValue,
       description: descriptionValue,
-      image: imageUrlValue,
+      images: [{ url: imageUrlValue }],
       owner: { display_name: cookies.get('USERNAME') },
-      songs: [],
+      tracks: { items: [], total: 0 },
+      followers: { total: 0 },
+      public: true,
       id: uuid(),
     });
     nameReset();

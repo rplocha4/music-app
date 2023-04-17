@@ -25,10 +25,10 @@ export default function Register() {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        cookies.set('TOKEN', data.token, {
+        cookies.set('TOKEN', data.result.token, {
           path: '/',
         });
-        cookies.set('USERNAME', data.username, {
+        cookies.set('USERNAME', data.result.username, {
           path: '/',
         });
         window.location.href = 'http://localhost:5173/';

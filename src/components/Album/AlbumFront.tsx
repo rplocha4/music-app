@@ -61,7 +61,7 @@ const AlbumFront: React.FC<{
           className="flex p-5 "
           style={{
             background: `linear-gradient(${dominantColor}, ${accent})`,
-            boxShadow: `0px 0px 50px 30px ${accent}`,
+            boxShadow: `0px 0px 50px 2px ${accent}`,
           }}
         >
           <img
