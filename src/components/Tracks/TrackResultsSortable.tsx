@@ -1,31 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TrackItem } from '../../types/types';
 import TrackCard from './TrackCard';
+import TrackCardSortable from './TrackCardSortable';
+import SortTracks from './SortTracks';
 
 const TrackResultsSortable: React.FC<{
   tracks: { track: TrackItem; added: string }[];
 }> = ({ tracks }) => {
-  console.log(tracks);
-
   const [sortedTracks, setSortedTracks] = React.useState(tracks);
-  //sort by name, artist, album, date added
-  const sortByName = () => {
-    const sorted = sortedTracks.sort((a, b) => {
-      if (a.track.name < b.track.name) {
-        return -1;
-      }
-      if (a.track.name > b.track.name) {
-        return 1;
-      }
-      return 0;
-    });
 
-    setSortedTracks(sorted);
+  const handleSort = (tracks: { track: TrackItem; added: string }[]) => {
+    setSortedTracks(tracks);
   };
 
   return (
-    <div>
-      <button onClick={() => sortByName()}>SORT</button>
+    <div className="flex flex-col">
+      <SortTracks tracks={tracks} onSort={handleSort}/>
+      {/* <button
+        onClick={() => {
+          sortType === 'name'
+            ? setSortAscending(!sortAscending)
+            : setSortAscending(true);
+          setSortType('name');
+        }}
+      >
+        Sort by name
+      </button>
+      <button onClick={() => setSortType('date')}>Sort by date</button>
+      <button onClick={() => setSortType('album')}>Sort by album</button>
+      <button onClick={() => setSortType('duration')}>Sort by duration</button> */}
+
+      {sortedTracks.map((track, i) => (
+        <TrackCardSortable
+          key={i}
+          track={track.track}
+          dateAdded={track.added}
+          i={i.toString()}
+        />
+      ))}
     </div>
   );
 };
