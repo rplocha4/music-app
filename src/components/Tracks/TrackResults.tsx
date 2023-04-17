@@ -24,8 +24,8 @@ const TrackResults: React.FC<{
     setOpenTrackIndex(-1);
   };
   useEffect(() => {
-    setUserPlaylists(playlists.userPlaylists);
-  }, [playlists]);
+    setUserPlaylists(playlists?.userPlaylists);
+  }, [playlists?.userPlaylists]);
 
   return (
     <div className="flex flex-col justify-start gap-3 bg-zinc-800 text-white">
