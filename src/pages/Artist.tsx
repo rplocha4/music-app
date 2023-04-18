@@ -73,9 +73,7 @@ const Artist = () => {
           {(loadedAlbums) => {
             return (
               <>
-                <h1 className="font-bold text-3xl p-3">
-                  Albums by {artist.name}
-                </h1>
+                <h1 className="font-bold text-3xl p-3">Albums</h1>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 px-2 ">
                   <AlbumResults
                     albums={loadedAlbums.items.reduce((acc: any, curr: any) => {

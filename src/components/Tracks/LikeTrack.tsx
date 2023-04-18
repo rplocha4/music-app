@@ -13,17 +13,15 @@ const LikeTrack: React.FC<{ track: TrackItem }> = ({ track }) => {
   const { data, refetch } = useIsLikingTrackQuery(track.id);
   const [likedTrack, setLikedTrack] = useState(data?.isLiking || false);
 
-  useEffect(() => {
-    data && setLikedTrack(data.isLiking);
-  }, [data]);
   const likeTrack = () => {
+    setLikedTrack(true);
     likeSong(track).then((res: any) => {
       console.log(res.data.message);
       refetch();
     });
   };
   const unlikeTrack = () => {
-    refetch();
+    setLikedTrack(false);
     unlikeSong(track.id).then((res: any) => {
       console.log(res.data.message);
       refetch();

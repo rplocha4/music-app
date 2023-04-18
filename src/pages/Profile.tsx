@@ -14,8 +14,6 @@ function Profile() {
       <React.Suspense fallback={<Loading />}>
         <Await resolve={user}>
           {(loadedUser) => {
-            console.log(loadedUser.user.userPlaylists);
-
             return (
               <>
                 <div className="flex p-5 bg-slate-600">

@@ -68,7 +68,7 @@ const SortTracks: React.FC<{
     onSort(sorted);
   }, [sortType, sortAscending]);
   return (
-    <div className="self-end mr-10">
+    <div className="self-end mr-10 w-20">
       <div className="relative ">
         <span
           onClick={() => setHover((prev) => !prev)}

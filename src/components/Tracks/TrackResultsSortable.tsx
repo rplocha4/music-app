@@ -14,8 +14,8 @@ const TrackResultsSortable: React.FC<{
   };
 
   return (
-    <div className="flex flex-col">
-      <SortTracks tracks={tracks} onSort={handleSort}/>
+    <div className="flex flex-col text-white">
+      <SortTracks tracks={tracks} onSort={handleSort} />
       {/* <button
         onClick={() => {
           sortType === 'name'

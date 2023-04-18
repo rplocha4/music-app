@@ -31,7 +31,7 @@ const routes = [
   },
   {
     name: 'Liked Songs',
-    path: '/liked-songs',
+    path: `/likedSongs/${cookies.get('USERNAME')}`,
     icon: <AiFillHeart className="mr-2 bg-red-400 p-0.5" />,
   },
 ];

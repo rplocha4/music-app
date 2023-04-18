@@ -13,6 +13,7 @@ import { loader as artistLoader } from './pages/Artist';
 import { loader as profileLoader } from './pages/Profile';
 import { loader as queueLoader } from './pages/Queue';
 import { loader as homeLoader } from './pages/Home';
+import { loader as likedSongsLoader } from './pages/LikedSongs';
 import { loader as playlistLoader } from './pages/Playlist';
 import Search from './pages/Search';
 import Queue from './pages/Queue';
@@ -24,6 +25,7 @@ import SpotifyAuth from './pages/SpotifyAuth';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Playlist from './pages/Playlist';
+import LikedSongs from './pages/LikedSongs';
 
 const router = createBrowserRouter([
   {
@@ -73,6 +75,11 @@ const router = createBrowserRouter([
         path: 'playlist/:id',
         element: <Playlist />,
         loader: playlistLoader,
+      },
+      {
+        path: 'likedSongs/:username',
+        element: <LikedSongs />,
+        loader: likedSongsLoader,
       },
     ],
   },
