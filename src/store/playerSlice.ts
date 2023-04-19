@@ -43,8 +43,8 @@ class SongQueue {
   public playPrevious() {
     const song = this.previousQueue.pop();
     if (song) {
+      this.queue.unshift(this.currentSong? this.currentSong : song);
       this.currentSong = song;
-      this.queue.unshift(this.currentSong);
     }
     return song;
   }

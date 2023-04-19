@@ -5,9 +5,10 @@ import { Song, overrideQueue, setCurrentSong } from '../store/playerSlice';
 import TrackResults from '../components/Tracks/TrackResults';
 import { Reorder, AnimatePresence } from 'framer-motion';
 import { makeQueue } from '../store/playerSlice';
+import { TrackItem } from '../types/types';
 const Queue = () => {
   const playerSelector = useSelector((state: any) => state.player);
-  const [queue, setQueue] = useState<Song[]>(playerSelector.queue.queue);
+  const [queue, setQueue] = useState<TrackItem[]>(playerSelector.queue.queue);
   const [current_song, setCurrentSong] = useState<Song>(
     playerSelector.queue.currentSong || {}
   );
@@ -56,15 +57,11 @@ const Queue = () => {
             <h2 className="text-gray-500 text-xl">Up Next</h2>
             <div>
               <Reorder.Group axis="y" values={queue} onReorder={setQueue}>
-                {queue.map((song: Song, index: number) => {
+                {queue.map((song: TrackItem, index: number) => {
                   return (
                     <Reorder.Item key={song.id} value={song}>
                       <TrackCard
-                        name={song.name}
-                        artists={song.artists}
-                        album={song.album}
-                        uri={song.uri}
-                        duration_ms={song.duration_ms}
+                        track={song}
                         i={`${index}`}
                         isOpen={index === openTrackIndex}
                         handleClick={() => handleTrackCardClick(index)}

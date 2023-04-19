@@ -1,34 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  PlayerState,
-  addToQueue,
-  removeFromQueue,
-} from '../../store/playerSlice';
+
 import { BsThreeDots } from 'react-icons/bs';
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { getIdFromUri, millisToMinutesAndSeconds } from '../../utils';
-import { BsFillPlayFill } from 'react-icons/bs';
-import { RootState } from '../../store/store';
-import { BiPause } from 'react-icons/bi';
 import { BiTime } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
-import SongAnimation from '../Animate/SongAnimation';
-import {
-  usePlaySongsMutation,
-  useSetPauseMutation,
-  useSetResumeMutation,
-} from '../../store/features/SpotifyApi';
-import {
-  useAddTrackToPlaylistMutation,
-  useGetUserPlaylistsQuery,
-  useIsLikingTrackQuery,
-  useLikeTrackMutation,
-  useUnlikeTrackMutation,
-} from '../../store/features/ServerApi';
+
 import { TrackItem } from '../../types/types';
 import AlbumInfo from './AlbumInfo';
-import ArtistsInfo from './ArtistsInfo';
 import TrackOptions from './TrackOptions';
 import LikeTrack from './LikeTrack';
 import TrackInfo from './TrackInfo';
