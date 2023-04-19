@@ -10,19 +10,21 @@ import { RootState } from '../../store/store';
 import { millisToMinutesAndSeconds } from '../../utils';
 import {
   useGetSongStateQuery,
+  usePlaySongsMutation,
   useSeekToPositionMutation,
 } from '../../store/features/SpotifyApi';
 
 const SongProgress: React.FC = () => {
-  const { data, status, error, refetch } = useGetSongStateQuery('', {
-    pollingInterval: 1000,
-  });
-  const [progress, setProgress] = useState(data?.progress_ms | 0);
-
   const dispatch = useDispatch();
   const playerSelector = useSelector<RootState, PlayerState>(
     (state) => state.player
   );
+  const { data, status, error, refetch } = useGetSongStateQuery('', {
+    pollingInterval: playerSelector.playing ? 1000 : 0,
+  });
+  const [progress, setProgress] = useState(data?.progress_ms | 0);
+  const [playSong, resultPlay] = usePlaySongsMutation();
+
   const [seekToPosition, result] = useSeekToPositionMutation();
 
   useEffect(() => {
@@ -30,7 +32,8 @@ const SongProgress: React.FC = () => {
     setProgress(data.progress_ms);
     dispatch(setSongPosition(data.progress_ms));
 
-    // if (progress + 1000 >= data.item.duration_ms) dispatch(playNext());
+    if (data.progress_ms + 1000 >= data.item.duration_ms)
+      playSong([playerSelector.queue.dequeue()?.uri]);
   }, [data?.progress_ms]);
 
   // useEffect(() => {
