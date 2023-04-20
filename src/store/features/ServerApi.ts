@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import Cookies from 'universal-cookie';
 import { Album, Artist, TrackItem } from '../../types/types';
+import { Song } from '../playerSlice';
 const cookies = new Cookies();
 
 const username = cookies.get('USERNAME');
@@ -46,7 +47,7 @@ export const serverApi = createApi({
       query: (id) => `isLikingTrack/${username}/${id}`,
     }),
     likeTrack: builder.mutation({
-      query: (track: TrackItem) => ({
+      query: (track: TrackItem|Song) => ({
         url: `likeTrack/${username}`,
         method: 'POST',
         body: { track },

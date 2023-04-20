@@ -13,7 +13,6 @@ const Playlist = () => {
     <React.Suspense fallback={<Loading />}>
       <Await resolve={playlist}>
         {(loadedPlaylist: any) => {
-          console.log(loadedPlaylist);
           return (
             <div className="w-full flex flex-col text-white p-5 gap-5">
               <div className="flex items-center justify-start h-full">

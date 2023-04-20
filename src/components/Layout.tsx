@@ -89,7 +89,7 @@ const Layout: React.FC<{}> = () => {
         <div className="text-white right-3 top-1 fixed z-20 ">
           <UserButton />
         </div>
-        <div className="min-h-screen pb-24 relative">
+        <div className="min-h-screen pb-24">
           {uiState.showInfo && <ShowInfo message={uiState.message} />}
           <Outlet />
         </div>

@@ -17,6 +17,7 @@ import {
   MdOutlineKeyboardArrowDown,
 } from 'react-icons/md';
 import { TbMicrophone2 } from 'react-icons/tb';
+import LikeTrack from '../Tracks/LikeTrack';
 
 const Player: React.FC = () => {
   const [accessToken, setAccessToken] = useState(
@@ -166,6 +167,9 @@ const Player: React.FC = () => {
             ))}
           </div>
         </div>
+        {playerSelector.current_song?.id && (
+          <LikeTrack track={playerSelector.current_song} />
+        )}
       </div>
       <div className="flex flex-col justify-center gap-3">
         <div className="flex justify-center items-center gap-3">

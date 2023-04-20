@@ -8,15 +8,20 @@ import {
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { showInfo } from '../../store/uiSlice';
+import { Song } from '../../store/playerSlice';
 
 const LikeTrack: React.FC<{
-  track: TrackItem;
+  track: TrackItem | Song;
 }> = ({ track }) => {
   const [likeSong, resultLike] = useLikeTrackMutation();
   const [unlikeSong, resultUnlike] = useUnlikeTrackMutation();
   const { data, refetch } = useIsLikingTrackQuery(track.id);
-  const [likedTrack, setLikedTrack] = useState(data?.isLiking || false);
+  const [likedTrack, setLikedTrack] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setLikedTrack(data?.isLiking || false);
+  }, [data]);
 
   const likeTrack = () => {
     setLikedTrack(true);
