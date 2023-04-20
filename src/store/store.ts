@@ -5,10 +5,12 @@ import { setupListeners } from '@reduxjs/toolkit/query'
 import { shazamApi } from './features/ShazamApi'
 import { geniusApi } from './features/GeniusApi'
 import { serverApi } from './features/ServerApi'
+import uiReducer from './uiSlice'
 
 const store = configureStore({
   reducer: {
     player: playerReducer,
+    ui: uiReducer,
     [spotifyApi.reducerPath]: spotifyApi.reducer,
     [shazamApi.reducerPath]: shazamApi.reducer,
     [geniusApi.reducerPath]: geniusApi.reducer,

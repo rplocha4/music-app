@@ -19,6 +19,9 @@ import { IoLogOutOutline } from 'react-icons/io5';
 import Cookies from 'universal-cookie';
 import UserButton from './UserButton';
 import { AiFillHeart } from 'react-icons/ai';
+import { useDispatch, useSelector } from 'react-redux';
+import ShowInfo from './Alert/ShowInfo';
+import { hideInfo } from '../store/uiSlice';
 const cookies = new Cookies();
 const routes = [
   { name: 'Home', path: '/home', icon: <FiHome className="mr-2" /> },
@@ -38,9 +41,22 @@ const routes = [
 const Layout: React.FC<{}> = () => {
   // const accessToken = useAuth(code);
   const navigate = useNavigate();
+  const uiState = useSelector((state: any) => state.ui);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!uiState.showInfo) return;
+    const timeout = setTimeout(() => {
+      dispatch(hideInfo());
+    }, 2000);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [uiState.showInfo]);
+
   return (
     <div className="flex" style={{ minHeight: '100vh', width: '100%' }}>
-      <div className="flex flex-col w-1/6 items-start p-5 gap-7 bg-zinc-900 text-white overflow-y-hidden fixed h-screen text-xl ">
+      <div className="flex flex-col w-1/6 items-start p-5 gap-7 bg-zinc-900 text-white overflow-y-hidden fixed h-screen text-lg ">
         {routes.map((route, i) => (
           <NavLink
             to={route.path}
@@ -75,7 +91,8 @@ const Layout: React.FC<{}> = () => {
         <div className="text-white right-3 top-1 fixed z-20 ">
           <UserButton />
         </div>
-        <div className="min-h-screen pb-24">
+        <div className="min-h-screen pb-24 relative">
+          {uiState.showInfo && <ShowInfo message={uiState.message} />}
           <Outlet />
         </div>
       </div>

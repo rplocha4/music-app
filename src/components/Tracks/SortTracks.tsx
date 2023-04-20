@@ -27,14 +27,33 @@ const options = [
     label: 'Artist',
   },
 ];
+const optionClasess =
+  'flex justify-center items-center cursor-default text-gray-300 hover:text-white ';
+
+const arrowClasses = 'font-bold text-2xl text-green-600';
 
 const SortTracks: React.FC<{
   tracks: { track: TrackItem; added: string }[];
   onSort: (tracks: { track: TrackItem; added: string }[]) => void;
 }> = ({ tracks, onSort }) => {
-  const [sortAscending, setSortAscending] = React.useState(false);
-  const [sortType, setSortType] = React.useState('Title');
+  const [sortAscending, setSortAscending] = React.useState(true);
+  const [sortType, setSortType] = React.useState('Date');
   const [hover, setHover] = React.useState(false);
+
+  const ref = React.useRef<any>(null);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setHover(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [ref]);
 
   //sort by name, artist, album, date added
   useEffect(() => {
@@ -100,7 +119,10 @@ const SortTracks: React.FC<{
             </>
           </span>
           {hover && (
-            <div className="absolute bg-zinc-700 flex flex-col -left-full items-start text-sta justify-start w-40 rounded-lg z-20">
+            <div
+              className="absolute bg-zinc-700 flex flex-col -left-full items-start text-sta justify-start w-40 rounded-lg z-20"
+              ref={ref}
+            >
               <p className="text-gray-400 text-sm font-bold p-2">Sort by</p>
               {options.map((option) => (
                 <button
@@ -110,6 +132,7 @@ const SortTracks: React.FC<{
                       ? setSortAscending(!sortAscending)
                       : setSortAscending(true);
                     setSortType(option.name);
+                    setHover(false);
                   }}
                   className={`rounded-lg hover:bg-zinc-600 flex items-center justify-start${
                     sortType === option.name && ' text-green-600'
@@ -118,9 +141,11 @@ const SortTracks: React.FC<{
                   Sort by {option.label}{' '}
                   {sortType === option.name &&
                     (sortAscending ? (
-                      <MdOutlineKeyboardArrowUp className="font-bold text-2xl text-green-600" />
+                      <MdOutlineKeyboardArrowUp className={`${arrowClasses}`} />
                     ) : (
-                      <MdOutlineKeyboardArrowDown className="font-bold text-2xl text-green-600" />
+                      <MdOutlineKeyboardArrowDown
+                        className={`${arrowClasses}`}
+                      />
                     ))}
                 </button>
               ))}
@@ -130,10 +155,10 @@ const SortTracks: React.FC<{
       </div>
       <div className="grid grid-cols-6 gap-10 py-2 w-full text-left font-bold border-b border-gray-400">
         <div className="col-span-2 flex gap-12 items-center  text-center">
-          <span className="w-10">#</span>
+          <span className="w-10 text-gray-300">#</span>
           <div className="flex items-center gap-5 justify-center">
             <span
-              className="flex justify-center items-center cursor-default"
+              className={`${optionClasess}`}
               onMouseDown={() => {
                 sortType === 'Title'
                   ? setSortAscending(!sortAscending)
@@ -144,9 +169,9 @@ const SortTracks: React.FC<{
               Title
               {sortType === 'Title' ? (
                 sortAscending ? (
-                  <MdOutlineKeyboardArrowUp className="font-bold text-2xl text-green-600" />
+                  <MdOutlineKeyboardArrowUp className={`${arrowClasses}`} />
                 ) : (
-                  <MdOutlineKeyboardArrowDown className="font-bold text-2xl text-green-600" />
+                  <MdOutlineKeyboardArrowDown className={`${arrowClasses}`} />
                 )
               ) : (
                 <p className="w-6"></p>
@@ -159,14 +184,14 @@ const SortTracks: React.FC<{
                   : setSortAscending(true);
                 setSortType('Artist');
               }}
-              className="flex justify-center items-center cursor-default"
+              className={`${optionClasess}`}
             >
               Artist
               {sortType === 'Artist' ? (
                 sortAscending ? (
-                  <MdOutlineKeyboardArrowUp className="font-bold text-2xl text-green-600" />
+                  <MdOutlineKeyboardArrowUp className={`${arrowClasses}`} />
                 ) : (
-                  <MdOutlineKeyboardArrowDown className="font-bold text-2xl text-green-600" />
+                  <MdOutlineKeyboardArrowDown className={`${arrowClasses}`} />
                 )
               ) : (
                 <p className="w-6"></p>
@@ -175,7 +200,7 @@ const SortTracks: React.FC<{
           </div>
         </div>
         <span
-          className="col-span-2 flex justify-center items-center cursor-default"
+          className={`col-span-2 ${optionClasess}`}
           onMouseDown={() => {
             sortType === 'Album'
               ? setSortAscending(!sortAscending)
@@ -186,16 +211,16 @@ const SortTracks: React.FC<{
           Album
           {sortType === 'Album' ? (
             sortAscending ? (
-              <MdOutlineKeyboardArrowUp className="font-bold text-2xl text-green-600" />
+              <MdOutlineKeyboardArrowUp className={`${arrowClasses}`} />
             ) : (
-              <MdOutlineKeyboardArrowDown className="font-bold text-2xl text-green-600" />
+              <MdOutlineKeyboardArrowDown className={`${arrowClasses}`} />
             )
           ) : (
             <p className="w-6"></p>
           )}
         </span>
         <span
-          className="flex justify-center items-center cursor-default"
+          className={`${optionClasess}`}
           onMouseDown={() => {
             sortType === 'Date'
               ? setSortAscending(!sortAscending)
@@ -206,16 +231,16 @@ const SortTracks: React.FC<{
           Date Added{' '}
           {sortType === 'Date' ? (
             sortAscending ? (
-              <MdOutlineKeyboardArrowUp className="font-bold text-2xl text-green-600" />
+              <MdOutlineKeyboardArrowUp className={`${arrowClasses}`} />
             ) : (
-              <MdOutlineKeyboardArrowDown className="font-bold text-2xl text-green-600" />
+              <MdOutlineKeyboardArrowDown className={`${arrowClasses}`} />
             )
           ) : (
             <p className="w-6"></p>
           )}
         </span>
         <span
-          className="flex items-center justify-center"
+          className={`${optionClasess}`}
           onMouseDown={() => {
             sortType === 'Duration'
               ? setSortAscending(!sortAscending)
@@ -226,9 +251,9 @@ const SortTracks: React.FC<{
           <BiTime />
           {sortType === 'Duration' ? (
             sortAscending ? (
-              <MdOutlineKeyboardArrowUp className="font-bold text-2xl text-green-600" />
+              <MdOutlineKeyboardArrowUp className={`${arrowClasses}`} />
             ) : (
-              <MdOutlineKeyboardArrowDown className="font-bold text-2xl text-green-600" />
+              <MdOutlineKeyboardArrowDown className={`${arrowClasses}`} />
             )
           ) : (
             <p className="w-6"></p>

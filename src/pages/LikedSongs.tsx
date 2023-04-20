@@ -12,6 +12,7 @@ const LikedSongs = () => {
       <div>
         <h1 className="text-5xl font-bold text-white">Liked Songs</h1>
       </div>
+
       <React.Suspense fallback={<Loading />}>
         <Await resolve={likedSongs}>
           {(loadedLikedSongs: any) => {
