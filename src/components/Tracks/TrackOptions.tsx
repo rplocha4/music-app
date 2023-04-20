@@ -52,18 +52,23 @@ const TrackOptions: React.FC<{
       <button
         className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2"
         onClick={() => {
-          !inQueue
-            ? dispatch(
-                addToQueue({
-                  name,
-                  uri,
-                  artists,
-                  album,
-                  duration_ms,
-                  id: getIdFromUri(uri),
-                })
-              )
-            : dispatch(removeFromQueue(uri));
+          if (!inQueue) {
+            dispatch(showInfo(`${name} added to queue`));
+            dispatch(
+              addToQueue({
+                name,
+                uri,
+                artists,
+                album,
+                duration_ms,
+                id: getIdFromUri(uri),
+              })
+            );
+          } else {
+            dispatch(showInfo(`${name} removed to queue`));
+
+            dispatch(removeFromQueue(uri));
+          }
           handleClosing!();
         }}
       >

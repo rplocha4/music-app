@@ -15,6 +15,7 @@ import {
   useUnlikeAlbumMutation,
 } from '../store/features/ServerApi';
 import Cookies from 'universal-cookie';
+import { showInfo } from '../store/uiSlice';
 const cookies = new Cookies();
 const Album = () => {
   const data: any = useLoaderData();
@@ -51,13 +52,13 @@ const Album = () => {
   const likeAlbumHandler = () => {
     setLikedAlbum(true);
     likeAlbum(album).then((res: any) => {
-      console.log(res.data.message);
+      dispatch(showInfo(res.data.message));
     });
   };
   const unlikeAlbumHandler = () => {
     setLikedAlbum(false);
     unlikeAlbum(album.id).then((res: any) => {
-      console.log(res.data.message);
+      dispatch(showInfo(res.data.message));
     });
   };
 

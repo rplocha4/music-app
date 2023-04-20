@@ -5,6 +5,8 @@ import { v4 as uuid } from 'uuid';
 import { useCreatePlaylistMutation } from '../../store/features/ServerApi';
 import Cookies from 'universal-cookie';
 import { TrackItem } from '../../types/types';
+import { useDispatch } from 'react-redux';
+import { showInfo } from '../../store/uiSlice';
 const cookies = new Cookies();
 
 const username = cookies.get('USERNAME');
@@ -37,6 +39,7 @@ const CreatePlaylist: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   } = useInput(isNotEmpty);
 
   const [createPlaylist, result] = useCreatePlaylistMutation();
+  const dispatch = useDispatch();
 
   let formIsValid = false;
   if (nameIsValid && imageUrlIsValid && descriptionIsValid) {
@@ -54,6 +57,8 @@ const CreatePlaylist: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       followers: { total: 0 },
       public: true,
       id: uuid(),
+    }).then((res: any) => {
+      dispatch(showInfo(res.data.message));
     });
     nameReset();
     descriptionReset();

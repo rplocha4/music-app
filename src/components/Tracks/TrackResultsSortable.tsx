@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import { TrackItem } from '../../types/types';
-import TrackCard from './TrackCard';
 import TrackCardSortable from './TrackCardSortable';
 import SortTracks from './SortTracks';
-import { BiTime } from 'react-icons/bi';
 
 const TrackResultsSortable: React.FC<{
   tracks: { track: TrackItem; added: string }[];

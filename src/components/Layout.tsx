@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import useAuth from '../hooks/useAuth';
 import Player from './Player/Player';
 import {
   Link,
@@ -8,12 +7,9 @@ import {
   useNavigate,
   useRoutes,
 } from 'react-router-dom';
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
-import { FaUserAlt } from 'react-icons/fa';
 import { BsSearch } from 'react-icons/bs';
 import { MdQueueMusic } from 'react-icons/md';
 import { FiHome } from 'react-icons/fi';
-import { TbPlaylist } from 'react-icons/tb';
 import { RiPlayList2Fill } from 'react-icons/ri';
 import { IoLogOutOutline } from 'react-icons/io5';
 import Cookies from 'universal-cookie';
@@ -22,6 +18,7 @@ import { AiFillHeart } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import ShowInfo from './Alert/ShowInfo';
 import { hideInfo } from '../store/uiSlice';
+
 const cookies = new Cookies();
 const routes = [
   { name: 'Home', path: '/home', icon: <FiHome className="mr-2" /> },
@@ -45,14 +42,15 @@ const Layout: React.FC<{}> = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!uiState.showInfo) return;
+    if (!uiState.showInfo || !uiState.message) return;
+
     const timeout = setTimeout(() => {
       dispatch(hideInfo());
     }, 2000);
     return () => {
       clearTimeout(timeout);
     };
-  }, [uiState.showInfo]);
+  }, [uiState.showInfo, uiState.message]);
 
   return (
     <div className="flex" style={{ minHeight: '100vh', width: '100%' }}>

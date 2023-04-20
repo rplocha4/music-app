@@ -10,7 +10,6 @@ import TrackOptions from './TrackOptions';
 import LikeTrack from './LikeTrack';
 import TrackInfo from './TrackInfo';
 import PlayOptions from './PlayOptions';
-import ShowInfo from '../Alert/ShowInfo';
 const TrackCard: React.FC<{
   track: TrackItem;
   i: string;

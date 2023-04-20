@@ -14,6 +14,8 @@ import {
   useFollowArtistMutation,
   useUnfollowArtistMutation,
 } from '../store/features/ServerApi';
+import { useDispatch } from 'react-redux';
+import { showInfo } from '../store/uiSlice';
 const Artist = () => {
   const data: any = useLoaderData();
   const { artist, topTracks, albums: albums, isFollowing } = data;
@@ -22,18 +24,18 @@ const Artist = () => {
   // console.log(artist.images[0].url);
   const [followArtist, followArtistResult] = useFollowArtistMutation();
   const [unFollowArtist, unFollowArtistResult] = useUnfollowArtistMutation();
+  const dispatch = useDispatch();
   const unfollowArtistHandler = (artist: ArtistT) => {
     setIsFollowingState(false);
-
     unFollowArtist(artist.id).then((res: any) => {
-      console.log(res.data.message);
+      dispatch(showInfo(res.data.message));
     });
   };
   const followArtistHandler = (artist: ArtistT) => {
     setIsFollowingState(true);
 
     followArtist(artist).then((res: any) => {
-      console.log(res.data.message);
+      dispatch(showInfo(res.data.message));
     });
   };
 
