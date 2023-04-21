@@ -88,7 +88,9 @@ export default Profile;
 
 export async function loader({ params }: any) {
   const { username } = params;
-  const data = fetch(`http://localhost:5000/api/user/${username}`);
+  const data = fetch(
+    `http://localhost:5000/api/user/${localStorage.getItem('USERNAME')}`
+  );
   return defer({
     user: data.then((res) => res.json()),
   });

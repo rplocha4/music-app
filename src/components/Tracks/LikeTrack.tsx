@@ -24,14 +24,12 @@ const LikeTrack: React.FC<{
   }, [data]);
 
   const likeTrack = () => {
-    setLikedTrack(true);
     likeSong(track).then((res: any) => {
       dispatch(showInfo(res.data.message));
       refetch();
     });
   };
   const unlikeTrack = () => {
-    setLikedTrack(false);
     unlikeSong(track.id).then((res: any) => {
       dispatch(showInfo(res.data.message));
       refetch();

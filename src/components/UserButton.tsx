@@ -3,6 +3,8 @@ import { FaUserAlt } from 'react-icons/fa';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
+import { showInfo, showLogin, showRegister } from '../store/uiSlice';
+import { useDispatch } from 'react-redux';
 const cookies = new Cookies();
 const UserButton: React.FC = ({}) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
@@ -13,6 +15,7 @@ const UserButton: React.FC = ({}) => {
   const [token, setToken] = useState<string | undefined>(cookies.get('TOKEN'));
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setUsername(cookies.get('USERNAME'));
@@ -36,8 +39,12 @@ const UserButton: React.FC = ({}) => {
   const logoutHandler = () => {
     cookies.remove('TOKEN', { path: '/' });
     cookies.remove('USERNAME', { path: '/' });
+    localStorage.removeItem('TOKEN');
+    localStorage.removeItem('USERNAME');
+    navigate('/home');
     setUsername(undefined);
     setToken(undefined);
+    dispatch(showInfo('Logged out'));
   };
   return (
     <div>
@@ -76,9 +83,24 @@ const UserButton: React.FC = ({}) => {
               </span>
             </>
           ) : (
-            <span className="hover:bg-zinc-500 h-full w-full rounded-xl p-2 cursor-pointer">
-              Login
-            </span>
+            <>
+              <span
+                onMouseDown={() => {
+                  dispatch(showLogin());
+                }}
+                className="hover:bg-zinc-500 h-full w-full rounded-xl p-2 cursor-pointer"
+              >
+                Login
+              </span>
+              <span
+                onMouseDown={() => {
+                  dispatch(showRegister());
+                }}
+                className="hover:bg-zinc-500 h-full w-full rounded-xl p-2 cursor-pointer"
+              >
+                Register
+              </span>
+            </>
           )}
         </div>
       )}

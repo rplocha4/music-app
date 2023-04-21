@@ -3,9 +3,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import Cookies from 'universal-cookie';
 import { Album, Artist, TrackItem } from '../../types/types';
 import { Song } from '../playerSlice';
-const cookies = new Cookies();
-
-const username = cookies.get('USERNAME');
 
 export const serverApi = createApi({
   reducerPath: 'serverApi',
@@ -13,14 +10,14 @@ export const serverApi = createApi({
   endpoints: (builder) => ({
     followArtist: builder.mutation({
       query: (artist: Artist) => ({
-        url: `followArtist/${username}`,
+        url: `followArtist/${localStorage.getItem('USERNAME')}`,
         method: 'POST',
         body: { artist },
       }),
     }),
     unfollowArtist: builder.mutation({
       query: (artistId: string) => ({
-        url: `unfollowArtist/${username}`,
+        url: `unfollowArtist/${localStorage.getItem('USERNAME')}`,
         method: 'POST',
         body: { artistId },
       }),
@@ -28,34 +25,34 @@ export const serverApi = createApi({
 
     likeAlbum: builder.mutation({
       query: (album: Album) => ({
-        url: `likeAlbum/${username}`,
+        url: `likeAlbum/${localStorage.getItem('USERNAME')}`,
         method: 'POST',
         body: { album },
       }),
     }),
     unlikeAlbum: builder.mutation({
       query: (albumId: string) => ({
-        url: `unlikeAlbum/${username}`,
+        url: `unlikeAlbum/${localStorage.getItem('USERNAME')}`,
         method: 'POST',
         body: { albumId },
       }),
     }),
     getLikedTracks: builder.query<any, void>({
-      query: () => `likedTracks/${username}`,
+      query: () => `likedTracks/${localStorage.getItem('USERNAME')}`,
     }),
     isLikingTrack: builder.query({
-      query: (id) => `isLikingTrack/${username}/${id}`,
+      query: (id) => `isLikingTrack/${localStorage.getItem('USERNAME')}/${id}`,
     }),
     likeTrack: builder.mutation({
       query: (track: TrackItem|Song) => ({
-        url: `likeTrack/${username}`,
+        url: `likeTrack/${localStorage.getItem('USERNAME')}`,
         method: 'POST',
         body: { track },
       }),
     }),
     unlikeTrack: builder.mutation({
       query: (trackId: string) => ({
-        url: `unlikeTrack/${username}`,
+        url: `unlikeTrack/${localStorage.getItem('USERNAME')}`,
         method: 'POST',
         body: { trackId },
       }),
@@ -71,17 +68,17 @@ export const serverApi = createApi({
         tracks: { items: [] , total: number};
         id: string;
       }) => ({
-        url: `createPlaylist/${username}`,
+        url: `createPlaylist/${localStorage.getItem('USERNAME')}`,
         method: 'POST',
         body: { playlist },
       }),
     }),
     getUserPlaylists: builder.query<any,void>({
-      query: () => `getUserPlaylists/${username}`,
+      query: () => `getUserPlaylists/${localStorage.getItem('USERNAME')}`,
     }),
     addTrackToPlaylist: builder.mutation({
       query: ({playlistId,track}) => ({
-        url: `addTrackToPlaylist/${username}`,
+        url: `addTrackToPlaylist/${localStorage.getItem('USERNAME')}`,
         method: 'POST',
         body: { playlistId, track },
       }),

@@ -12,29 +12,15 @@ import { MdQueueMusic } from 'react-icons/md';
 import { FiHome } from 'react-icons/fi';
 import { RiPlayList2Fill } from 'react-icons/ri';
 import { IoLogOutOutline } from 'react-icons/io5';
-import Cookies from 'universal-cookie';
 import UserButton from './UserButton';
-import { AiFillHeart } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import ShowInfo from './Alert/ShowInfo';
-import { hideInfo } from '../store/uiSlice';
+import { hideInfo, hideLogin, hideRegister } from '../store/uiSlice';
+import Modal from './Playlist/Modal';
+import Login from './auth/Login';
+import Navbar from './Ui/Navbar';
+import Register from './auth/Register';
 
-const cookies = new Cookies();
-const routes = [
-  { name: 'Home', path: '/home', icon: <FiHome className="mr-2" /> },
-  { name: 'Search', path: '/search', icon: <BsSearch className="mr-2" /> },
-  { name: 'Queue', path: '/queue', icon: <MdQueueMusic className="mr-2" /> },
-  {
-    name: 'Playlists',
-    path: '/playlists',
-    icon: <RiPlayList2Fill className="mr-2" />,
-  },
-  {
-    name: 'Liked Songs',
-    path: `/likedSongs/${cookies.get('USERNAME')}`,
-    icon: <AiFillHeart className="mr-2 bg-red-400 p-0.5" />,
-  },
-];
 const Layout: React.FC<{}> = () => {
   // const accessToken = useAuth(code);
   const navigate = useNavigate();
@@ -43,7 +29,6 @@ const Layout: React.FC<{}> = () => {
 
   useEffect(() => {
     if (!uiState.showInfo || !uiState.message) return;
-
     const timeout = setTimeout(() => {
       dispatch(hideInfo());
     }, 2000);
@@ -54,36 +39,7 @@ const Layout: React.FC<{}> = () => {
 
   return (
     <div className="flex" style={{ minHeight: '100vh', width: '100%' }}>
-      <div className="flex flex-col w-1/6 items-start p-5 gap-7 bg-zinc-900 text-white overflow-y-hidden fixed h-screen text-lg ">
-        {routes.map((route, i) => (
-          <NavLink
-            to={route.path}
-            className={({ isActive, isPending }) =>
-              isPending
-                ? 'text-gray-400'
-                : isActive
-                ? 'text-white font-bold scale-110'
-                : ''
-            }
-            key={route.name}
-          >
-            <span className="flex justify-center items-center">
-              {route.icon}
-              <p>{route.name}</p>
-            </span>
-          </NavLink>
-        ))}
-        <span
-          className="mr-2 flex items-center gap-2 cursor-pointer justify-center"
-          onClick={() => {
-            localStorage.clear();
-            navigate('/auth');
-          }}
-        >
-          <IoLogOutOutline />
-          Logout
-        </span>
-      </div>
+      <Navbar />
       <div className="w-1/6"></div>
       <div className="flex flex-col w-5/6 bg-zinc-800 relative">
         <div className="text-white right-3 top-1 fixed z-20 ">
@@ -91,6 +47,16 @@ const Layout: React.FC<{}> = () => {
         </div>
         <div className="min-h-screen pb-24">
           {uiState.showInfo && <ShowInfo message={uiState.message} />}
+          {uiState.showLogin && (
+            <Modal onClose={() => dispatch(hideLogin())}>
+              <Login />
+            </Modal>
+          )}
+          {uiState.showRegister && (
+            <Modal onClose={() => dispatch(hideRegister())}>
+              <Register />
+            </Modal>
+          )}
           <Outlet />
         </div>
       </div>

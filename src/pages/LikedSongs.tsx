@@ -30,7 +30,9 @@ export default LikedSongs;
 
 export async function loader({ params }: { params: { username: string } }) {
   const username = params.username;
-  const res = fetch(`http://localhost:5000/api/likedTracks/${username}`);
+  const res = fetch(
+    `http://localhost:5000/api/likedTracks/${localStorage.getItem('USERNAME')}`
+  );
   return defer({
     likedSongs: res.then((res) => res.json()),
   });
