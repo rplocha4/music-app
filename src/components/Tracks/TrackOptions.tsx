@@ -88,7 +88,7 @@ const TrackOptions: React.FC<{
         </button>
         {hoverPlaylist && (
           <div className="absolute top-0 -left-full bg-zinc-900 rounded-md z-10 flex flex-col justify-center items-center w-48 ">
-            {userPlaylists.map((playlist: any) => {
+            {userPlaylists?.map((playlist: any) => {
               return (
                 <button
                   className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2"

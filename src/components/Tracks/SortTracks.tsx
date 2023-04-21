@@ -39,6 +39,7 @@ const SortTracks: React.FC<{
   const [sortAscending, setSortAscending] = React.useState(true);
   const [sortType, setSortType] = React.useState('Date');
   const [hover, setHover] = React.useState(false);
+  const [sortedTracks, setSortedTracks] = React.useState(tracks);
 
   const ref = React.useRef<any>(null);
   useEffect(() => {
@@ -57,8 +58,8 @@ const SortTracks: React.FC<{
 
   //sort by name, artist, album, date added
   useEffect(() => {
-    const sorted = [
-      ...tracks.sort((a, b) => {
+    setSortedTracks((prevTracks) => {
+      return [...prevTracks].sort((a, b) => {
         if (sortType === 'Title') {
           return sortAscending
             ? a.track.name
@@ -97,9 +98,49 @@ const SortTracks: React.FC<{
                 .localeCompare(a.track.artists[0].name.toLowerCase());
         }
         return 0;
-      }),
-    ];
-    onSort(sorted);
+      });
+    }),
+      // ...tracks.sort((a, b) => {
+      //   if (sortType === 'Title') {
+      //     return sortAscending
+      //       ? a.track.name
+      //           .toLowerCase()
+      //           .localeCompare(b.track.name.toLowerCase())
+      //       : b.track.name
+      //           .toLowerCase()
+      //           .localeCompare(a.track.name.toLowerCase());
+      //   }
+      //   if (sortType === 'Date') {
+      //     return sortAscending
+      //       ? a.added.localeCompare(b.added)
+      //       : b.added.localeCompare(a.added);
+      //   }
+      //   if (sortType === 'Album') {
+      //     return sortAscending
+      //       ? a.track.album.name
+      //           .toLowerCase()
+      //           .localeCompare(b.track.album.name.toLowerCase())
+      //       : b.track.album.name
+      //           .toLowerCase()
+      //           .localeCompare(a.track.album.name.toLowerCase());
+      //   }
+      //   if (sortType === 'Duration') {
+      //     return sortAscending
+      //       ? a.track.duration_ms - b.track.duration_ms
+      //       : b.track.duration_ms - a.track.duration_ms;
+      //   }
+      //   if (sortType === 'Artist') {
+      //     return sortAscending
+      //       ? a.track.artists[0].name
+      //           .toLowerCase()
+      //           .localeCompare(b.track.artists[0].name.toLowerCase())
+      //       : b.track.artists[0].name
+      //           .toLowerCase()
+      //           .localeCompare(a.track.artists[0].name.toLowerCase());
+      //   }
+      //   return 0;
+      // }),
+      onSort(sortedTracks);
   }, [sortType, sortAscending]);
   return (
     <>

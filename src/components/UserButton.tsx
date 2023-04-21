@@ -9,18 +9,16 @@ const cookies = new Cookies();
 const UserButton: React.FC = ({}) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
   const ref = useRef<any>(null);
-  const [username, setUsername] = useState<string | undefined>(
-    cookies.get('USERNAME')
-  );
-  const [token, setToken] = useState<string | undefined>(cookies.get('TOKEN'));
+  const [username, setUsername] = useState(localStorage.getItem('USERNAME'));
+  const [token, setToken] = useState(localStorage.getItem('TOKEN'));
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setUsername(cookies.get('USERNAME'));
-    setToken(cookies.get('TOKEN'));
-  }, [cookies.get('USERNAME'), cookies.get('TOKEN')]);
+    setUsername(localStorage.getItem('USERNAME'));
+    setToken(localStorage.getItem('TOKEN'));
+  }, [localStorage.getItem('USERNAME'), localStorage.getItem('TOKEN')]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -37,13 +35,9 @@ const UserButton: React.FC = ({}) => {
   }, [ref]);
 
   const logoutHandler = () => {
-    cookies.remove('TOKEN', { path: '/' });
-    cookies.remove('USERNAME', { path: '/' });
     localStorage.removeItem('TOKEN');
     localStorage.removeItem('USERNAME');
     navigate('/home');
-    setUsername(undefined);
-    setToken(undefined);
     dispatch(showInfo('Logged out'));
   };
   return (

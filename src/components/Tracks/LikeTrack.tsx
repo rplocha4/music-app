@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { TrackItem } from '../../types/types';
 import {
+  useGetLikedTracksQuery,
   useIsLikingTrackQuery,
   useLikeTrackMutation,
   useUnlikeTrackMutation,
@@ -16,6 +17,7 @@ const LikeTrack: React.FC<{
   const [likeSong, resultLike] = useLikeTrackMutation();
   const [unlikeSong, resultUnlike] = useUnlikeTrackMutation();
   const { data, refetch } = useIsLikingTrackQuery(track.id);
+  const { refetch: refetchLiked } = useGetLikedTracksQuery('');
   const [likedTrack, setLikedTrack] = useState(false);
   const dispatch = useDispatch();
 
@@ -27,12 +29,14 @@ const LikeTrack: React.FC<{
     likeSong(track).then((res: any) => {
       dispatch(showInfo(res.data.message));
       refetch();
+      refetchLiked();
     });
   };
   const unlikeTrack = () => {
     unlikeSong(track.id).then((res: any) => {
       dispatch(showInfo(res.data.message));
       refetch();
+      refetchLiked();
     });
   };
   return (

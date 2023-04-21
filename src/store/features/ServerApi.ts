@@ -7,6 +7,8 @@ import { Song } from '../playerSlice';
 export const serverApi = createApi({
   reducerPath: 'serverApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/' }),
+  refetchOnReconnect: true,
+
   endpoints: (builder) => ({
     followArtist: builder.mutation({
       query: (artist: Artist) => ({
@@ -37,7 +39,7 @@ export const serverApi = createApi({
         body: { albumId },
       }),
     }),
-    getLikedTracks: builder.query<any, void>({
+    getLikedTracks: builder.query({
       query: () => `likedTracks/${localStorage.getItem('USERNAME')}`,
     }),
     isLikingTrack: builder.query({

@@ -5,9 +5,13 @@ import { FaUserAlt } from 'react-icons/fa';
 import ArtistsResults from '../components/Artist/ArtistsResults';
 import AlbumResults from '../components/Album/AlbumResults';
 import PlaylistResults from '../components/Playlist/PlaylistResults';
+import { Playlist } from '../types/types';
 function Profile() {
   const data = useLoaderData();
   const { user }: any = data;
+  const [loggedInUser, setLoggedInUser] = React.useState(
+    localStorage.getItem('USERNAME')
+  );
 
   return (
     <div>
@@ -44,7 +48,7 @@ function Profile() {
                 <div className="text-white flex flex-col gap-2">
                   {loadedUser?.user.followingArtists.length > 0 && (
                     <>
-                      <p className="p-2 text-3xl font-semi-bold">
+                      <p className="font-bold text-4xl p-2">
                         Following Artists
                       </p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
@@ -56,25 +60,35 @@ function Profile() {
                   )}
                   {loadedUser?.user.likedAlbums.length > 0 && (
                     <>
-                      <p className="p-2 text-3xl font-semi-bold">
-                        Liked Albums
-                      </p>
+                      <p className="font-bold text-4xl p-2">Liked Albums</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
                         <AlbumResults albums={loadedUser.user.likedAlbums} />
                       </div>
                     </>
                   )}
                 </div>
-                <div className="text-white">
-                  <p className="font-bold text-4xl p-2">Playlists</p>
-                  {loadedUser?.user.userPlaylists.length > 0 && (
+                {loadedUser?.user.userPlaylists.length > 0 && (
+                  <div className="text-white">
+                    <p className="font-bold text-4xl p-2">
+                      {loadedUser.user.username !== loggedInUser
+                        ? 'Public Playlists'
+                        : 'Yours Playlists'}
+                    </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2 ">
                       <PlaylistResults
-                        playlists={loadedUser.user.userPlaylists}
+                        playlists={loadedUser.user.userPlaylists
+                          .map((playlist: Playlist) =>
+                            loadedUser.user.username !== loggedInUser
+                              ? playlist.public
+                                ? playlist
+                                : null
+                              : playlist
+                          )
+                          .filter((playlist: Playlist) => playlist !== null)}
                       />
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </>
             );
           }}
@@ -88,9 +102,7 @@ export default Profile;
 
 export async function loader({ params }: any) {
   const { username } = params;
-  const data = fetch(
-    `http://localhost:5000/api/user/${localStorage.getItem('USERNAME')}`
-  );
+  const data = fetch(`http://localhost:5000/api/user/${username}`);
   return defer({
     user: data.then((res) => res.json()),
   });

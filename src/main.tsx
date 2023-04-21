@@ -58,7 +58,6 @@ const router = createBrowserRouter([
       {
         path: 'playlists',
         element: <Playlists />,
-        // loader: queueLoader,
       },
       {
         path: 'lyricks',

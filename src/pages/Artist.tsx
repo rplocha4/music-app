@@ -103,7 +103,7 @@ export async function loader({ params }: { params: { id?: string } }) {
   const { id: artistId } = params;
   let isFollowing = false;
 
-  const username = cookies.get('USERNAME');
+  const username = localStorage.getItem('USERNAME');
   const res = await fetch(
     `http://localhost:5000/api/isFollowingArtist/${username}/${artistId}`
   );

@@ -12,7 +12,11 @@ const cookies = new Cookies();
 const username = cookies.get('USERNAME');
 const isNotEmpty = (value: string) => value.trim() !== '';
 
-const CreatePlaylist: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+const CreatePlaylist: React.FC<{
+  onClose: () => void;
+  onCreated: () => void;
+}> = ({ onClose, onCreated }) => {
+  const [checkboxValue, setCheckboxValue] = React.useState(false);
   const {
     value: nameValue,
     isValid: nameIsValid,
@@ -55,10 +59,11 @@ const CreatePlaylist: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       owner: { display_name: cookies.get('USERNAME') },
       tracks: { items: [], total: 0 },
       followers: { total: 0 },
-      public: true,
+      public: !checkboxValue,
       id: uuid(),
     }).then((res: any) => {
       dispatch(showInfo(res.data.message));
+      onCreated();
     });
     nameReset();
     descriptionReset();
@@ -119,6 +124,14 @@ const CreatePlaylist: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           {imageUrlHasErrors && (
             <p className={`${invalid}`}>Enter Valid Playlist Cover</p>
           )}
+        </div>
+        <div className="flex self-start gap-2">
+          <label htmlFor="public">Private ? </label>
+          <input
+            type="checkbox"
+            id="public"
+            onChange={(e) => setCheckboxValue(e.target.checked)}
+          />
         </div>
         <button
           disabled={!formIsValid}

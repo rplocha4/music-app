@@ -11,7 +11,9 @@ import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 
 const Navbar = () => {
-  const [username, setUsername] = React.useState(cookies.get('USERNAME'));
+  const [username, setUsername] = React.useState(
+    localStorage.getItem('USERNAME')
+  );
   const navigate = useNavigate();
   const routes = [
     { name: 'Home', path: '/home', icon: <FiHome className="mr-2" /> },
@@ -33,9 +35,9 @@ const Navbar = () => {
     },
   ];
   useEffect(() => {
-    setUsername(cookies.get('USERNAME'));
+    setUsername(localStorage.getItem('USERNAME'));
     console.log('asd');
-  }, [cookies.get('USERNAME')]);
+  }, [localStorage.getItem('USERNAME')]);
   return (
     <div className="flex flex-col w-1/6 items-start p-5 gap-7 bg-zinc-900 text-white overflow-y-hidden fixed h-screen text-lg ">
       {routes.map((route, i) => (

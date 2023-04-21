@@ -1,17 +1,17 @@
 type ExternalUrls = {
   spotify: string;
-}
+};
 
 type Followers = {
   href: string | null;
   total: number;
-}
+};
 
 type Image = {
   height: number;
   url: string;
   width: number;
-}
+};
 
 export type Artist = {
   external_urls: ExternalUrls;
@@ -24,12 +24,12 @@ export type Artist = {
   popularity: number;
   type: string;
   uri: string;
-}
+};
 type Copyright = {
   text: string;
-  type: "C";
-}
-export type TrackItem ={
+  type: 'C';
+};
+export type TrackItem = {
   artists: Artist[];
   available_markets: string[];
   disc_number: number;
@@ -46,9 +46,8 @@ export type TrackItem ={
   track_number: number;
   type: string;
   uri: string;
-  album:Album
-}
-
+  album: Album;
+};
 
 export type Album = {
   album_group: string;
@@ -70,7 +69,7 @@ export type Album = {
   name: string;
   popularity: number;
   release_date: string;
-  release_date_precision: "year" | "month" | "day";
+  release_date_precision: 'year' | 'month' | 'day';
   total_tracks: string;
   tracks: {
     href: string;
@@ -81,6 +80,17 @@ export type Album = {
     previous: string | null;
     total: number;
   };
-  type: "album";
+  type: 'album';
   uri: string;
-}
+};
+
+export type Playlist = {
+  name: string;
+  description: string;
+  images: [{ url: string }];
+  owner: { display_name: string };
+  tracks: { items: []; total: number };
+  followers: { total: number };
+  public: boolean;
+  id: string;
+};

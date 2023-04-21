@@ -21,6 +21,7 @@ const Queue = () => {
   // useEffect(() => {
   //   setQueue(playerSelector.queue.queue);
   // }, [playerSelector.queue.queue]);
+  console.log(queue);
 
   const handleTrackCardClick = (index: number) => {
     console.log(index);

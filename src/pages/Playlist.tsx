@@ -1,5 +1,5 @@
 import React from 'react';
-import { Await, defer, useLoaderData } from 'react-router-dom';
+import { Await, Link, defer, useLoaderData } from 'react-router-dom';
 import Loading from '../components/Animate/Loading';
 import TrackResults from '../components/Tracks/TrackResults';
 import Cookies from 'universal-cookie';
@@ -35,7 +35,13 @@ const Playlist = () => {
                   </p>
                   <p className="text-gray-400 flex gap-2">
                     <span className="text-white">
-                      Mady by {loadedPlaylist.playlist.owner.display_name}
+                      Mady by{' '}
+                      <Link
+                        to={`/user/${loadedPlaylist.playlist.owner.display_name}`}
+                        className="hover:underline"
+                      >
+                        {loadedPlaylist.playlist.owner.display_name}
+                      </Link>
                     </span>
                     <p className="font-extrabold">·</p>
                     <span>

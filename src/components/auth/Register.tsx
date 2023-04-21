@@ -1,6 +1,11 @@
 import React from 'react';
 import Cookies from 'universal-cookie';
-import { hideLogin, hideRegister, showInfo } from '../../store/uiSlice';
+import {
+  hideLogin,
+  hideRegister,
+  showInfo,
+  showLogin,
+} from '../../store/uiSlice';
 import { useDispatch } from 'react-redux';
 import useInput from '../../hooks/useInput';
 const cookies = new Cookies();
@@ -64,12 +69,6 @@ const Register = () => {
 
       .then((data) => {
         if (data.message === 'User Created Successfully') {
-          cookies.set('TOKEN', data.token, {
-            path: '/',
-          });
-          cookies.set('USERNAME', data.username, {
-            path: '/',
-          });
           localStorage.setItem('TOKEN', data.token);
           localStorage.setItem('USERNAME', data.username);
           dispatch(hideRegister());
@@ -158,6 +157,13 @@ const Register = () => {
               className="bg-white text-black rounded-sm font-bold text-md py-1"
             >
               Register
+            </button>
+            <button
+              type="button"
+              className=" bg-white text-black rounded-sm font-bold text-md py-1"
+              onClick={() => dispatch(showLogin())}
+            >
+              Login
             </button>
           </div>
         </div>

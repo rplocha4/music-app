@@ -16,6 +16,7 @@ import {
 } from '../store/features/ServerApi';
 import Cookies from 'universal-cookie';
 import { showInfo } from '../store/uiSlice';
+import { formatDuration } from '../utils';
 const cookies = new Cookies();
 const Album = () => {
   const data: any = useLoaderData();
@@ -40,11 +41,8 @@ const Album = () => {
     (acc: number, item: any) => acc + item.duration_ms,
     0
   );
-  const minutes = Math.floor(totalDuration / 60000);
-  const seconds = ((totalDuration % 60000) / 1000).toFixed(0);
-  const totalDurationFormatted = `${minutes} min ${
-    seconds === '60' ? '00' : seconds
-  } sec`;
+
+  const totalDurationFormatted = formatDuration(totalDuration);
 
   const [playContext, resultPlay] = usePlayContextMutation();
   const dispatch = useDispatch();

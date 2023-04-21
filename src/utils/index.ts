@@ -24,3 +24,8 @@ export const getSmallestImage = (images: any) => {
     images[0]
   );
 };
+export function formatDuration(duration_ms: number) {
+  const minutes = Math.floor(duration_ms / 60000);
+  const seconds = +((duration_ms % 60000) / 1000).toFixed(0);
+  return `${minutes}min ${seconds < 10 ? '0' : ''}${seconds}sec`;
+}
