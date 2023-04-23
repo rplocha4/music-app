@@ -23,22 +23,25 @@ const TrackResultsSortable: React.FC<{
     const songUris = sortedTracks.map((item: any) => item.track.uri);
     setSongUris(songUris);
   }, [sortedTracks]);
+
+  console.log(tracks);
+
   return (
     <div className="flex flex-col text-white ">
       <BsPlayCircleFill
         className="text-6xl text-green-500 hover:text-green-400 hover:scale-110 hover:cursor-pointer mx-5 mt-5"
-        // onClick={() => {
-        //   playSongs(songUris);
-        //   dispatch(
-        //     makeQueue(
-        //       sortedTracks.map((item: any) => {
-        //         return {
-        //           ...item.track,
-        //         };
-        //       })
-        //     )
-        //   );
-        // }}
+        onClick={() => {
+          playSongs(songUris);
+          dispatch(
+            makeQueue(
+              sortedTracks.map((item: any) => {
+                return {
+                  ...item.track,
+                };
+              })
+            )
+          );
+        }}
       />
       <SortTracks tracks={tracks} onSort={handleSort} />
       {sortedTracks.map((track, i) => (

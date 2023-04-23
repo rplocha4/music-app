@@ -13,14 +13,16 @@ import {
 function Profile() {
   const data = useLoaderData();
   const { user }: any = data;
-  const [loggedInUser, setLoggedInUser] = React.useState(
-    localStorage.getItem('USERNAME')
-  );
+
   const {
     data: followedPlaylists,
     refetch,
     isFetching,
-  } = useFollowingPlaylistQuery('');
+  } = useFollowingPlaylistQuery('', {
+    refetchOnReconnect: true,
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
+  });
 
   return (
     <div>
@@ -79,12 +81,14 @@ function Profile() {
                 {isFetching ? (
                   <Loading />
                 ) : (
-                  <div className="text-white">
-                    <p className="font-bold text-4xl p-2">Liked Playlists</p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
-                      <PlaylistResults playlists={followedPlaylists} />
+                  followedPlaylists?.length > 0 && (
+                    <div className="text-white">
+                      <p className="font-bold text-4xl p-2">Liked Playlists</p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
+                        <PlaylistResults playlists={followedPlaylists} />
+                      </div>
                     </div>
-                  </div>
+                  )
                 )}
               </>
             );

@@ -1,10 +1,17 @@
 import React from 'react';
-import { Await, Link, defer, useLoaderData } from 'react-router-dom';
+import {
+  Await,
+  Link,
+  defer,
+  useLoaderData,
+  useNavigate,
+} from 'react-router-dom';
 import Loading from '../components/Animate/Loading';
 import TrackResults from '../components/Tracks/TrackResults';
 import Cookies from 'universal-cookie';
 import TrackResultsSortable from '../components/Tracks/TrackResultsSortable';
 import {
+  useDeletePlaylistMutation,
   useFollowPlaylistMutation,
   useIsFollowingPlaylistQuery,
   useRemoveTrackFromPlaylistMutation,
@@ -20,6 +27,8 @@ const Playlist = () => {
   const [followPlaylist, followPlaylistResult] = useFollowPlaylistMutation();
   const [unFollowPlaylist, unFollowPlaylistResult] =
     useUnfollowPlaylistMutation();
+  const [deletePlaylist, deletePlaylistResult] = useDeletePlaylistMutation();
+  const navigate = useNavigate();
   const { data: isFollowingData, refetch } = useIsFollowingPlaylistQuery(id);
   const dispatch = useDispatch();
   return (
@@ -56,7 +65,7 @@ const Playlist = () => {
                   </div>
                 </div>
               </div>
-              {loadedPlaylist.createdBy !== localStorage.getItem('ID') && (
+              {loadedPlaylist.createdBy !== localStorage.getItem('ID') ? (
                 <button
                   onClick={() => {
                     isFollowingData?.isFollowing
@@ -76,6 +85,19 @@ const Playlist = () => {
                   className=" w-24 p-2 border border-gray-600 hover:border-white rounded-md grow-0"
                 >
                   {isFollowingData?.isFollowing ? 'Following' : 'Follow'}
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    deletePlaylist(loadedPlaylist._id)
+                      .then((res: any) => {
+                        dispatch(showInfo(res.data.message));
+                        navigate(`/user/${localStorage.getItem('USERNAME')}`);
+                      })
+                      .catch((err) => dispatch(showInfo(res.data.message)));
+                  }}
+                >
+                  Delete
                 </button>
               )}
 

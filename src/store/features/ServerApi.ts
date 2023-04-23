@@ -116,8 +116,21 @@ export const serverApi = createApi({
     isFollowingPlaylist: builder.query({
       query: (playlistId) => `${localStorage.getItem('ID')}/playlists/${playlistId}/following`,
     }),
-    
+    searchPlaylist: builder.query({
+      query: (query) => `searchPlaylists/${query}`,
   }),
+  deletePlaylist: builder.mutation({
+    query: (playlistId) => ({
+      url: `playlists/${playlistId}`,
+      method: 'delete',
+    }),
+  }),
+  searchUser: builder.query({
+    query: (query) => `searchUser/${query}`,
+  }),
+
+
+}),
   
 });
 
@@ -138,5 +151,8 @@ export const {
   useFollowingPlaylistQuery,
   useUnfollowPlaylistMutation,
   useIsFollowingPlaylistQuery,
-  useGetPlaylistQuery
+  useGetPlaylistQuery,
+  useSearchPlaylistQuery,
+  useDeletePlaylistMutation,
+  useSearchUserQuery,
 } = serverApi;

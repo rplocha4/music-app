@@ -6,12 +6,17 @@ import PlaylistResults from '../components/Playlist/PlaylistResults';
 import TrackResults from '../components/Tracks/TrackResults';
 
 import { Album, Artist, Playlist, TrackItem } from '../types/types';
+import {
+  useSearchPlaylistQuery,
+  useSearchUserQuery,
+} from '../store/features/ServerApi';
 
 const filters = [
   { name: 'songs' },
   { name: 'albums' },
   { name: 'artists' },
   { name: 'playlists' },
+  { name: 'users' },
 ];
 
 const Search: React.FC = ({}) => {
@@ -20,8 +25,12 @@ const Search: React.FC = ({}) => {
   const [albums, setAlbums] = useState<Album[]>([]);
   const [artists, setArtist] = useState<Artist[]>([]);
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
   const [currentFilter, setCurrentFilter] = useState<string>('songs');
 
+  const { data: dataPlaylist, refetch: refetchPlaylist } =
+    useSearchPlaylistQuery(search);
+  const { data: dataUsers, refetch: refetchUsers } = useSearchUserQuery(search);
 
   useEffect(() => {
     if (!search) {
@@ -30,7 +39,28 @@ const Search: React.FC = ({}) => {
     }
 
     if (currentFilter === 'playlists') {
-      console.log('asd');
+      refetchPlaylist()
+        .then((res: any) => {
+          if (!res.data || res.data.length === 0) setPlaylists([]);
+          else setPlaylists(res.data);
+        })
+        .catch((err: any) => {
+          setPlaylists([]);
+          console.log(err);
+        });
+    } else if (currentFilter === 'users') {
+      refetchUsers()
+        .then((res: any) => {
+          if (!res.data || res.data.length === 0) setUsers([]);
+          else {
+            setUsers(res.data);
+            console.log(res.data);
+          }
+        })
+        .catch((err: any) => {
+          setUsers([]);
+          console.log(err);
+        });
     } else
       fetch(
         `https://api.spotify.com/v1/search?q=${search}&type=track,album,artist`,
@@ -47,9 +77,8 @@ const Search: React.FC = ({}) => {
           setTracks(data.tracks.items);
           setArtist(data.artists.items);
           setAlbums(data.albums.items);
-          setPlaylists(data.playlists.items);
         });
-  }, [search]);
+  }, [search, currentFilter]);
 
   return (
     <div className="h-full">
@@ -91,13 +120,13 @@ const Search: React.FC = ({}) => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
             {search && currentFilter === 'artists' && (
-              <ArtistsResults  artists={artists} />
+              <ArtistsResults artists={artists} />
             )}
             {search && currentFilter === 'albums' && (
-              <AlbumResults  albums={albums} />
+              <AlbumResults albums={albums} />
             )}
             {search && currentFilter === 'playlists' && (
-              <PlaylistResults  playlists={playlists} />
+              <PlaylistResults playlists={playlists} />
             )}
           </div>
         </div>
