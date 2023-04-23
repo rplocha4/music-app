@@ -10,6 +10,7 @@ import { TrackItem } from '../../types/types';
 import { getIdFromUri } from '../../utils';
 import { RootState } from '../../store/store';
 import { showInfo } from '../../store/uiSlice';
+import { useNavigate } from 'react-router-dom';
 
 const TrackOptions: React.FC<{
   userPlaylists: any;
@@ -26,6 +27,7 @@ const TrackOptions: React.FC<{
     useAddTrackToPlaylistMutation();
   const { name, uri, duration_ms, album, artists, id } = track;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setInQueue(playerSelector.queue.containsSong(uri));
@@ -67,7 +69,7 @@ const TrackOptions: React.FC<{
           } else {
             dispatch(showInfo(`${name} removed to queue`));
 
-            dispatch(removeFromQueue(uri));
+            dispatch(removeFromQueue(track));
           }
           handleClosing!();
         }}
@@ -111,10 +113,16 @@ const TrackOptions: React.FC<{
           </div>
         )}
       </div>
-      <button className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2">
+      <button
+        className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2"
+        onClick={() => navigate(`/album/${album.id}`)}
+      >
         Go to album
       </button>
-      <button className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2">
+      <button
+        className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2"
+        onClick={() => navigate(`/artist/${artists[0].id}`)}
+      >
         Go to artist
       </button>
     </div>

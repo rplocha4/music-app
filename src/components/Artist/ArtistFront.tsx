@@ -6,13 +6,9 @@ const ArtistFront: React.FC<{
   img: string;
 }> = ({ followers, name, img }) => {
   //   convert followers to string in format 12,345,678
-  const [followersString, setFollowersString] = useState('');
-  useEffect(() => {
-    const followersString = followers
-      .toString()
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    setFollowersString(followersString);
-  }, [followers]);
+  const followersString = followers
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   return (
     <div

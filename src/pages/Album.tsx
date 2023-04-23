@@ -17,12 +17,12 @@ import {
 import Cookies from 'universal-cookie';
 import { showInfo } from '../store/uiSlice';
 import { formatDuration } from '../utils';
-const cookies = new Cookies();
 const Album = () => {
   const data: any = useLoaderData();
 
   const { album, isAlbumLiked }: { album: AlbumT; isAlbumLiked: boolean } =
     data;
+
   const [likeAlbum, likeAlbumResult] = useLikeAlbumMutation();
   const [unlikeAlbum, unlikeAlbumResult] = useUnlikeAlbumMutation();
 
@@ -146,10 +146,11 @@ export default Album;
 export async function loader({ params }: any) {
   const id = params.id;
   let isAlbumLiked = false;
-  const username = cookies.get('USERNAME');
 
   const responseLikedAlbum = await fetch(
-    `http://localhost:5000/api/isAlbumLiked/${username}/${id}`
+    `http://localhost:5000/api/isAlbumLiked/${localStorage.getItem(
+      'USERNAME'
+    )}/${id}`
   );
   try {
     const data = await responseLikedAlbum.json();

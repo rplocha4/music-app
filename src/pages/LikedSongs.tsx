@@ -9,7 +9,7 @@ import { formatDuration } from '../utils';
 const LikedSongs = () => {
   // const data: any = useLoaderData();
   // const { likedSongs } = data;
-  const { data, isLoading } = useGetLikedTracksQuery('');
+  const { data, isLoading, refetch } = useGetLikedTracksQuery('');
   const [totalDuration, setTotalDuration] = React.useState<number>(0);
   useEffect(() => {
     if (data) {

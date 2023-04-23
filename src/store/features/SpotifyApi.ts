@@ -81,6 +81,7 @@ export const spotifyApi = createApi({
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          
         },
       }),
     }),

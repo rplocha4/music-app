@@ -6,6 +6,7 @@ import TrackResults from '../components/Tracks/TrackResults';
 import { Reorder, AnimatePresence } from 'framer-motion';
 import { makeQueue } from '../store/playerSlice';
 import { TrackItem } from '../types/types';
+import { useGetUserPlaylistsQuery } from '../store/features/ServerApi';
 const Queue = () => {
   const playerSelector = useSelector((state: any) => state.player);
   const [queue, setQueue] = useState<TrackItem[]>(playerSelector.queue.queue);
@@ -13,19 +14,19 @@ const Queue = () => {
     playerSelector.queue.currentSong || {}
   );
   const [openTrackIndex, setOpenTrackIndex] = useState(-1);
+  const { data: playlists, refetch } = useGetUserPlaylistsQuery();
+  const userPlaylists = playlists?.userPlaylists;
+
   const dispatch = useDispatch();
   useEffect(() => {
     setCurrentSong(playerSelector.queue.currentSong || {});
   }, [playerSelector.queue.currentSong]);
 
-  // useEffect(() => {
-  //   setQueue(playerSelector.queue.queue);
-  // }, [playerSelector.queue.queue]);
-  console.log(queue);
+  useEffect(() => {
+    setQueue(playerSelector.queue.queue);
+  }, [playerSelector.queue]);
 
   const handleTrackCardClick = (index: number) => {
-    console.log(index);
-
     setOpenTrackIndex(index === openTrackIndex ? -1 : index);
   };
   const handleClosing = () => {
@@ -67,6 +68,7 @@ const Queue = () => {
                         isOpen={index === openTrackIndex}
                         handleClick={() => handleTrackCardClick(index)}
                         handleClosing={handleClosing}
+                        userPlaylists={userPlaylists}
                       />
                     </Reorder.Item>
                   );

@@ -33,7 +33,7 @@ const Playlist = () => {
                   <p className="text-gray-400">
                     {loadedPlaylist.playlist.description}
                   </p>
-                  <p className="text-gray-400 flex gap-2">
+                  <div className="text-gray-400 flex gap-2">
                     <span className="text-white">
                       Mady by{' '}
                       <Link
@@ -49,7 +49,7 @@ const Playlist = () => {
                     </span>
                     <p className="font-extrabold">·</p>
                     <span>{loadedPlaylist.playlist.tracks.total} songs</span>
-                  </p>
+                  </div>
                 </div>
               </div>
               <TrackResultsSortable

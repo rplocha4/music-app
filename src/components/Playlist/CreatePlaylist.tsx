@@ -7,9 +7,7 @@ import Cookies from 'universal-cookie';
 import { TrackItem } from '../../types/types';
 import { useDispatch } from 'react-redux';
 import { showInfo } from '../../store/uiSlice';
-const cookies = new Cookies();
 
-const username = cookies.get('USERNAME');
 const isNotEmpty = (value: string) => value.trim() !== '';
 
 const CreatePlaylist: React.FC<{
@@ -56,7 +54,7 @@ const CreatePlaylist: React.FC<{
       name: nameValue,
       description: descriptionValue,
       images: [{ url: imageUrlValue }],
-      owner: { display_name: cookies.get('USERNAME') },
+      owner: { display_name: localStorage.getItem('USERNAME') || '' },
       tracks: { items: [], total: 0 },
       followers: { total: 0 },
       public: !checkboxValue,

@@ -8,7 +8,6 @@ import { RiPlayList2Fill } from 'react-icons/ri';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 
-const cookies = new Cookies();
 
 const Navbar = () => {
   const [username, setUsername] = React.useState(
@@ -36,7 +35,6 @@ const Navbar = () => {
   ];
   useEffect(() => {
     setUsername(localStorage.getItem('USERNAME'));
-    console.log('asd');
   }, [localStorage.getItem('USERNAME')]);
   return (
     <div className="flex flex-col w-1/6 items-start p-5 gap-7 bg-zinc-900 text-white overflow-y-hidden fixed h-screen text-lg ">
