@@ -68,24 +68,57 @@ export const serverApi = createApi({
         public: boolean;
         followers: { total: number };
         tracks: { items: [] , total: number};
+        createdBy:string;
         id: string;
       }) => ({
-        url: `createPlaylist/${localStorage.getItem('USERNAME')}`,
+        url: `createPlaylist`,
         method: 'POST',
-        body: { playlist },
+        body: { ...playlist },
       }),
     }),
     getUserPlaylists: builder.query<any,void>({
-      query: () => `getUserPlaylists/${localStorage.getItem('USERNAME')}`,
+      query: () => `getUserPlaylists/${localStorage.getItem('ID')}`,
     }),
     addTrackToPlaylist: builder.mutation({
       query: ({playlistId,track}) => ({
-        url: `addTrackToPlaylist/${localStorage.getItem('USERNAME')}`,
+        url: `addTrackToPlaylist/${playlistId}`,
         method: 'POST',
-        body: { playlistId, track },
+        body: { track },
       }),
     }),
+    removeTrackFromPlaylist: builder.mutation({
+      query: ({playlistId,trackId}) => ({
+        url: `${playlistId}/songs/${trackId}`,
+        method: 'delete',
+        body: { trackId },
+      }),
+    }),
+    getPlaylist: builder.query({
+      query: (playlistId) => `playlists/${playlistId}`,
+    }),
+
+    followPlaylist: builder.mutation({
+      query: (playlistId) => ({
+        url: `${localStorage.getItem('ID')}/playlists/${playlistId}/follow`,
+        method: 'POST',
+      }),
+    }),
+    unfollowPlaylist: builder.mutation({
+      query: (playlistId) => ({
+        url: `${localStorage.getItem('ID')}/playlists/${playlistId}/unfollow`,
+        method: 'PUT',
+      }),
+    }),
+
+    followingPlaylist: builder.query({
+      query: () => `${localStorage.getItem('ID')}/playlists/following`,
+    }),
+    isFollowingPlaylist: builder.query({
+      query: (playlistId) => `${localStorage.getItem('ID')}/playlists/${playlistId}/following`,
+    }),
+    
   }),
+  
 });
 
 export const {
@@ -100,4 +133,10 @@ export const {
   useCreatePlaylistMutation,
   useGetUserPlaylistsQuery,
   useAddTrackToPlaylistMutation,
+  useRemoveTrackFromPlaylistMutation,
+  useFollowPlaylistMutation,
+  useFollowingPlaylistQuery,
+  useUnfollowPlaylistMutation,
+  useIsFollowingPlaylistQuery,
+  useGetPlaylistQuery
 } = serverApi;

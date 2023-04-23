@@ -71,6 +71,9 @@ const Register = () => {
         if (data.message === 'User Created Successfully') {
           localStorage.setItem('TOKEN', data.token);
           localStorage.setItem('USERNAME', data.username);
+          localStorage.setItem('ID', data._id);
+          console.log(data._id);
+
           dispatch(hideRegister());
           dispatch(showInfo(data.message));
         } else {

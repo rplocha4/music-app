@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CreatePlaylist from '../components/Playlist/CreatePlaylist';
 import { Await, Link, defer, useLoaderData } from 'react-router-dom';
 import Modal from '../components/Playlist/Modal';
@@ -21,13 +21,13 @@ const Playlists = () => {
         <Loading />
       ) : (
         <>
-          {data.userPlaylists.length === 0 ? (
+          {data.length === 0 ? (
             <div className="flex flex-col">
               <p>You have no playlists yet. Create first one.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5">
-              <PlaylistResults playlists={data.userPlaylists} />
+              <PlaylistResults playlists={data} />
             </div>
           )}
         </>

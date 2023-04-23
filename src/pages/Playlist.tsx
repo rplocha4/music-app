@@ -4,11 +4,24 @@ import Loading from '../components/Animate/Loading';
 import TrackResults from '../components/Tracks/TrackResults';
 import Cookies from 'universal-cookie';
 import TrackResultsSortable from '../components/Tracks/TrackResultsSortable';
+import {
+  useFollowPlaylistMutation,
+  useIsFollowingPlaylistQuery,
+  useRemoveTrackFromPlaylistMutation,
+  useUnfollowPlaylistMutation,
+} from '../store/features/ServerApi';
+import { showInfo } from '../store/uiSlice';
+import { useDispatch } from 'react-redux';
 const cookies = new Cookies();
 const Playlist = () => {
   const data: any = useLoaderData();
-  const { playlist } = data;
-
+  const { playlist, id } = data;
+  const [deleteSong, res] = useRemoveTrackFromPlaylistMutation();
+  const [followPlaylist, followPlaylistResult] = useFollowPlaylistMutation();
+  const [unFollowPlaylist, unFollowPlaylistResult] =
+    useUnfollowPlaylistMutation();
+  const { data: isFollowingData, refetch } = useIsFollowingPlaylistQuery(id);
+  const dispatch = useDispatch();
   return (
     <React.Suspense fallback={<Loading />}>
       <Await resolve={playlist}>
@@ -17,43 +30,65 @@ const Playlist = () => {
             <div className="w-full flex flex-col text-white p-5 gap-5">
               <div className="flex items-center justify-start h-full">
                 <img
-                  src={loadedPlaylist.playlist.images[0].url}
+                  src={loadedPlaylist.images[0].url}
                   alt="album image"
                   className="rounded-md"
                   style={{ width: '200px', height: '200px' }}
                 />
                 <div className="flex flex-col px-5 justify-end gap-5 min-h-full">
-                  <p>
-                    {loadedPlaylist.playlist.public ? 'Public ' : 'Private '}{' '}
-                    Playlist
-                  </p>
-                  <p className="text-5xl font-bold">
-                    {loadedPlaylist.playlist.name}
-                  </p>
-                  <p className="text-gray-400">
-                    {loadedPlaylist.playlist.description}
-                  </p>
+                  <p>{loadedPlaylist.public ? 'Public ' : 'Private '} </p>
+                  <p className="text-5xl font-bold">{loadedPlaylist.name}</p>
+                  <p className="text-gray-400">{loadedPlaylist.description}</p>
                   <div className="text-gray-400 flex gap-2">
                     <span className="text-white">
                       Mady by{' '}
                       <Link
-                        to={`/user/${loadedPlaylist.playlist.owner.display_name}`}
+                        to={`/user/${loadedPlaylist.owner.display_name}`}
                         className="hover:underline"
                       >
-                        {loadedPlaylist.playlist.owner.display_name}
+                        {loadedPlaylist.owner.display_name}
                       </Link>
                     </span>
                     <p className="font-extrabold">·</p>
-                    <span>
-                      {loadedPlaylist.playlist.followers.total} followers
-                    </span>
+                    <span>{loadedPlaylist.followers.total} followers</span>
                     <p className="font-extrabold">·</p>
-                    <span>{loadedPlaylist.playlist.tracks.total} songs</span>
+                    <span>{loadedPlaylist.tracks.total} songs</span>
                   </div>
                 </div>
               </div>
+              {loadedPlaylist.createdBy !== localStorage.getItem('ID') && (
+                <button
+                  onClick={() => {
+                    isFollowingData?.isFollowing
+                      ? unFollowPlaylist(loadedPlaylist._id)
+                          .then((res: any) => {
+                            dispatch(showInfo(res.data.message));
+                            refetch();
+                          })
+                          .catch((err) => console.log(err))
+                      : followPlaylist(loadedPlaylist._id)
+                          .then((res: any) => {
+                            dispatch(showInfo(res.data.message));
+                            refetch();
+                          })
+                          .catch((err) => console.log(err));
+                  }}
+                  className=" w-24 p-2 border border-gray-600 hover:border-white rounded-md grow-0"
+                >
+                  {isFollowingData?.isFollowing ? 'Following' : 'Follow'}
+                </button>
+              )}
+
               <TrackResultsSortable
-                tracks={loadedPlaylist.playlist.tracks.items}
+                tracks={loadedPlaylist.tracks.items}
+                onDelete={(id) =>
+                  deleteSong({
+                    playlistId: loadedPlaylist._id,
+                    trackId: id,
+                  }).then((res: any) => {
+                    dispatch(showInfo(res.data.message));
+                  })
+                }
               />
             </div>
           );
@@ -67,11 +102,7 @@ export default Playlist;
 
 export async function loader({ params }: any) {
   const id = params.id;
-  const res = fetch(
-    `http://localhost:5000/api/getPlaylist/${localStorage.getItem(
-      'USERNAME'
-    )}/${id}`
-  );
+  const res = fetch(`http://localhost:5000/api/getPlaylist/${id}`);
   // const res = fetch(`https://api.spotify.com/v1/playlists/${id}`, {
   //   method: 'GET',
   //   headers: {
@@ -81,5 +112,6 @@ export async function loader({ params }: any) {
   // });
   return defer({
     playlist: res.then((res) => res.json()),
+    id: id,
   });
 }

@@ -4,10 +4,8 @@ import AlbumResults from '../components/Album/AlbumResults';
 import ArtistsResults from '../components/Artist/ArtistsResults';
 import PlaylistResults from '../components/Playlist/PlaylistResults';
 import TrackResults from '../components/Tracks/TrackResults';
-import {
-  shazamApi,
-  useGetAutoCompleteQuery,
-} from '../store/features/ShazamApi';
+
+import { Album, Artist, Playlist, TrackItem } from '../types/types';
 
 const filters = [
   { name: 'songs' },
@@ -18,44 +16,39 @@ const filters = [
 
 const Search: React.FC = ({}) => {
   const [search, setSearch] = useState('');
-  const [tracks, setTracks] = useState<any>([]);
-  const [albums, setAlbums] = useState<any>([]);
-  const [artists, setArtist] = useState<any>([]);
-  const [playlists, setPlaylists] = useState<any>([]);
+  const [tracks, setTracks] = useState<TrackItem[]>([]);
+  const [albums, setAlbums] = useState<Album[]>([]);
+  const [artists, setArtist] = useState<Artist[]>([]);
+  const [playlists, setPlaylists] = useState<Playlist[]>([]);
   const [currentFilter, setCurrentFilter] = useState<string>('songs');
-  const [hints, setHints] = useState<any>([]);
 
-  const [trigger, { data: result }] =
-    shazamApi.endpoints.getAutoComplete.useLazyQuery();
 
   useEffect(() => {
     if (!search) {
       setTracks([]);
       return;
     }
-    // trigger(search).then((res) => {
-    //   setHints(res.data.hints);
-    // });
 
-    // console.log(hints);
-
-    fetch(
-      `https://api.spotify.com/v1/search?q=${search}&type=track,album,artist,playlist`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setTracks(data.tracks.items);
-        setArtist(data.artists.items);
-        setAlbums(data.albums.items);
-        setPlaylists(data.playlists.items);
-      });
+    if (currentFilter === 'playlists') {
+      console.log('asd');
+    } else
+      fetch(
+        `https://api.spotify.com/v1/search?q=${search}&type=track,album,artist`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        }
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setTracks(data.tracks.items);
+          setArtist(data.artists.items);
+          setAlbums(data.albums.items);
+          setPlaylists(data.playlists.items);
+        });
   }, [search]);
 
   return (
@@ -98,13 +91,13 @@ const Search: React.FC = ({}) => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
             {search && currentFilter === 'artists' && (
-              <ArtistsResults key={Math.random()} artists={artists} />
+              <ArtistsResults  artists={artists} />
             )}
             {search && currentFilter === 'albums' && (
-              <AlbumResults key={Math.random()} albums={albums} />
+              <AlbumResults  albums={albums} />
             )}
             {search && currentFilter === 'playlists' && (
-              <PlaylistResults key={Math.random()} playlists={playlists} />
+              <PlaylistResults  playlists={playlists} />
             )}
           </div>
         </div>

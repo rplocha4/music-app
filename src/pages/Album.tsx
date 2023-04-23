@@ -27,7 +27,7 @@ const Album = () => {
   const [unlikeAlbum, unlikeAlbumResult] = useUnlikeAlbumMutation();
 
   const artistAlbums = data.artistAlbums?.items // get only type album and remove duplicates
-    .filter((item: any) => item.id !== album.id && item.album_type === 'album')
+    .filter((item: any) => item.id !== album.id)
     .reduce((acc: any, item: any) => {
       if (!acc.find((i: any) => i.name === item.name)) {
         acc.push(item);

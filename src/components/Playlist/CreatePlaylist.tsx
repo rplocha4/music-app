@@ -58,8 +58,10 @@ const CreatePlaylist: React.FC<{
       tracks: { items: [], total: 0 },
       followers: { total: 0 },
       public: !checkboxValue,
+      createdBy: localStorage.getItem('ID')!,
       id: uuid(),
     }).then((res: any) => {
+
       dispatch(showInfo(res.data.message));
       onCreated();
     });

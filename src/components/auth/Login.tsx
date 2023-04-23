@@ -56,7 +56,10 @@ export default function Login() {
         if (data.message === 'Login Successful') {
           localStorage.setItem('TOKEN', data.token);
           localStorage.setItem('USERNAME', data.username);
+          localStorage.setItem('ID', data._id);
           dispatch(hideLogin());
+          console.log(data._id);
+
           dispatch(showInfo(data.message));
         } else {
           throw new Error(data.message);
@@ -130,7 +133,7 @@ export default function Login() {
               className=" bg-white text-black rounded-sm font-bold text-md py-1"
               onClick={() => dispatch(showRegister())}
             >
-            Register
+              Register
             </button>
           </div>
         </div>

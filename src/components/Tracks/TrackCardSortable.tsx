@@ -11,9 +11,11 @@ import { BsThreeDots } from 'react-icons/bs';
 const TrackCardSortable: React.FC<{
   track: TrackItem;
   i: string;
-  dateAdded: string;
-}> = ({ track, i, dateAdded }) => {
+  added: string;
+  onDelete: (id: string) => void;
+}> = ({ track, i, added, onDelete }) => {
   const [hover, setHover] = React.useState(false);
+
   return (
     <div
       className={`grid grid-cols-6 gap-10 ${
@@ -31,12 +33,12 @@ const TrackCardSortable: React.FC<{
         <TrackInfo track={track} i={i} />
       </div>
       <AlbumInfo
-        id={track.album.id || getIdFromUri(track.album.uri)!}
+        id={track.album.id || getIdFromUri(track.album?.uri)!}
         name={track.album.name}
         i={i}
       />
       <p className="text-center flex justify-center items-center">
-        {dateAdded.split('T')[0]}
+        {added.split('T')[0]}
       </p>
       <div className=" flex items-center justify-center gap-2 relative">
         {hover && <LikeTrack track={track} />}
@@ -47,6 +49,13 @@ const TrackCardSortable: React.FC<{
             className="cursor-pointer text-xl "
           />
         )}
+        <button
+          onClick={() => {
+            onDelete(track.id);
+          }}
+        >
+          delete
+        </button>
       </div>
     </div>
   );

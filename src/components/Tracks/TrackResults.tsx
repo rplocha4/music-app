@@ -16,7 +16,7 @@ const TrackResults: React.FC<{
 }> = ({ tracks, showInfo, start }) => {
   const [openTrackIndex, setOpenTrackIndex] = useState(-1);
   const { data: playlists, refetch } = useGetUserPlaylistsQuery();
-  const [userPlaylists, setUserPlaylists] = useState(playlists?.userPlaylists);
+  const [userPlaylists, setUserPlaylists] = useState(playlists);
   const handleTrackCardClick = (index: number) => {
     setOpenTrackIndex(index === openTrackIndex ? -1 : index);
   };
@@ -24,8 +24,8 @@ const TrackResults: React.FC<{
     setOpenTrackIndex(-1);
   };
   useEffect(() => {
-    setUserPlaylists(playlists?.userPlaylists);
-  }, [playlists?.userPlaylists]);
+    setUserPlaylists(playlists);
+  }, [playlists]);
 
   return (
     <div className="flex flex-col justify-start gap-3 bg-zinc-800 text-white">

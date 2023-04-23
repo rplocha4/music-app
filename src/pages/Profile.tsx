@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Await, defer, useLoaderData } from 'react-router-dom';
 import Loading from '../components/Animate/Loading';
 import { FaUserAlt } from 'react-icons/fa';
@@ -6,12 +6,21 @@ import ArtistsResults from '../components/Artist/ArtistsResults';
 import AlbumResults from '../components/Album/AlbumResults';
 import PlaylistResults from '../components/Playlist/PlaylistResults';
 import { Playlist } from '../types/types';
+import {
+  useFollowArtistMutation,
+  useFollowingPlaylistQuery,
+} from '../store/features/ServerApi';
 function Profile() {
   const data = useLoaderData();
   const { user }: any = data;
   const [loggedInUser, setLoggedInUser] = React.useState(
     localStorage.getItem('USERNAME')
   );
+  const {
+    data: followedPlaylists,
+    refetch,
+    isFetching,
+  } = useFollowingPlaylistQuery('');
 
   return (
     <div>
@@ -67,25 +76,13 @@ function Profile() {
                     </>
                   )}
                 </div>
-                {loadedUser?.user.userPlaylists.length > 0 && (
+                {isFetching ? (
+                  <Loading />
+                ) : (
                   <div className="text-white">
-                    <p className="font-bold text-4xl p-2">
-                      {loadedUser.user.username !== loggedInUser
-                        ? 'Public Playlists'
-                        : 'Yours Playlists'}
-                    </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2 ">
-                      <PlaylistResults
-                        playlists={loadedUser.user.userPlaylists
-                          .map((playlist: Playlist) =>
-                            loadedUser.user.username !== loggedInUser
-                              ? playlist.public
-                                ? playlist
-                                : null
-                              : playlist
-                          )
-                          .filter((playlist: Playlist) => playlist !== null)}
-                      />
+                    <p className="font-bold text-4xl p-2">Liked Playlists</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
+                      <PlaylistResults playlists={followedPlaylists} />
                     </div>
                   </div>
                 )}

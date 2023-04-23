@@ -57,7 +57,7 @@ const LikedSongs = () => {
             </div>
           </div>
 
-          <TrackResultsSortable tracks={data.likedTracks} />
+          <TrackResultsSortable tracks={data.likedTracks} onDelete={() => {}} />
         </>
       )}
     </div>

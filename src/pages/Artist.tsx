@@ -16,9 +16,16 @@ import {
 } from '../store/features/ServerApi';
 import { useDispatch } from 'react-redux';
 import { showInfo } from '../store/uiSlice';
+import ArtistsResults from '../components/Artist/ArtistsResults';
 const Artist = () => {
   const data: any = useLoaderData();
-  const { artist, topTracks, albums: albums, isFollowing } = data;
+  const {
+    artist,
+    topTracks,
+    albums: albums,
+    isFollowing,
+    relatedArtists,
+  } = data;
 
   const [isFollowingState, setIsFollowingState] = React.useState(isFollowing);
   // console.log(artist.images[0].url);
@@ -79,10 +86,8 @@ const Artist = () => {
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 px-2 ">
                   <AlbumResults
                     albums={loadedAlbums.items.reduce((acc: any, curr: any) => {
-                      if (curr.album_type === 'album') {
-                        if (!acc.some((el: any) => el.name === curr.name)) {
-                          acc.push(curr);
-                        }
+                      if (!acc.some((el: any) => el.name === curr.name)) {
+                        acc.push(curr);
                       }
                       return acc;
                     }, [])}
@@ -92,6 +97,22 @@ const Artist = () => {
             );
           }}
         </Await>
+      </React.Suspense>
+      <React.Suspense fallback={<Loading />}>
+        <h1 className="font-bold text-3xl p-3">Related Artists</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
+          <Await resolve={relatedArtists}>
+            {(loadedRelatedArtists: { artists: ArtistT[] }) => {
+              return (
+                <ArtistsResults
+                  artists={loadedRelatedArtists.artists.map(
+                    (artist: any) => artist
+                  )}
+                />
+              );
+            }}
+          </Await>
+        </div>
       </React.Suspense>
     </div>
   );
@@ -141,11 +162,22 @@ export async function loader({ params }: { params: { id?: string } }) {
       },
     }
   );
+  const relatedArtists = fetch(
+    `https://api.spotify.com/v1/artists/${artistId}/related-artists`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+    }
+  );
 
   return defer({
     artist: artist.then((res) => res.json()),
     topTracks: topTracks.then((res) => res.json()),
     albums: albums.then((res) => res.json()),
+    relatedArtists: relatedArtists.then((res) => res.json()),
     isFollowing,
   });
 }

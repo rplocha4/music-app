@@ -8,7 +8,6 @@ import { RiPlayList2Fill } from 'react-icons/ri';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 
-
 const Navbar = () => {
   const [username, setUsername] = React.useState(
     localStorage.getItem('USERNAME')
@@ -30,7 +29,15 @@ const Navbar = () => {
     {
       name: 'Liked Songs',
       path: `/likedSongs/${username}`,
-      icon: <AiFillHeart className="mr-2 bg-red-400 p-0.5" />,
+      icon: (
+        <AiFillHeart
+          style={{
+            background:
+              'linear-gradient(129deg, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)',
+          }}
+          className="mr-2 bg-red-400 p-1"
+        />
+      ),
     },
   ];
   useEffect(() => {

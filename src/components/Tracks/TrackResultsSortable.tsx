@@ -9,7 +9,8 @@ import { usePlaySongsMutation } from '../../store/features/SpotifyApi';
 
 const TrackResultsSortable: React.FC<{
   tracks: { track: TrackItem; added: string }[];
-}> = ({ tracks }) => {
+  onDelete: (id: string) => void;
+}> = ({ tracks, onDelete }) => {
   const [sortedTracks, setSortedTracks] = React.useState(tracks);
   const [songUris, setSongUris] = React.useState<string[]>([]);
 
@@ -23,29 +24,30 @@ const TrackResultsSortable: React.FC<{
     setSongUris(songUris);
   }, [sortedTracks]);
   return (
-    <div className="flex flex-col text-white py-5">
+    <div className="flex flex-col text-white ">
       <BsPlayCircleFill
         className="text-6xl text-green-500 hover:text-green-400 hover:scale-110 hover:cursor-pointer mx-5 mt-5"
-        onClick={() => {
-          playSongs(songUris);
-          dispatch(
-            makeQueue(
-              sortedTracks.map((item: any) => {
-                return {
-                  ...item.track,
-                };
-              })
-            )
-          );
-        }}
+        // onClick={() => {
+        //   playSongs(songUris);
+        //   dispatch(
+        //     makeQueue(
+        //       sortedTracks.map((item: any) => {
+        //         return {
+        //           ...item.track,
+        //         };
+        //       })
+        //     )
+        //   );
+        // }}
       />
       <SortTracks tracks={tracks} onSort={handleSort} />
       {sortedTracks.map((track, i) => (
         <TrackCardSortable
           key={i}
           track={track.track}
-          dateAdded={track.added}
+          added={track.added}
           i={i.toString()}
+          onDelete={(id) => onDelete(id)}
         />
       ))}
     </div>

@@ -96,9 +96,9 @@ const TrackOptions: React.FC<{
                   className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2"
                   key={playlist.id}
                   onClick={() => {
-                    addSongToPlaylist({ playlistId: playlist.id, track })
+                    addSongToPlaylist({ playlistId: playlist._id, track })
                       .unwrap()
-                      .then((res) => {
+                      .then((res: any) => {
                         dispatch(showInfo(res.message));
                       });
 
