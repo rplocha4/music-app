@@ -16,7 +16,7 @@ const PlaylistCard: React.FC<{
       <div className="flex flex-col">
         <p className="whitespace-nowrap overflow-hidden">{name}</p>
         <div className="flex items-center gap-1 font-thin text-gray-300">
-          <p>{author}</p>
+          Created by <p>{author}</p>
         </div>
       </div>
     </Link>

@@ -10,6 +10,7 @@ import {
   useSearchPlaylistQuery,
   useSearchUserQuery,
 } from '../store/features/ServerApi';
+import UserResults from '../components/User/UserResults';
 
 const filters = [
   { name: 'songs' },
@@ -127,6 +128,9 @@ const Search: React.FC = ({}) => {
             )}
             {search && currentFilter === 'playlists' && (
               <PlaylistResults playlists={playlists} />
+            )}
+            {search && currentFilter === 'users' && (
+              <UserResults users={users} />
             )}
           </div>
         </div>

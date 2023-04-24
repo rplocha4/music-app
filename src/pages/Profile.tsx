@@ -29,10 +29,12 @@ function Profile() {
       <React.Suspense fallback={<Loading />}>
         <Await resolve={user}>
           {(loadedUser) => {
+            console.log(loadedUser);
+
             return (
               <>
                 <div className="flex p-5 bg-slate-600">
-                  {loadedUser?.user.image ? (
+                  {loadedUser?.user?.image ? (
                     <img
                       src={loadedUser.user.image}
                       alt=""
@@ -59,9 +61,7 @@ function Profile() {
                 <div className="text-white flex flex-col gap-2">
                   {loadedUser?.user.followingArtists.length > 0 && (
                     <>
-                      <p className="font-bold text-4xl p-2">
-                        Following Artists
-                      </p>
+                      <p className="font-bold text-4xl p-2">Followed Artists</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
                         <ArtistsResults
                           artists={loadedUser.user.followingArtists}
