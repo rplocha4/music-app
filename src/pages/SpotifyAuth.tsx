@@ -1,5 +1,6 @@
-const redirectUri = 'http://localhost:5173';
+import { BsSpotify } from 'react-icons/bs';
 
+const redirectUri = 'http://localhost:5173';
 const client_id = '36308efa2dd24d35a35792a4c4698fda';
 
 const scopses = [
@@ -23,8 +24,12 @@ export const loginUrl = `https://accounts.spotify.com/authorize?client_id=${clie
 )}&response_type=code&show_dialog=true`;
 function SpotifyAuth() {
   return (
-    <div className="flex justify-center items-center h-screen ">
-      <a className="bg-green-400 rounded-xl p-5 text-2xl " href={loginUrl}>
+    <div className="flex flex-col gap-10 justify-center items-center h-screen ">
+      <a
+        className=" text-green-600 font-extrabold rounded-xl p-5 text-2xl flex flex-col gap-10 justify-center items-center"
+        href={loginUrl}
+      >
+        <BsSpotify className="text-9xl " />
         Login with Spotify
       </a>
     </div>

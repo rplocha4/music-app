@@ -40,7 +40,7 @@ export const serverApi = createApi({
       }),
     }),
     getLikedTracks: builder.query({
-      query: () => `likedTracks/${localStorage.getItem('USERNAME')}`,
+      query: (username) => `likedTracks/${username}`,
     }),
     isLikingTrack: builder.query({
       query: (id) => `isLikingTrack/${localStorage.getItem('USERNAME')}/${id}`,

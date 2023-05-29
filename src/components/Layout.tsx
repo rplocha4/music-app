@@ -20,12 +20,19 @@ import Modal from './Playlist/Modal';
 import Login from './auth/Login';
 import Navbar from './Ui/Navbar';
 import Register from './auth/Register';
+import { setUsername } from '../store/userSlice';
 
 const Layout: React.FC<{}> = () => {
   // const accessToken = useAuth(code);
   const navigate = useNavigate();
   const uiState = useSelector((state: any) => state.ui);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (localStorage.getItem('USERNAME')) {
+      dispatch(setUsername(localStorage.getItem('USERNAME')));
+    }
+  }, [localStorage.getItem('USERNAME')]);
 
   useEffect(() => {
     if (!uiState.showInfo || !uiState.message) return;
@@ -36,6 +43,12 @@ const Layout: React.FC<{}> = () => {
       clearTimeout(timeout);
     };
   }, [uiState.showInfo, uiState.message]);
+
+  useEffect(() => {
+    if (window.location.pathname === '/') {
+      navigate('/home');
+    }
+  }, []);
 
   return (
     <div className="flex" style={{ minHeight: '100vh', width: '100%' }}>

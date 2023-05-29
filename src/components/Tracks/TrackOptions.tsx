@@ -19,19 +19,17 @@ const TrackOptions: React.FC<{
 }> = ({ track, userPlaylists, handleClosing }) => {
   const [hoverPlaylist, setHoverPlaylist] = useState(false);
   const ref = useRef<any>(null);
-  const [inQueue, setInQueue] = useState(false);
   const playerSelector = useSelector<RootState, PlayerState>(
     (state) => state.player
   );
+  const { name, uri, duration_ms, album, artists, id } = track;
+
+  const inQueue = playerSelector.queue.containsSong(uri);
+
   const [addSongToPlaylist, resultAddSongToPlaylist] =
     useAddTrackToPlaylistMutation();
-  const { name, uri, duration_ms, album, artists, id } = track;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setInQueue(playerSelector.queue.containsSong(uri));
-  }, [playerSelector.queue]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

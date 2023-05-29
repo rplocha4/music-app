@@ -24,8 +24,6 @@ const TrackResultsSortable: React.FC<{
     setSongUris(songUris);
   }, [sortedTracks]);
 
-  console.log(tracks);
-
   return (
     <div className="flex flex-col text-white ">
       <BsPlayCircleFill

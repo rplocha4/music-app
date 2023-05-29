@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { TrackItem } from '../../types/types';
 import {
   MdOutlineKeyboardArrowDown,
@@ -32,6 +32,50 @@ const optionClasess =
 
 const arrowClasses = 'font-bold text-2xl text-green-600';
 
+const sortTracks = (
+  sortType: string,
+  sortAscending: boolean,
+  tracks: { track: TrackItem; added: string }[]
+) => {
+  const sorted = [...tracks].sort((a, b) => {
+    if (sortType === 'Title') {
+      return sortAscending
+        ? a.track.name.toLowerCase().localeCompare(b.track.name.toLowerCase())
+        : b.track.name.toLowerCase().localeCompare(a.track.name.toLowerCase());
+    }
+    if (sortType === 'Date') {
+      return sortAscending
+        ? a.added.localeCompare(b.added)
+        : b.added.localeCompare(a.added);
+    }
+    if (sortType === 'Album') {
+      return sortAscending
+        ? a.track.album.name
+            .toLowerCase()
+            .localeCompare(b.track.album.name.toLowerCase())
+        : b.track.album.name
+            .toLowerCase()
+            .localeCompare(a.track.album.name.toLowerCase());
+    }
+    if (sortType === 'Duration') {
+      return sortAscending
+        ? a.track.duration_ms - b.track.duration_ms
+        : b.track.duration_ms - a.track.duration_ms;
+    }
+    if (sortType === 'Artist') {
+      return sortAscending
+        ? a.track.artists[0].name
+            .toLowerCase()
+            .localeCompare(b.track.artists[0].name.toLowerCase())
+        : b.track.artists[0].name
+            .toLowerCase()
+            .localeCompare(a.track.artists[0].name.toLowerCase());
+    }
+    return 0;
+  });
+  return sorted;
+};
+
 const SortTracks: React.FC<{
   tracks: { track: TrackItem; added: string }[];
   onSort: (tracks: { track: TrackItem; added: string }[]) => void;
@@ -39,7 +83,11 @@ const SortTracks: React.FC<{
   const [sortAscending, setSortAscending] = React.useState(true);
   const [sortType, setSortType] = React.useState('Date');
   const [hover, setHover] = React.useState(false);
-  const [sortedTracks, setSortedTracks] = React.useState(tracks);
+  const sortedTracks = useMemo(() => {
+    const sorted = sortTracks(sortType, sortAscending, tracks);
+    onSort(sorted);
+    return sorted;
+  }, [sortType, sortAscending, tracks]);
 
   const ref = React.useRef<any>(null);
   useEffect(() => {
@@ -56,92 +104,6 @@ const SortTracks: React.FC<{
     };
   }, [ref]);
 
-  //sort by name, artist, album, date added
-  useEffect(() => {
-    setSortedTracks((prevTracks) => {
-      return [...prevTracks].sort((a, b) => {
-        if (sortType === 'Title') {
-          return sortAscending
-            ? a.track.name
-                .toLowerCase()
-                .localeCompare(b.track.name.toLowerCase())
-            : b.track.name
-                .toLowerCase()
-                .localeCompare(a.track.name.toLowerCase());
-        }
-        if (sortType === 'Date') {
-          return sortAscending
-            ? a.added.localeCompare(b.added)
-            : b.added.localeCompare(a.added);
-        }
-        if (sortType === 'Album') {
-          return sortAscending
-            ? a.track.album.name
-                .toLowerCase()
-                .localeCompare(b.track.album.name.toLowerCase())
-            : b.track.album.name
-                .toLowerCase()
-                .localeCompare(a.track.album.name.toLowerCase());
-        }
-        if (sortType === 'Duration') {
-          return sortAscending
-            ? a.track.duration_ms - b.track.duration_ms
-            : b.track.duration_ms - a.track.duration_ms;
-        }
-        if (sortType === 'Artist') {
-          return sortAscending
-            ? a.track.artists[0].name
-                .toLowerCase()
-                .localeCompare(b.track.artists[0].name.toLowerCase())
-            : b.track.artists[0].name
-                .toLowerCase()
-                .localeCompare(a.track.artists[0].name.toLowerCase());
-        }
-        return 0;
-      });
-    }),
-      // ...tracks.sort((a, b) => {
-      //   if (sortType === 'Title') {
-      //     return sortAscending
-      //       ? a.track.name
-      //           .toLowerCase()
-      //           .localeCompare(b.track.name.toLowerCase())
-      //       : b.track.name
-      //           .toLowerCase()
-      //           .localeCompare(a.track.name.toLowerCase());
-      //   }
-      //   if (sortType === 'Date') {
-      //     return sortAscending
-      //       ? a.added.localeCompare(b.added)
-      //       : b.added.localeCompare(a.added);
-      //   }
-      //   if (sortType === 'Album') {
-      //     return sortAscending
-      //       ? a.track.album.name
-      //           .toLowerCase()
-      //           .localeCompare(b.track.album.name.toLowerCase())
-      //       : b.track.album.name
-      //           .toLowerCase()
-      //           .localeCompare(a.track.album.name.toLowerCase());
-      //   }
-      //   if (sortType === 'Duration') {
-      //     return sortAscending
-      //       ? a.track.duration_ms - b.track.duration_ms
-      //       : b.track.duration_ms - a.track.duration_ms;
-      //   }
-      //   if (sortType === 'Artist') {
-      //     return sortAscending
-      //       ? a.track.artists[0].name
-      //           .toLowerCase()
-      //           .localeCompare(b.track.artists[0].name.toLowerCase())
-      //       : b.track.artists[0].name
-      //           .toLowerCase()
-      //           .localeCompare(a.track.artists[0].name.toLowerCase());
-      //   }
-      //   return 0;
-      // }),
-      onSort(sortedTracks);
-  }, [sortType, sortAscending]);
   return (
     <>
       <div className="self-end mr-10 w-20">

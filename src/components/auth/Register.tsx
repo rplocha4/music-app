@@ -8,6 +8,7 @@ import {
 } from '../../store/uiSlice';
 import { useDispatch } from 'react-redux';
 import useInput from '../../hooks/useInput';
+import { setUsername } from '../../store/userSlice';
 const cookies = new Cookies();
 const isNotEmpty = (value: string) => value.trim() !== '';
 
@@ -72,7 +73,9 @@ const Register = () => {
           localStorage.setItem('TOKEN', data.token);
           localStorage.setItem('USERNAME', data.username);
           localStorage.setItem('ID', data._id);
-          console.log(data._id);
+          dispatch(setUsername(data.username));
+
+          // console.log(data._id);
 
           dispatch(hideRegister());
           dispatch(showInfo(data.message));
@@ -89,7 +92,7 @@ const Register = () => {
     emailReset();
   };
   return (
-    <div className="text-white bg-zinc-950 h-full w-full flex flex-col items-center justify-center gap-10 py-4">
+    <div className="text-white bg-zinc-950 h-full w-full flex flex-col items-center justify-center gap-10 py-4 rounded-md">
       <p
         className={`font-bold ${
           serverError ? 'text-2xl text-red-500' : 'text-4xl text-white'

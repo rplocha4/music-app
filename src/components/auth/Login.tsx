@@ -3,6 +3,7 @@ import Cookies from 'universal-cookie';
 import { hideLogin, showInfo, showRegister } from '../../store/uiSlice';
 import { useDispatch } from 'react-redux';
 import useInput from '../../hooks/useInput';
+import { setUsername } from '../../store/userSlice';
 const cookies = new Cookies();
 const isNotEmpty = (value: string) => value.trim() !== '';
 
@@ -57,9 +58,8 @@ export default function Login() {
           localStorage.setItem('TOKEN', data.token);
           localStorage.setItem('USERNAME', data.username);
           localStorage.setItem('ID', data._id);
+          dispatch(setUsername(data.username));
           dispatch(hideLogin());
-          console.log(data._id);
-
           dispatch(showInfo(data.message));
         } else {
           throw new Error(data.message);
@@ -73,7 +73,7 @@ export default function Login() {
     passwordReset();
   };
   return (
-    <div className="text-white bg-zinc-950 h-full w-full flex flex-col items-center justify-center gap-10 py-4">
+    <div className="text-white bg-zinc-950 h-full w-full flex flex-col items-center justify-center gap-10 py-4 rounded-md">
       <p
         className={`font-bold ${
           serverError ? 'text-2xl text-red-500' : 'text-4xl text-white'

@@ -1,16 +1,23 @@
 import React, { useEffect } from 'react';
-import { Await, defer, useLoaderData } from 'react-router-dom';
+import { Await, defer, useLoaderData, useNavigate } from 'react-router-dom';
 import Loading from '../components/Animate/Loading';
 import TrackResultsSortable from '../components/Tracks/TrackResultsSortable';
 import { RiHeartFill } from 'react-icons/ri';
 import { useGetLikedTracksQuery } from '../store/features/ServerApi';
 import { formatDuration } from '../utils';
+import { useSelector } from 'react-redux';
+import { showInfo } from '../store/uiSlice';
+import { RootState } from '../store/store';
 
 const LikedSongs = () => {
   // const data: any = useLoaderData();
   // const { likedSongs } = data;
-  const { data, isLoading, refetch } = useGetLikedTracksQuery('');
+  const navigate = useNavigate();
+  const { username } = useSelector((state: RootState) => state.user);
+
+  const { data, isLoading, refetch } = useGetLikedTracksQuery(username);
   const [totalDuration, setTotalDuration] = React.useState<number>(0);
+
   useEffect(() => {
     if (data) {
       const totalDuration = data.likedTracks.reduce(
@@ -56,8 +63,12 @@ const LikedSongs = () => {
               </div>
             </div>
           </div>
-
-          <TrackResultsSortable tracks={data.likedTracks} onDelete={() => {}} />
+          {data.likedTracks && data.likedTracks.length !== 0 && (
+            <TrackResultsSortable
+              tracks={data.likedTracks}
+              onDelete={() => {}}
+            />
+          )}
         </>
       )}
     </div>
