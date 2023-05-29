@@ -72,7 +72,7 @@ const LikedSongs = () => {
               </div>
             </div>
           </div>
-          {data.likedTracks && data.likedTracks.length !== 0 && (
+          {data && data.likedTracks.length !== 0 && (
             <TrackResultsSortable
               tracks={data.likedTracks}
               onDelete={() => {}}

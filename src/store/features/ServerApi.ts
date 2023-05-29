@@ -128,6 +128,14 @@ export const serverApi = createApi({
   searchUser: builder.query({
     query: (query) => `searchUser/${query}`,
   }),
+  setProfilePic: builder.mutation({
+    query: (image) => ({
+      url: `upload/${localStorage.getItem('ID')}`,
+      method: 'POST',
+
+      body:  image ,
+    }),
+  }),
 
 
 }),
@@ -157,4 +165,5 @@ export const {
   useLazySearchUserQuery,
   useDeletePlaylistMutation,
   useSearchUserQuery,
+  useSetProfilePicMutation,
 } = serverApi;

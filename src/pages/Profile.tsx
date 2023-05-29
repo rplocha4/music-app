@@ -9,10 +9,19 @@ import { Playlist } from '../types/types';
 import {
   useFollowArtistMutation,
   useFollowingPlaylistQuery,
+  useSetProfilePicMutation,
 } from '../store/features/ServerApi';
+import { useSelector } from 'react-redux';
+import { AiOutlineEdit } from 'react-icons/ai';
 function Profile() {
   const data = useLoaderData();
   const { user }: any = data;
+  const [profileHover, setProfileHover] = React.useState(false);
+  const avatarRef = React.useRef<HTMLInputElement>(null);
+
+  const { username } = useSelector((state: any) => state.user);
+  const isUserPage = true;
+  const [setProfilePic] = useSetProfilePicMutation();
 
   const {
     data: followedPlaylists,
@@ -24,30 +33,72 @@ function Profile() {
     refetchOnFocus: true,
   });
 
+  const updateProfileHandler = (file: File) => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    setProfilePic(formData);
+    // formData.append('user_id', data.data.user_id);
+  };
+
   return (
     <div>
       <React.Suspense fallback={<Loading />}>
         <Await resolve={user}>
           {(loadedUser) => {
+            // console.log(loadedUser.profilePicture);
+
             return (
               <>
-                <div className="flex p-5 bg-slate-600">
-                  {loadedUser.user?.image ? (
-                    <img
-                      src={loadedUser.user.image}
-                      alt=""
-                      style={{
-                        height: '200px',
-                        width: '200px',
-                      }}
-                      className="self-end"
-                    />
-                  ) : (
-                    <FaUserAlt
-                      style={{ width: '200px', height: '200px' }}
-                      className="bg-zinc-400 p-2 rounded-full"
-                    />
-                  )}
+                <div className="flex p-5 bg-slate-600 relative">
+                  <div
+                    className="self-start relative"
+                    onMouseEnter={() => {
+                      setProfileHover(true);
+                    }}
+                    onMouseLeave={() => {
+                      setProfileHover(false);
+                    }}
+                  >
+                    {loadedUser.profilePicture ? (
+                      <img
+                        src={loadedUser.profilePicture}
+                        alt="profile picture"
+                        style={{
+                          height: '200px',
+                          width: '200px',
+                        }}
+                        className="self-end rounded-full"
+                      />
+                    ) : (
+                      <FaUserAlt
+                        style={{ width: '200px', height: '200px' }}
+                        className="bg-zinc-400 p-2 rounded-full"
+                      />
+                    )}
+                    {isUserPage && profileHover && (
+                      <div
+                        className="absolute bg-black opacity-70 top-0 rounded-full flex justify-center items-center text-4xl text-white"
+                        style={{ height: '200px', width: '200px' }}
+                        onClick={() => {
+                          avatarRef.current?.click();
+                        }}
+                      >
+                        <AiOutlineEdit />
+                        <input
+                          type="file"
+                          accept="image/*"
+                          ref={avatarRef}
+                          className="hidden"
+                          onChange={() => {
+                            if (avatarRef.current?.files) {
+                              updateProfileHandler(avatarRef.current.files[0]);
+                            }
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
                   <div className="flex flex-col justify-between ml-5 text-white">
                     <p>Profile</p>
                     <p className="font-bold text-7xl">

@@ -48,7 +48,17 @@ const UserButton: React.FC = ({}) => {
         onClick={() => setIsExpanded((prev) => !prev)}
       >
         <span className="flex justify-center items-center gap-2 ">
-          <FaUserAlt className="bg-slate-500 rounded-full w-8 p-1 h-8" />
+          {localStorage.getItem('avatar') ? (
+            <img
+              src={localStorage.getItem('avatar') as string}
+              alt="profile pic"
+              style={{ height: '50px', width: '50px' }}
+              className="rounded-full"
+            />
+          ) : (
+            <FaUserAlt className="bg-slate-500 rounded-full w-8 p-1 h-8" />
+          )}
+
           {username ? username : 'Login'}
           {isExpanded ? (
             <MdKeyboardArrowUp className="font-bold text-2xl" />
