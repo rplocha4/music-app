@@ -6,8 +6,6 @@ const UserResults: React.FC<{ users: any }> = ({ users }) => {
   return (
     <>
       {users.map((user: any) => {
-        console.log(user);
-
         return (
           <Link
             to={`/user/${user.user.username}`}

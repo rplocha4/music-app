@@ -164,13 +164,20 @@ const Register = () => {
             >
               Register
             </button>
-            <button
-              type="button"
-              className=" bg-white text-black rounded-sm font-bold text-md py-1"
-              onClick={() => dispatch(showLogin())}
-            >
-              Login
-            </button>
+            <div>
+              <p className="text-white">
+                Already have an account?{' '}
+                <span
+                  className="text-blue-500 cursor-pointer"
+                  onClick={() => {
+                    dispatch(hideRegister());
+                    dispatch(showLogin());
+                  }}
+                >
+                  Login
+                </span>
+              </p>
+            </div>
           </div>
         </div>
       </form>

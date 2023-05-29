@@ -92,7 +92,7 @@ const Playlist = () => {
                     deletePlaylist(loadedPlaylist._id)
                       .then((res: any) => {
                         dispatch(showInfo(res.data.message));
-                        navigate(`/user/${localStorage.getItem('USERNAME')}`);
+                        navigate(`/playlists`);
                       })
                       .catch((err) => dispatch(showInfo(res.data.message)));
                   }}

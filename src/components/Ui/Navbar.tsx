@@ -90,9 +90,7 @@ const Navbar = () => {
       <span
         className="mr-2 flex items-center gap-2 cursor-pointer justify-center"
         onClick={() => {
-          localStorage.removeItem('USERNAME');
-          localStorage.removeItem('TOKEN');
-          localStorage.removeItem('ID');
+          localStorage.clear();
           dispatch(setUsername(null));
           navigate('/auth');
         }}

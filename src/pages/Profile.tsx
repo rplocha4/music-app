@@ -46,7 +46,6 @@ function Profile() {
       <React.Suspense fallback={<Loading />}>
         <Await resolve={user}>
           {(loadedUser) => {
-            // console.log(loadedUser.profilePicture);
 
             return (
               <>

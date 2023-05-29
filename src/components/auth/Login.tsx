@@ -129,13 +129,20 @@ export default function Login() {
             >
               Log in
             </button>
-            <button
-              type="button"
-              className=" bg-white text-black rounded-sm font-bold text-md py-1"
-              onClick={() => dispatch(showRegister())}
-            >
-              Register
-            </button>
+            <div>
+              <p className="text-white">
+                Don't have an account?{' '}
+                <span
+                  className="text-blue-500 cursor-pointer"
+                  onClick={() => {
+                    dispatch(hideLogin());
+                    dispatch(showRegister());
+                  }}
+                >
+                  Register
+                </span>
+              </p>
+            </div>
           </div>
         </div>
       </form>

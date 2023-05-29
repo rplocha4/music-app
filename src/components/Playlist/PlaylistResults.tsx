@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import PlaylistCard from './PlaylistCard';
 
 const PlaylistResults: React.FC<{ playlists: any }> = ({ playlists }) => {
-  console.log(playlists);
-
   return (
     <>
       {playlists.map((playlist: any) => {

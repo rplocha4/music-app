@@ -37,6 +37,8 @@ const UserButton: React.FC = ({}) => {
   const logoutHandler = () => {
     localStorage.removeItem('TOKEN');
     localStorage.removeItem('USERNAME');
+    localStorage.removeItem('ID');
+    localStorage.removeItem('avatar');
     navigate('/home');
     dispatch(showInfo('Logged out'));
   };
@@ -52,11 +54,11 @@ const UserButton: React.FC = ({}) => {
             <img
               src={localStorage.getItem('avatar') as string}
               alt="profile pic"
-              style={{ height: '50px', width: '50px' }}
+              style={{ height: '40px', width: '40px' }}
               className="rounded-full"
             />
           ) : (
-            <FaUserAlt className="bg-slate-500 rounded-full w-8 p-1 h-8" />
+            <FaUserAlt className="bg-slate-500 rounded-full w-10 p-1 h-10" />
           )}
 
           {username ? username : 'Login'}
