@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import CreatePlaylist from '../components/Playlist/CreatePlaylist';
-import { Await, Link, defer, useLoaderData } from 'react-router-dom';
+import { Await, Link, Navigate, defer, useLoaderData } from 'react-router-dom';
 import Modal from '../components/Playlist/Modal';
 import Loading from '../components/Animate/Loading';
 import PlaylistResults from '../components/Playlist/PlaylistResults';
 import { useGetUserPlaylistsQuery } from '../store/features/ServerApi';
+import { useSelector } from 'react-redux';
 
 const Playlists = () => {
   const [formIsShown, setFormIsShown] = useState<boolean>(false);
+
+  const { username } = useSelector((state: any) => state.user);
+  if (!username) {
+    return <Navigate to="/" replace />;
+  }
   const { data, refetch, isLoading } = useGetUserPlaylistsQuery();
 
   const handleFormClose = () => {

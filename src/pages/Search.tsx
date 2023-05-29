@@ -7,6 +7,8 @@ import TrackResults from '../components/Tracks/TrackResults';
 
 import { Album, Artist, Playlist, TrackItem } from '../types/types';
 import {
+  useLazySearchPlaylistQuery,
+  useLazySearchUserQuery,
   useSearchPlaylistQuery,
   useSearchUserQuery,
 } from '../store/features/ServerApi';
@@ -29,9 +31,8 @@ const Search: React.FC = ({}) => {
   const [users, setUsers] = useState<any[]>([]);
   const [currentFilter, setCurrentFilter] = useState<string>('songs');
 
-  const { data: dataPlaylist, refetch: refetchPlaylist } =
-    useSearchPlaylistQuery(search);
-  const { data: dataUsers, refetch: refetchUsers } = useSearchUserQuery(search);
+  const [refetchPlaylist] = useLazySearchPlaylistQuery();
+  const [refetchUsers] = useLazySearchUserQuery();
 
   useEffect(() => {
     if (!search) {
@@ -40,7 +41,7 @@ const Search: React.FC = ({}) => {
     }
 
     if (currentFilter === 'playlists') {
-      refetchPlaylist()
+      refetchPlaylist(search)
         .then((res: any) => {
           if (!res.data || res.data.length === 0) setPlaylists([]);
           else setPlaylists(res.data);
@@ -50,17 +51,15 @@ const Search: React.FC = ({}) => {
           console.log(err);
         });
     } else if (currentFilter === 'users') {
-      refetchUsers()
+      refetchUsers(search)
         .then((res: any) => {
           if (!res.data || res.data.length === 0) setUsers([]);
           else {
             setUsers(res.data);
-            console.log(res.data);
           }
         })
         .catch((err: any) => {
           setUsers([]);
-          console.log(err);
         });
     } else
       fetch(

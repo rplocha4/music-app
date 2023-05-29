@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
-import { Await, defer, useLoaderData, useNavigate } from 'react-router-dom';
+import {
+  Await,
+  Navigate,
+  defer,
+  useLoaderData,
+  useNavigate,
+} from 'react-router-dom';
 import Loading from '../components/Animate/Loading';
 import TrackResultsSortable from '../components/Tracks/TrackResultsSortable';
 import { RiHeartFill } from 'react-icons/ri';
@@ -12,10 +18,13 @@ import { RootState } from '../store/store';
 const LikedSongs = () => {
   // const data: any = useLoaderData();
   // const { likedSongs } = data;
-  const navigate = useNavigate();
   const { username } = useSelector((state: RootState) => state.user);
+  if (!username) {
+    return <Navigate to="/" replace />;
+  }
 
-  const { data, isLoading, refetch } = useGetLikedTracksQuery(username);
+  const { data, isLoading, refetch, isError } =
+    useGetLikedTracksQuery(username);
   const [totalDuration, setTotalDuration] = React.useState<number>(0);
 
   useEffect(() => {

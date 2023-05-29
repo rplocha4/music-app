@@ -47,24 +47,46 @@ const Navbar = () => {
   // }, [localStorage.getItem('USERNAME')]);
   return (
     <div className="flex flex-col w-1/6 items-start p-5 gap-7 bg-zinc-900 text-white overflow-y-hidden fixed h-screen text-lg ">
-      {routes.map((route, i) => (
-        <NavLink
-          to={route.path}
-          className={({ isActive, isPending }) =>
-            isPending
-              ? 'text-gray-400'
-              : isActive
-              ? 'text-white font-bold scale-110'
-              : ''
-          }
-          key={route.name}
-        >
-          <span className="flex justify-center items-center">
-            {route.icon}
-            <p>{route.name}</p>
-          </span>
-        </NavLink>
-      ))}
+      {routes.map((route, i) =>
+        route.path.includes('likedSongs') ||
+        route.path.includes('playlists') ? (
+          username !== null && (
+            <NavLink
+              to={route.path}
+              className={({ isActive, isPending }) =>
+                isPending
+                  ? 'text-gray-400'
+                  : isActive
+                  ? 'text-white font-bold scale-110'
+                  : ''
+              }
+              key={route.name}
+            >
+              <span className="flex justify-center items-center">
+                {route.icon}
+                <p>{route.name}</p>
+              </span>
+            </NavLink>
+          )
+        ) : (
+          <NavLink
+            to={route.path}
+            className={({ isActive, isPending }) =>
+              isPending
+                ? 'text-gray-400'
+                : isActive
+                ? 'text-white font-bold scale-110'
+                : ''
+            }
+            key={route.name}
+          >
+            <span className="flex justify-center items-center">
+              {route.icon}
+              <p>{route.name}</p>
+            </span>
+          </NavLink>
+        )
+      )}
       <span
         className="mr-2 flex items-center gap-2 cursor-pointer justify-center"
         onClick={() => {

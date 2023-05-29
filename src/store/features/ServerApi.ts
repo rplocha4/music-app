@@ -153,6 +153,8 @@ export const {
   useIsFollowingPlaylistQuery,
   useGetPlaylistQuery,
   useSearchPlaylistQuery,
+  useLazySearchPlaylistQuery,
+  useLazySearchUserQuery,
   useDeletePlaylistMutation,
   useSearchUserQuery,
 } = serverApi;

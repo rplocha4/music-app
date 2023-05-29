@@ -29,12 +29,10 @@ function Profile() {
       <React.Suspense fallback={<Loading />}>
         <Await resolve={user}>
           {(loadedUser) => {
-            console.log(loadedUser);
-
             return (
               <>
                 <div className="flex p-5 bg-slate-600">
-                  {loadedUser?.user?.image ? (
+                  {loadedUser.user?.image ? (
                     <img
                       src={loadedUser.user.image}
                       alt=""
