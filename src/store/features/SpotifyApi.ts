@@ -94,6 +94,15 @@ export const spotifyApi = createApi({
         },
       }),
     }),
+    getTopTracks: builder.query({
+      query: ({time_range, limit}) => ({
+        url: `me/top/tracks?time_range=${time_range}&limit=${limit}`,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+      }),
+    }),
   }),
 });
 
@@ -107,4 +116,5 @@ export const {
   useSetVolumeMutation,
   usePlayContextMutation,
   useGetArtistInfoQuery,
+  useLazyGetTopTracksQuery,
 } = spotifyApi;

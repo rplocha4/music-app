@@ -7,24 +7,25 @@ import { Reorder, AnimatePresence } from 'framer-motion';
 import { makeQueue } from '../store/playerSlice';
 import { TrackItem } from '../types/types';
 import { useGetUserPlaylistsQuery } from '../store/features/ServerApi';
+import { RootState } from '../store/store';
 const Queue = () => {
-  const playerSelector = useSelector((state: any) => state.player);
-  const [queue, setQueue] = useState<TrackItem[]>(playerSelector.queue.queue);
-  const [current_song, setCurrentSong] = useState<Song>(
-    playerSelector.queue.currentSong || {}
-  );
+  const { queue: q } = useSelector((state: RootState) => state.player);
+  const [queue, setQueue] = useState(q.queue);
+
+  const current_song = q.currentSong as Song;
   const [openTrackIndex, setOpenTrackIndex] = useState(-1);
   const { data: playlists, refetch } = useGetUserPlaylistsQuery();
   const userPlaylists = playlists?.userPlaylists;
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    setCurrentSong(playerSelector.queue.currentSong || {});
-  }, [playerSelector.queue.currentSong]);
 
-  useEffect(() => {
-    setQueue(playerSelector.queue.queue);
-  }, [playerSelector.queue]);
+  // useEffect(() => {
+  //   setCurrentSong(q.currentSong || {});
+  // }, [q.currentSong]);
+
+  // useEffect(() => {
+  //   setQueue(queue.queue);
+  // }, [queue]);
 
   const handleTrackCardClick = (index: number) => {
     setOpenTrackIndex(index === openTrackIndex ? -1 : index);
@@ -40,7 +41,7 @@ const Queue = () => {
     <div className="flex flex-col p-5 gap-2 text-white">
       <h1 className="bold text-3xl">Queue</h1>
       <>
-        {playerSelector.queue.currentSong?.uri && (
+        {q.currentSong?.uri && (
           <h2 className="text-gray-500 text-xl">Now Playing</h2>
         )}
         <div>
@@ -48,18 +49,16 @@ const Queue = () => {
             <TrackResults
               showInfo={false}
               // tracks={[...queue.toArray(queue.head).slice(0, 1)]}
-              tracks={
-                current_song.uri ? [playerSelector.queue.currentSong] : []
-              }
+              tracks={current_song.uri ? [q.currentSong as Song] : []}
             />
           )}
         </div>
-        {!playerSelector.queue.isEmpty() ? (
+        {!q.isEmpty() ? (
           <>
             <h2 className="text-gray-500 text-xl">Up Next</h2>
             <div>
               <Reorder.Group axis="y" values={queue} onReorder={setQueue}>
-                {queue.map((song: TrackItem, index: number) => {
+                {q.queue.map((song: Song, index: number) => {
                   return (
                     <Reorder.Item key={song.id} value={song}>
                       <TrackCard

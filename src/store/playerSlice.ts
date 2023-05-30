@@ -26,6 +26,7 @@ class SongQueue {
 
   public removeSong(song: Song) {
     this.queue = this.queue.filter((s) => s.id !== song.id);
+
   }
   public dequeue() {
     const song = this.queue.shift();
@@ -48,6 +49,8 @@ class SongQueue {
     }
     return song;
   }
+
+
 
 
   public peek() {

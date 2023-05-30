@@ -20,7 +20,7 @@ function Profile() {
   const avatarRef = React.useRef<HTMLInputElement>(null);
 
   const { username } = useSelector((state: any) => state.user);
-  const isUserPage = true;
+  // const isUserPage = true;
   const [setProfilePic] = useSetProfilePicMutation();
 
   const {
@@ -46,10 +46,9 @@ function Profile() {
       <React.Suspense fallback={<Loading />}>
         <Await resolve={user}>
           {(loadedUser) => {
-
             return (
               <>
-                <div className="flex p-5 bg-slate-600 relative">
+                <div className="flex p-5 bg-zinc-700 relative">
                   <div
                     className="self-start relative"
                     onMouseEnter={() => {
@@ -75,7 +74,7 @@ function Profile() {
                         className="bg-zinc-400 p-2 rounded-full"
                       />
                     )}
-                    {isUserPage && profileHover && (
+                    {username === loadedUser.user?.username && profileHover && (
                       <div
                         className="absolute bg-black opacity-70 top-0 rounded-full flex justify-center items-center text-4xl text-white"
                         style={{ height: '200px', width: '200px' }}

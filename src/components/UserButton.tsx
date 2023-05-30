@@ -4,21 +4,17 @@ import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { showInfo, showLogin, showRegister } from '../store/uiSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUsername } from '../store/userSlice';
 const cookies = new Cookies();
 const UserButton: React.FC = ({}) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
   const ref = useRef<any>(null);
-  const [username, setUsername] = useState(localStorage.getItem('USERNAME'));
+  const { username } = useSelector((state: any) => state.user);
   const [token, setToken] = useState(localStorage.getItem('TOKEN'));
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    setUsername(localStorage.getItem('USERNAME'));
-    setToken(localStorage.getItem('TOKEN'));
-  }, [localStorage.getItem('USERNAME'), localStorage.getItem('TOKEN')]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -39,6 +35,7 @@ const UserButton: React.FC = ({}) => {
     localStorage.removeItem('USERNAME');
     localStorage.removeItem('ID');
     localStorage.removeItem('avatar');
+    dispatch(setUsername(null));
     navigate('/home');
     dispatch(showInfo('Logged out'));
   };

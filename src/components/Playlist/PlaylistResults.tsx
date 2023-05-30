@@ -14,7 +14,7 @@ const PlaylistResults: React.FC<{ playlists: any }> = ({ playlists }) => {
               'http://przyjaznycoaching.pl/wp-content/themes/przyjaznycoaching/assets/img/default-image.jpg'
             }
             id={playlist._id}
-            key={playlist.id}
+            key={playlist._id}
           />
         );
       })}

@@ -10,8 +10,14 @@ function Lyricks() {
   const playerSelector = useSelector<RootState, PlayerState>(
     (state) => state.player
   );
-
   const [loading, setLoading] = useState(false);
+
+  if (playerSelector.current_song.name === '')
+    return (
+      <div className="h-full flex justify-center items-center ">
+        <h1 className="text-white text-center text-2xl  ">No song playing</h1>
+      </div>
+    );
 
   useEffect(() => {
     if (playerSelector.current_song.name === '') return;
@@ -70,7 +76,7 @@ function Lyricks() {
           <Loading />
         ) : (
           <div
-            className="text-white text-center text-xl"
+            className="text-white text-center text-2xl"
             dangerouslySetInnerHTML={{ __html: lyricks }}
           ></div>
         ))}

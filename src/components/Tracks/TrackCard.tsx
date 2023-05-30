@@ -10,8 +10,9 @@ import TrackOptions from './TrackOptions';
 import LikeTrack from './LikeTrack';
 import TrackInfo from './TrackInfo';
 import PlayOptions from './PlayOptions';
+import { Song } from '../../store/playerSlice';
 const TrackCard: React.FC<{
-  track: TrackItem;
+  track: TrackItem | Song;
   i: string;
   isOpen?: boolean;
   handleClick?: () => void;
@@ -38,8 +39,8 @@ const TrackCard: React.FC<{
         // title={name}
       >
         <div className={`flex gap-3 items-center col-span-3 `}>
-          <PlayOptions track={track} i={i} hover={hover} />
-          <TrackInfo track={track} i={i} />
+          <PlayOptions track={track as TrackItem} i={i} hover={hover} />
+          <TrackInfo track={track as TrackItem} i={i} />
         </div>
         <AlbumInfo
           id={album.id || getIdFromUri(album.uri)!}
@@ -59,7 +60,7 @@ const TrackCard: React.FC<{
           )}
           {isOpen && (
             <TrackOptions
-              track={track}
+              track={track as TrackItem}
               userPlaylists={userPlaylists}
               handleClosing={handleClosing}
             />

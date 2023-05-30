@@ -10,6 +10,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import { RootState } from '../../store/store';
 import { setUsername } from '../../store/userSlice';
+import { BiRightTopArrowCircle } from 'react-icons/bi';
 
 const Navbar = () => {
   const { username } = useSelector((state: RootState) => state.user);
@@ -27,6 +28,11 @@ const Navbar = () => {
       name: 'Playlists',
       path: '/playlists',
       icon: <RiPlayList2Fill className="mr-2" />,
+    },
+    {
+      name: 'Top Tracks',
+      path: '/top',
+      icon: <BiRightTopArrowCircle className="mr-2" />,
     },
     {
       name: 'Liked Songs',

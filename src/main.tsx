@@ -24,6 +24,7 @@ import SpotifyAuth from './pages/SpotifyAuth';
 import Profile from './pages/Profile';
 import Playlist from './pages/Playlist';
 import LikedSongs from './pages/LikedSongs';
+import TopTracks from './pages/TopTracks';
 
 const router = createBrowserRouter([
   {
@@ -77,6 +78,11 @@ const router = createBrowserRouter([
         path: 'likedSongs/:username',
         element: <LikedSongs />,
         loader: likedSongsLoader,
+      },
+      {
+        path: '/top',
+        element: <TopTracks />,
+        
       },
     ],
   },

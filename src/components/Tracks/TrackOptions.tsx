@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   PlayerState,
   addToQueue,
+  overrideQueue,
   removeFromQueue,
 } from '../../store/playerSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,6 +23,7 @@ const TrackOptions: React.FC<{
   const playerSelector = useSelector<RootState, PlayerState>(
     (state) => state.player
   );
+  const { username } = useSelector((state: RootState) => state.user);
   const { name, uri, duration_ms, album, artists, id } = track;
 
   const inQueue = playerSelector.queue.containsSong(uri);
@@ -67,7 +69,12 @@ const TrackOptions: React.FC<{
           } else {
             dispatch(showInfo(`${name} removed to queue`));
 
-            dispatch(removeFromQueue(track));
+            const newQueue = playerSelector.queue.queue.filter(
+              (song) => song.uri !== uri
+            );
+            dispatch(overrideQueue(newQueue));
+
+            // dispatch(removeFromQueue(track));
           }
           handleClosing!();
         }}
@@ -83,16 +90,19 @@ const TrackOptions: React.FC<{
           setHoverPlaylist(false);
         }}
       >
-        <button className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2">
-          Add to playlist
-        </button>
+        {username && (
+          <button className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2">
+            Add to playlist
+          </button>
+        )}
+
         {hoverPlaylist && (
           <div className="absolute top-0 -left-full bg-zinc-900 rounded-md z-10 flex flex-col justify-center items-center w-48 ">
             {userPlaylists?.map((playlist: any) => {
               return (
                 <button
                   className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2"
-                  key={playlist.id}
+                  key={playlist._id}
                   onClick={() => {
                     addSongToPlaylist({ playlistId: playlist._id, track })
                       .unwrap()

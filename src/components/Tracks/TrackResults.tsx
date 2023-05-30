@@ -10,7 +10,7 @@ import {
 import { TrackItem } from '../../types/types';
 
 const TrackResults: React.FC<{
-  tracks: TrackItem[];
+  tracks: TrackItem[] | Song[];
   showInfo: boolean;
   start?: number;
 }> = ({ tracks, showInfo, start }) => {
