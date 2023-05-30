@@ -40,6 +40,9 @@ const LikeTrack: React.FC<{
       refetchLiked();
     });
   };
+  if (!username) {
+    return null;
+  }
   return (
     <>
       {!likedTrack ? (

@@ -19,13 +19,13 @@ const SongProgress: React.FC = () => {
   const playerSelector = useSelector<RootState, PlayerState>(
     (state) => state.player
   );
-  const { data, status, error, refetch } = useGetSongStateQuery('', {
+  const { data, error, refetch } = useGetSongStateQuery('', {
     pollingInterval: playerSelector.playing ? 1000 : 0,
   });
   const [progress, setProgress] = useState(data?.progress_ms | 0);
-  const [playSong, resultPlay] = usePlaySongsMutation();
+  const [playSong] = usePlaySongsMutation();
 
-  const [seekToPosition, result] = useSeekToPositionMutation();
+  const [seekToPosition] = useSeekToPositionMutation();
 
   useEffect(() => {
     if (!data) return;

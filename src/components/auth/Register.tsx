@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Cookies from 'universal-cookie';
 import {
   hideLogin,
@@ -9,7 +9,6 @@ import {
 import { useDispatch } from 'react-redux';
 import useInput from '../../hooks/useInput';
 import { setUsername } from '../../store/userSlice';
-const cookies = new Cookies();
 const isNotEmpty = (value: string) => value.trim() !== '';
 
 const validEmail = (value: string) =>
@@ -17,6 +16,11 @@ const validEmail = (value: string) =>
 
 const Register = () => {
   const [serverError, setServerError] = React.useState('');
+  const ref = React.useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    ref.current?.focus();
+  }, []);
 
   const {
     value: usernameValue,
@@ -119,6 +123,7 @@ const Register = () => {
                 onChange={emailChangeHandler}
                 onBlur={emailBlurHandler}
                 placeholder="Email"
+                ref={ref}
               />
               {emailHasErrors && (
                 <p className="text-red-500">Enter Valid Email</p>

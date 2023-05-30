@@ -23,6 +23,8 @@ const Album = () => {
   const { album, isAlbumLiked }: { album: AlbumT; isAlbumLiked: boolean } =
     data;
 
+  const { username } = useSelector((state: RootState) => state.user);
+
   const [likeAlbum, likeAlbumResult] = useLikeAlbumMutation();
   const [unlikeAlbum, unlikeAlbumResult] = useUnlikeAlbumMutation();
 
@@ -97,21 +99,22 @@ const Album = () => {
             );
           }}
         />
-        {likedAlbum ? (
-          <BsSuitHeartFill
-            className="text-5xl text-green-600"
-            onClick={() => {
-              unlikeAlbumHandler();
-            }}
-          />
-        ) : (
-          <BsSuitHeart
-            className="text-5xl text-gray-400 hover:text-white "
-            onClick={() => {
-              likeAlbumHandler();
-            }}
-          />
-        )}
+        {username &&
+          (likedAlbum ? (
+            <BsSuitHeartFill
+              className="text-5xl text-green-600"
+              onClick={() => {
+                unlikeAlbumHandler();
+              }}
+            />
+          ) : (
+            <BsSuitHeart
+              className="text-5xl text-gray-400 hover:text-white "
+              onClick={() => {
+                likeAlbumHandler();
+              }}
+            />
+          ))}
       </div>
       <TrackResults
         showInfo={true}

@@ -14,9 +14,10 @@ import {
   useFollowArtistMutation,
   useUnfollowArtistMutation,
 } from '../store/features/ServerApi';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { showInfo } from '../store/uiSlice';
 import ArtistsResults from '../components/Artist/ArtistsResults';
+import { RootState } from '../store/store';
 const Artist = () => {
   const data: any = useLoaderData();
   const {
@@ -26,6 +27,7 @@ const Artist = () => {
     isFollowing,
     relatedArtists,
   } = data;
+  const { username } = useSelector((state: RootState) => state.user);
 
   const [isFollowingState, setIsFollowingState] = React.useState(isFollowing);
   // console.log(artist.images[0].url);
@@ -58,16 +60,18 @@ const Artist = () => {
                   name={loadedArtist.name}
                   img={loadedArtist.images[0].url}
                 />
-                <button
-                  onClick={() =>
-                    !isFollowingState
-                      ? followArtistHandler(loadedArtist)
-                      : unfollowArtistHandler(loadedArtist)
-                  }
-                  className="m-2 p-2 border border-gray-600 hover:border-white rounded-md grow-0"
-                >
-                  {isFollowingState ? 'FOLLOWING' : 'FOLLOW'}
-                </button>
+                {username && (
+                  <button
+                    onClick={() =>
+                      !isFollowingState
+                        ? followArtistHandler(loadedArtist)
+                        : unfollowArtistHandler(loadedArtist)
+                    }
+                    className="m-2 p-2 border border-gray-600 hover:border-white rounded-md grow-0"
+                  >
+                    {isFollowingState ? 'FOLLOWING' : 'FOLLOW'}
+                  </button>
+                )}
               </div>
             );
           }}

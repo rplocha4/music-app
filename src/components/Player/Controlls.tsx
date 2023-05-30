@@ -16,6 +16,7 @@ import {
   useSetResumeMutation,
   useToggleShuffleMutation,
 } from '../../store/features/SpotifyApi';
+import { showInfo } from '../../store/uiSlice';
 
 const Controlls: React.FC = () => {
   const dispatch = useDispatch();
@@ -67,7 +68,7 @@ const Controlls: React.FC = () => {
         onClick={() => {
           !playerSelector.queue.isEmpty()
             ? playSong([playerSelector.queue.dequeue()?.uri])
-            : console.log('no next song');
+            : dispatch(showInfo('Queue is empty'));
         }}
       />
       <FaSyncAlt className="cursor-pointer active:scale-90" />

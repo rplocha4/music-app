@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Cookies from 'universal-cookie';
 import { hideLogin, showInfo, showRegister } from '../../store/uiSlice';
 import { useDispatch } from 'react-redux';
@@ -8,9 +8,11 @@ const cookies = new Cookies();
 const isNotEmpty = (value: string) => value.trim() !== '';
 
 export default function Login() {
-  //   const [username, setUsername] = React.useState('');
-  //   const [password, setPassword] = React.useState('');
   const [serverError, setServerError] = React.useState('');
+  const ref = React.useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    ref.current?.focus();
+  }, []);
 
   const {
     value: usernameValue,
@@ -101,6 +103,7 @@ export default function Login() {
                 onChange={usernameChangeHandler}
                 onBlur={usernameBlurHandler}
                 placeholder="Username"
+                ref={ref}
               />
               {usernameHasErrors && (
                 <p className="text-red-500">Enter Valid Username</p>
