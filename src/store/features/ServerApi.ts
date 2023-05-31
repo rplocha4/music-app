@@ -46,7 +46,7 @@ export const serverApi = createApi({
       query: (id) => `isLikingTrack/${localStorage.getItem('USERNAME')}/${id}`,
     }),
     likeTrack: builder.mutation({
-      query: (track: TrackItem|Song) => ({
+      query: (track: TrackItem | Song) => ({
         url: `likeTrack/${localStorage.getItem('USERNAME')}`,
         method: 'POST',
         body: { track },
@@ -63,12 +63,12 @@ export const serverApi = createApi({
       query: (playlist: {
         name: string;
         description: string;
-        images: [{ url: string}];
+        images: [{ url: string }];
         owner: { display_name: string };
         public: boolean;
         followers: { total: number };
-        tracks: { items: [] , total: number};
-        createdBy:string;
+        tracks: { items: []; total: number };
+        createdBy: string;
         id: string;
       }) => ({
         url: `createPlaylist`,
@@ -76,18 +76,18 @@ export const serverApi = createApi({
         body: { ...playlist },
       }),
     }),
-    getUserPlaylists: builder.query<any,void>({
+    getUserPlaylists: builder.query<any, void>({
       query: () => `getUserPlaylists/${localStorage.getItem('ID')}`,
     }),
     addTrackToPlaylist: builder.mutation({
-      query: ({playlistId,track}) => ({
+      query: ({ playlistId, track }) => ({
         url: `addTrackToPlaylist/${playlistId}`,
         method: 'POST',
         body: { track },
       }),
     }),
     removeTrackFromPlaylist: builder.mutation({
-      query: ({playlistId,trackId}) => ({
+      query: ({ playlistId, trackId }) => ({
         url: `${playlistId}/songs/${trackId}`,
         method: 'delete',
         body: { trackId },
@@ -114,32 +114,44 @@ export const serverApi = createApi({
       query: () => `${localStorage.getItem('ID')}/playlists/following`,
     }),
     isFollowingPlaylist: builder.query({
-      query: (playlistId) => `${localStorage.getItem('ID')}/playlists/${playlistId}/following`,
+      query: (playlistId) =>
+        `${localStorage.getItem('ID')}/playlists/${playlistId}/following`,
     }),
     searchPlaylist: builder.query({
       query: (query) => `searchPlaylists/${query}`,
-  }),
-  deletePlaylist: builder.mutation({
-    query: (playlistId) => ({
-      url: `playlists/${playlistId}`,
-      method: 'delete',
+    }),
+    deletePlaylist: builder.mutation({
+      query: (playlistId) => ({
+        url: `playlists/${playlistId}`,
+        method: 'delete',
+      }),
+    }),
+    searchUser: builder.query({
+      query: (query) => `searchUser/${query}`,
+    }),
+    setProfilePic: builder.mutation({
+      query: (image) => ({
+        url: `upload/${localStorage.getItem('ID')}`,
+        method: 'POST',
+
+        body: image,
+      }),
+    }),
+    followUser: builder.mutation({
+      query: ({ username, user }) => ({
+        url: `followUser/${username}`,
+        method: 'POST',
+        body: { user },
+      }),
+    }),
+    unfollowUser: builder.mutation({
+      query: ({ username, userId }) => ({
+        url: `unfollowUser/${username}`,
+        method: 'POST',
+        body: { userId },
+      }),
     }),
   }),
-  searchUser: builder.query({
-    query: (query) => `searchUser/${query}`,
-  }),
-  setProfilePic: builder.mutation({
-    query: (image) => ({
-      url: `upload/${localStorage.getItem('ID')}`,
-      method: 'POST',
-
-      body:  image ,
-    }),
-  }),
-
-
-}),
-  
 });
 
 export const {
@@ -166,4 +178,6 @@ export const {
   useDeletePlaylistMutation,
   useSearchUserQuery,
   useSetProfilePicMutation,
+  useFollowUserMutation,
+  useUnfollowUserMutation,
 } = serverApi;

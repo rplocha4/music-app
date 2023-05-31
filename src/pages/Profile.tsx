@@ -8,20 +8,30 @@ import PlaylistResults from '../components/Playlist/PlaylistResults';
 import { Playlist } from '../types/types';
 import {
   useFollowArtistMutation,
+  useFollowUserMutation,
   useFollowingPlaylistQuery,
   useSetProfilePicMutation,
+  useUnfollowUserMutation,
 } from '../store/features/ServerApi';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineEdit } from 'react-icons/ai';
+import { showInfo } from '../store/uiSlice';
 function Profile() {
   const data = useLoaderData();
   const { user }: any = data;
+  const { isFollowing }: any = data;
+  const [isFollowingState, setIsFollowingState] = React.useState(isFollowing);
   const [profileHover, setProfileHover] = React.useState(false);
   const avatarRef = React.useRef<HTMLInputElement>(null);
 
   const { username } = useSelector((state: any) => state.user);
+
+  const [followUser] = useFollowUserMutation();
+  const [unfollowUser] = useUnfollowUserMutation();
+
   // const isUserPage = true;
   const [setProfilePic] = useSetProfilePicMutation();
+  const dispatch = useDispatch();
 
   const {
     data: followedPlaylists,
@@ -46,6 +56,8 @@ function Profile() {
       <React.Suspense fallback={<Loading />}>
         <Await resolve={user}>
           {(loadedUser) => {
+            // console.log(loadedUser);
+
             return (
               <>
                 <div className="flex p-5 bg-zinc-700 relative">
@@ -105,6 +117,32 @@ function Profile() {
                     <p>followers</p>
                   </div>
                 </div>
+                {username && username !== loadedUser.user?.username && (
+                  <button
+                    onClick={() => {
+                      if (isFollowingState) {
+                        unfollowUser({
+                          username,
+                          userId: loadedUser.user.id,
+                        }).then((res: any) => {
+                          dispatch(showInfo(res.data.message));
+
+                          setIsFollowingState(false);
+                        });
+                      } else {
+                        followUser({ username, user: loadedUser.user }).then(
+                          (res: any) => {
+                            dispatch(showInfo(res.data.message));
+                            setIsFollowingState(true);
+                          }
+                        );
+                      }
+                    }}
+                    className="m-2 p-2 border border-gray-600 hover:border-white rounded-md grow-0 text-white"
+                  >
+                    {isFollowingState ? 'Unfollow' : 'Follow'}
+                  </button>
+                )}
                 <div className="text-white flex flex-col gap-2">
                   {loadedUser?.user.followingArtists.length > 0 && (
                     <>
@@ -151,7 +189,14 @@ export default Profile;
 export async function loader({ params }: any) {
   const { username } = params;
   const data = fetch(`http://localhost:5000/api/user/${username}`);
+  const res = await fetch(
+    `http://localhost:5000/api/isFollowingUser/${localStorage.getItem(
+      'USERNAME'
+    )}/${username}`
+  );
+  const isFollowing = await res.json();
   return defer({
     user: data.then((res) => res.json()),
+    isFollowing: isFollowing.isFollowing,
   });
 }

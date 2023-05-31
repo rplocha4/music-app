@@ -11,14 +11,14 @@ const ArtistCard: React.FC<{
   return (
     <Link
       to={`/artist/${id}`}
-      className="flex flex-col justify-center  p-5 gap-2  bg-zinc-900 rounded-md hover:bg-zinc-700 cursor-pointer  "
+      className="flex flex-col justify-center gap-2  bg-zinc-900 rounded-md hover:bg-zinc-700 cursor-pointer"
     >
       <img
         src={image}
         alt="artist image"
-        className="rounded-full self-center w-52 h-52 object-cover"
+        className="rounded-full self-center w-52 h-52 object-cover p-3"
       />
-      <div className="">
+      <div className="p-5">
         <p>{name}</p>
         <p className="font-thin text-gray-300">{type}</p>
       </div>

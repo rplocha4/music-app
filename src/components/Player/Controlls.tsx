@@ -24,10 +24,10 @@ const Controlls: React.FC = () => {
     (state) => state.player
   );
 
-  const [setResume, resultResume] = useSetResumeMutation();
-  const [setPause, resultPause] = useSetPauseMutation();
-  const [toggleShuffle, resultToggle] = useToggleShuffleMutation();
-  const [playSong, resultPlay] = usePlaySongsMutation();
+  const [setResume] = useSetResumeMutation();
+  const [setPause] = useSetPauseMutation();
+  const [toggleShuffle] = useToggleShuffleMutation();
+  const [playSong] = usePlaySongsMutation();
 
   return (
     <>
@@ -45,7 +45,7 @@ const Controlls: React.FC = () => {
         onClick={() => {
           !playerSelector.queue.isPreviousEmpty()
             ? playSong([playerSelector.queue.playPrevious()?.uri])
-            : console.log('no previous song');
+            : dispatch(showInfo('No previous song'));
         }}
       />
       {playerSelector.playing ? (
