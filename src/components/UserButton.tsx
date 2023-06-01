@@ -7,12 +7,12 @@ import { showInfo, showLogin, showRegister } from '../store/uiSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsername } from '../store/userSlice';
 import { RootState } from '../store/store';
-const cookies = new Cookies();
 const UserButton: React.FC = ({}) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
   const ref = useRef<any>(null);
   const { username } = useSelector((state: RootState) => state.user);
   const [token, setToken] = useState(localStorage.getItem('TOKEN'));
+  const avatar = localStorage.getItem('avatar');
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -48,9 +48,9 @@ const UserButton: React.FC = ({}) => {
         onClick={() => setIsExpanded((prev) => !prev)}
       >
         <span className="flex justify-center items-center gap-2 ">
-          {localStorage.getItem('avatar') ? (
+          {avatar ? (
             <img
-              src={localStorage.getItem('avatar') as string}
+              src={avatar}
               alt="profile pic"
               style={{ height: '40px', width: '40px' }}
               className="rounded-full"

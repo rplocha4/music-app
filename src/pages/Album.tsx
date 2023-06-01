@@ -57,7 +57,7 @@ const Album = () => {
   };
   const unlikeAlbumHandler = () => {
     setLikedAlbum(false);
-    unlikeAlbum(album.id).then((res: any) => {
+    unlikeAlbum(album).then((res: any) => {
       dispatch(showInfo(res.data.message));
     });
   };

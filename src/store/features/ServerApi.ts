@@ -18,10 +18,10 @@ export const serverApi = createApi({
       }),
     }),
     unfollowArtist: builder.mutation({
-      query: (artistId: string) => ({
+      query: (artist: Artist) => ({
         url: `unfollowArtist/${localStorage.getItem('USERNAME')}`,
         method: 'POST',
-        body: { artistId },
+        body: { artist },
       }),
     }),
 
@@ -33,10 +33,10 @@ export const serverApi = createApi({
       }),
     }),
     unlikeAlbum: builder.mutation({
-      query: (albumId: string) => ({
+      query: (album: Album) => ({
         url: `unlikeAlbum/${localStorage.getItem('USERNAME')}`,
         method: 'POST',
-        body: { albumId },
+        body: { album },
       }),
     }),
     getLikedTracks: builder.query({
@@ -53,10 +53,10 @@ export const serverApi = createApi({
       }),
     }),
     unlikeTrack: builder.mutation({
-      query: (trackId: string) => ({
+      query: (track: TrackItem | Song) => ({
         url: `unlikeTrack/${localStorage.getItem('USERNAME')}`,
         method: 'POST',
-        body: { trackId },
+        body: { track },
       }),
     }),
     createPlaylist: builder.mutation({
@@ -145,10 +145,10 @@ export const serverApi = createApi({
       }),
     }),
     unfollowUser: builder.mutation({
-      query: ({ username, userId }) => ({
+      query: ({ username, user }) => ({
         url: `unfollowUser/${username}`,
         method: 'POST',
-        body: { userId },
+        body: { user },
       }),
     }),
   }),

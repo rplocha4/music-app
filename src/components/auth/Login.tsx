@@ -9,10 +9,7 @@ const isNotEmpty = (value: string) => value.trim() !== '';
 
 export default function Login() {
   const [serverError, setServerError] = React.useState('');
-  const ref = React.useRef<HTMLInputElement>(null);
-  useEffect(() => {
-    ref.current?.focus();
-  }, []);
+
 
   const {
     value: usernameValue,
@@ -103,7 +100,6 @@ export default function Login() {
                 onChange={usernameChangeHandler}
                 onBlur={usernameBlurHandler}
                 placeholder="Username"
-                ref={ref}
               />
               {usernameHasErrors && (
                 <p className="text-red-500">Enter Valid Username</p>

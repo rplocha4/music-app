@@ -15,11 +15,6 @@ const validEmail = (value: string) =>
 
 const Register = () => {
   const [serverError, setServerError] = React.useState('');
-  const ref = React.useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    ref.current?.focus();
-  }, []);
 
   const {
     value: usernameValue,
@@ -122,7 +117,6 @@ const Register = () => {
                 onChange={emailChangeHandler}
                 onBlur={emailBlurHandler}
                 placeholder="Email"
-                ref={ref}
               />
               {emailHasErrors && (
                 <p className="text-red-500">Enter Valid Email</p>

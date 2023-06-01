@@ -138,7 +138,7 @@ function Profile() {
                       if (isFollowingState) {
                         unfollowUser({
                           username,
-                          userId: loadedUser.user.id,
+                          user: loadedUser.user,
                         }).then((res: any) => {
                           dispatch(showInfo(res.data.message));
 

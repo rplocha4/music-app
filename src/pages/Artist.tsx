@@ -36,7 +36,7 @@ const Artist = () => {
   const dispatch = useDispatch();
   const unfollowArtistHandler = (artist: ArtistT) => {
     setIsFollowingState(false);
-    unFollowArtist(artist.id).then((res: any) => {
+    unFollowArtist(artist).then((res: any) => {
       dispatch(showInfo(res.data.message));
     });
   };

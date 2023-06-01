@@ -7,14 +7,17 @@ import { getIdFromUri, millisToMinutesAndSeconds } from '../../utils';
 import { BiTime } from 'react-icons/bi';
 import LikeTrack from './LikeTrack';
 import { BsThreeDots } from 'react-icons/bs';
+import { useSelector } from 'react-redux';
 
 const TrackCardSortable: React.FC<{
   track: TrackItem;
   i: string;
   added: string;
   onDelete: (id: string) => void;
-}> = ({ track, i, added, onDelete }) => {
+  owner?: string;
+}> = ({ track, i, added, onDelete, owner }) => {
   const [hover, setHover] = React.useState(false);
+  const { username } = useSelector((state: any) => state.user);
 
   return (
     <div
@@ -49,13 +52,15 @@ const TrackCardSortable: React.FC<{
             className="cursor-pointer text-xl "
           />
         )}
-        <button
-          onClick={() => {
-            onDelete(track.id);
-          }}
-        >
-          delete
-        </button>
+        {hover && username === owner && (
+          <button
+            onClick={() => {
+              onDelete(track.id);
+            }}
+          >
+            delete
+          </button>
+        )}
       </div>
     </div>
   );

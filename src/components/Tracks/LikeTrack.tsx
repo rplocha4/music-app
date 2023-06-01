@@ -34,7 +34,7 @@ const LikeTrack: React.FC<{
     });
   };
   const unlikeTrack = () => {
-    unlikeSong(track.id).then((res: any) => {
+    unlikeSong(track).then((res: any) => {
       dispatch(showInfo(res.data.message));
       refetch();
       refetchLiked();

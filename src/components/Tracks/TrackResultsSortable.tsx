@@ -10,7 +10,8 @@ import { usePlaySongsMutation } from '../../store/features/SpotifyApi';
 const TrackResultsSortable: React.FC<{
   tracks: { track: TrackItem; added: string }[];
   onDelete: (id: string) => void;
-}> = ({ tracks, onDelete }) => {
+  owner?: string;
+}> = ({ tracks, onDelete, owner }) => {
   const [sortedTracks, setSortedTracks] = React.useState(tracks);
   const [songUris, setSongUris] = React.useState<string[]>([]);
 
@@ -49,6 +50,7 @@ const TrackResultsSortable: React.FC<{
           added={track.added}
           i={i.toString()}
           onDelete={(id) => onDelete(id)}
+          owner={owner}
         />
       ))}
     </div>

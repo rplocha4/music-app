@@ -18,11 +18,11 @@ import {
   useUnfollowPlaylistMutation,
 } from '../store/features/ServerApi';
 import { showInfo } from '../store/uiSlice';
-import { useDispatch } from 'react-redux';
-const cookies = new Cookies();
+import { useDispatch, useSelector } from 'react-redux';
 const Playlist = () => {
   const data: any = useLoaderData();
   const { playlist, id } = data;
+  const { username } = useSelector((state: any) => state.user);
   const [deleteSong, res] = useRemoveTrackFromPlaylistMutation();
   const [followPlaylist, followPlaylistResult] = useFollowPlaylistMutation();
   const [unFollowPlaylist, unFollowPlaylistResult] =
@@ -59,7 +59,7 @@ const Playlist = () => {
                       </Link>
                     </span>
                     <p className="font-extrabold">·</p>
-                    <span>{loadedPlaylist.followers.total} followers</span>
+                    <span>{loadedPlaylist.followers.total} likes</span>
                     <p className="font-extrabold">·</p>
                     <span>{loadedPlaylist.tracks.total} songs</span>
                   </div>
@@ -87,22 +87,26 @@ const Playlist = () => {
                   {isFollowingData?.isFollowing ? 'Following' : 'Follow'}
                 </button>
               ) : (
-                <button
-                  onClick={() => {
-                    deletePlaylist(loadedPlaylist._id)
-                      .then((res: any) => {
-                        dispatch(showInfo(res.data.message));
-                        navigate(`/playlists`);
-                      })
-                      .catch((err) => dispatch(showInfo(res.data.message)));
-                  }}
-                >
-                  Delete
-                </button>
+                username === loadedPlaylist.owner.display_name && (
+                  <button
+                    onClick={() => {
+                      deletePlaylist(loadedPlaylist._id)
+                        .then((res: any) => {
+                          dispatch(showInfo(res.data.message));
+                          navigate(`/playlists`);
+                        })
+                        .catch((err) => dispatch(showInfo(res.data.message)));
+                    }}
+                    className=" w-32 p-2 border border-gray-600 text-red-600 hover:border-white rounded-md grow-0"
+                  >
+                    Delete playlist
+                  </button>
+                )
               )}
 
               <TrackResultsSortable
                 tracks={loadedPlaylist.tracks.items}
+                owner={loadedPlaylist.owner.display_name}
                 onDelete={(id) =>
                   deleteSong({
                     playlistId: loadedPlaylist._id,

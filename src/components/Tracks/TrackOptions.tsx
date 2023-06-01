@@ -66,7 +66,7 @@ const TrackOptions: React.FC<{
                 id: getIdFromUri(uri),
               })
             );
-          } else {
+            } else {
             dispatch(showInfo(`${name} removed to queue`));
 
             const newQueue = playerSelector.queue.queue.filter(
