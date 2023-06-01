@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import Cookies from 'universal-cookie';
 import {
   hideLogin,
   hideRegister,

@@ -1,10 +1,11 @@
 import React from 'react';
 import ArtistCard from './ArtistCard';
+import { Artist } from '../../types/types';
 
-const ArtistsResults: React.FC<{ artists: any }> = ({ artists }) => {
+const ArtistsResults: React.FC<{ artists: Artist[] }> = ({ artists }) => {
   return (
     <>
-      {artists.map((artist: any) => {
+      {artists.map((artist: Artist) => {
         return (
           <ArtistCard
             image={

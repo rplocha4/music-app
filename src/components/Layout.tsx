@@ -21,11 +21,12 @@ import Login from './auth/Login';
 import Navbar from './Ui/Navbar';
 import Register from './auth/Register';
 import { setUsername } from '../store/userSlice';
+import { RootState } from '../store/store';
 
 const Layout: React.FC<{}> = () => {
   // const accessToken = useAuth(code);
   const navigate = useNavigate();
-  const uiState = useSelector((state: any) => state.ui);
+  const uiState = useSelector((state: RootState) => state.ui);
   const dispatch = useDispatch();
 
   useEffect(() => {

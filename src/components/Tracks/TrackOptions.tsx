@@ -7,14 +7,14 @@ import {
 } from '../../store/playerSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAddTrackToPlaylistMutation } from '../../store/features/ServerApi';
-import { TrackItem } from '../../types/types';
+import { Playlist, TrackItem } from '../../types/types';
 import { getIdFromUri } from '../../utils';
 import { RootState } from '../../store/store';
 import { showInfo } from '../../store/uiSlice';
 import { useNavigate } from 'react-router-dom';
 
 const TrackOptions: React.FC<{
-  userPlaylists: any;
+  userPlaylists: Playlist[];
   handleClosing?: () => void;
   track: TrackItem;
 }> = ({ track, userPlaylists, handleClosing }) => {
@@ -98,7 +98,7 @@ const TrackOptions: React.FC<{
 
         {hoverPlaylist && (
           <div className="absolute top-0 -left-full bg-zinc-900 rounded-md z-10 flex flex-col justify-center items-center w-48 ">
-            {userPlaylists?.map((playlist: any) => {
+            {userPlaylists?.map((playlist: Playlist) => {
               return (
                 <button
                   className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2"

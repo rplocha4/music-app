@@ -15,7 +15,8 @@ import {
 } from '../store/features/ServerApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineEdit } from 'react-icons/ai';
-import { showInfo } from '../store/uiSlice';
+import { hideInfo, showInfo } from '../store/uiSlice';
+import UserResults from '../components/User/UserResults';
 function Profile() {
   const data = useLoaderData();
   const { user }: any = data;
@@ -46,8 +47,17 @@ function Profile() {
   const updateProfileHandler = (file: File) => {
     const formData = new FormData();
     formData.append('image', file);
+    localStorage.setItem('avatar', URL.createObjectURL(file));
 
-    setProfilePic(formData);
+    setProfilePic(formData).then((res: any) => {
+      dispatch(showInfo(res.data.message));
+      window.location.reload();
+
+      setTimeout(() => {
+        dispatch(hideInfo());
+      }, 3000);
+    });
+
     // formData.append('user_id', data.data.user_id);
   };
 
@@ -114,7 +124,12 @@ function Profile() {
                     <p className="font-bold text-7xl">
                       {loadedUser?.user.username}
                     </p>
-                    <p>followers</p>
+                    <div className="flex gap-1 items-center font-semibold">
+                      <p>{loadedUser?.user.followers.length} followers</p>
+                      <p className="font-extrabold">·</p>
+
+                      <p>{loadedUser?.user.followingUsers.length} following</p>
+                    </div>
                   </div>
                 </div>
                 {username && username !== loadedUser.user?.username && (
@@ -143,37 +158,61 @@ function Profile() {
                     {isFollowingState ? 'Unfollow' : 'Follow'}
                   </button>
                 )}
-                <div className="text-white flex flex-col gap-2">
-                  {loadedUser?.user.followingArtists.length > 0 && (
+                {/* 
+                <div className="text-white">
+                  {loadedUser?.user.followingUsers.length > 0 && (
                     <>
-                      <p className="font-bold text-4xl p-2">Followed Artists</p>
+                      <p className="font-bold text-4xl p-2">Followed Users</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
-                        <ArtistsResults
-                          artists={loadedUser.user.followingArtists}
+                        <UserResults
+                          users={loadedUser.user.followingUsers.map(
+                            (user: any) => {
+                              return {
+                                user,
+                                profilePicture: user.profilePicture,
+                              };
+                            }
+                          )}
                         />
                       </div>
                     </>
                   )}
-                  {loadedUser?.user.likedAlbums.length > 0 && (
-                    <>
-                      <p className="font-bold text-4xl p-2">Liked Albums</p>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
-                        <AlbumResults albums={loadedUser.user.likedAlbums} />
-                      </div>
-                    </>
-                  )}
+                </div> */}
+
+                <div className="text-white flex flex-col gap-2">
+                  <p className="font-bold text-4xl p-2">Followed Artists</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
+                    {loadedUser?.user.followingArtists.length > 0 ? (
+                      <ArtistsResults
+                        artists={loadedUser.user.followingArtists}
+                      />
+                    ) : (
+                      <p>No followed artists by {loadedUser.user.username}</p>
+                    )}
+                  </div>
+
+                  <p className="font-bold text-4xl p-2">Liked Albums</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
+                    {loadedUser?.user.likedAlbums.length > 0 ? (
+                      <AlbumResults albums={loadedUser.user.likedAlbums} />
+                    ) : (
+                      <p>No liked albums by {loadedUser.user.username}</p>
+                    )}
+                  </div>
                 </div>
                 {isFetching ? (
                   <Loading />
                 ) : (
-                  followedPlaylists?.length > 0 && (
-                    <div className="text-white">
-                      <p className="font-bold text-4xl p-2">Liked Playlists</p>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
+                  <div className="text-white">
+                    <p className="font-bold text-4xl p-2">Liked Playlists</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
+                      {loadedUser?.user.likedPlaylists.length > 0 ? (
                         <PlaylistResults playlists={followedPlaylists} />
-                      </div>
+                      ) : (
+                        <p>No liked playlists by {loadedUser.user.username}</p>
+                      )}
                     </div>
-                  )
+                  </div>
                 )}
               </>
             );

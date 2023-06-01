@@ -21,7 +21,6 @@ function TopTracks() {
   React.useEffect(() => {
     setLoading(true);
     getTopTracks({ time_range, limit }).then((res) => {
-
       setTracks(res.data.items);
       setLoading(false);
     });
@@ -31,7 +30,12 @@ function TopTracks() {
     <div>
       <div>
         <h1 className="text-4xl font-bold p-3 mb-5 text-white">
-          Your Top Tracks
+          Your most listen tracks{' '}
+          {time_range === 'short_term'
+            ? 'in the last month'
+            : time_range === 'medium_term'
+            ? 'in the last 6 months'
+            : 'of all time'}
         </h1>
 
         <div className="flex flex-row gap-5 p-5">

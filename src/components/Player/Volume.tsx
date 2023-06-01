@@ -22,8 +22,7 @@ const Volume: React.FC = () => {
 
   return (
     <>
-
-      {playerSelector.volume < 1 ? (
+      {playerSelector.volume < 0.1 ? (
         <BsFillVolumeMuteFill
           onClick={() => {
             setVolume(prevVolume);
@@ -32,7 +31,7 @@ const Volume: React.FC = () => {
           }}
           className="cursor-pointer active:scale-90"
         />
-      ) : playerSelector.volume < 50 ? (
+      ) : playerSelector.volume < 0.5 ? (
         <BsVolumeDownFill
           onClick={() => {
             setPrevVolume(playerSelector.volume);
@@ -47,7 +46,6 @@ const Volume: React.FC = () => {
           onClick={() => {
             setPrevVolume(playerSelector.volume);
             dispatch(updateVolume(0));
-
             setVolume(0);
           }}
           className="cursor-pointer active:scale-90"
@@ -59,7 +57,7 @@ const Volume: React.FC = () => {
         type="range"
         min={0}
         max={100}
-        step={1}
+        step={2}
         value={playerSelector.volume}
         onChange={(event) => {
           setVolume(event.target.value);

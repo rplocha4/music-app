@@ -93,4 +93,5 @@ export type Playlist = {
   followers: { total: number };
   public: boolean;
   id: string;
+  _id?: string;
 };

@@ -56,6 +56,7 @@ const Search: React.FC = ({}) => {
           if (!res.data || res.data.length === 0) setUsers([]);
           else {
             setUsers(res.data);
+            console.log(res.data);
           }
         })
         .catch((err: any) => {

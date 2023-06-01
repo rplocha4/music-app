@@ -6,11 +6,12 @@ import Cookies from 'universal-cookie';
 import { showInfo, showLogin, showRegister } from '../store/uiSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsername } from '../store/userSlice';
+import { RootState } from '../store/store';
 const cookies = new Cookies();
 const UserButton: React.FC = ({}) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
   const ref = useRef<any>(null);
-  const { username } = useSelector((state: any) => state.user);
+  const { username } = useSelector((state: RootState) => state.user);
   const [token, setToken] = useState(localStorage.getItem('TOKEN'));
 
   const navigate = useNavigate();

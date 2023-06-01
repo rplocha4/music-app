@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import PlaylistCard from './PlaylistCard';
+import { Playlist } from '../../types/types';
 
-const PlaylistResults: React.FC<{ playlists: any }> = ({ playlists }) => {
+const PlaylistResults: React.FC<{ playlists: Playlist[] }> = ({
+  playlists,
+}) => {
   return (
     <>
-      {playlists.map((playlist: any) => {
+      {playlists.map((playlist: Playlist) => {
         return (
           <PlaylistCard
             name={playlist.name}

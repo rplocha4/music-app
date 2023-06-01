@@ -9,7 +9,7 @@ import { PlayerState, makeQueue } from '../store/playerSlice';
 import { RootState } from '../store/store';
 import AlbumResults from '../components/Album/AlbumResults';
 import { BsSuitHeartFill, BsSuitHeart } from 'react-icons/bs';
-import { Album as AlbumT } from '../types/types';
+import { Album as AlbumT, TrackItem } from '../types/types';
 import {
   useLikeAlbumMutation,
   useUnlikeAlbumMutation,
@@ -29,9 +29,9 @@ const Album = () => {
   const [unlikeAlbum, unlikeAlbumResult] = useUnlikeAlbumMutation();
 
   const artistAlbums = data.artistAlbums?.items // get only type album and remove duplicates
-    .filter((item: any) => item.id !== album.id)
-    .reduce((acc: any, item: any) => {
-      if (!acc.find((i: any) => i.name === item.name)) {
+    .filter((item: AlbumT) => item.id !== album.id)
+    .reduce((acc: AlbumT[], item: AlbumT) => {
+      if (!acc.find((i: AlbumT) => i.name === item.name)) {
         acc.push(item);
       }
       return acc;
@@ -40,7 +40,7 @@ const Album = () => {
   const [likedAlbum, setLikedAlbum] = useState(isAlbumLiked);
 
   const totalDuration = album.tracks.items.reduce(
-    (acc: number, item: any) => acc + item.duration_ms,
+    (acc: number, item: TrackItem) => acc + item.duration_ms,
     0
   );
 
@@ -85,7 +85,7 @@ const Album = () => {
 
             dispatch(
               makeQueue(
-                album.tracks.items.map((item: any) => {
+                album.tracks.items.map((item: TrackItem) => {
                   return {
                     ...item,
                     album: {

@@ -1,10 +1,11 @@
 import React from 'react';
 import AlbumCard from './AlbumCard';
+import { Album } from '../../types/types';
 
-const AlbumResults: React.FC<{ albums: any }> = ({ albums }) => {
+const AlbumResults: React.FC<{ albums: Album[] }> = ({ albums }) => {
   return (
     <>
-      {albums.map((album: any, i: number) => {
+      {albums.map((album: Album, i: number) => {
         return (
           <AlbumCard
             name={album.name}

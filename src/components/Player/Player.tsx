@@ -53,7 +53,7 @@ const Player: React.FC = () => {
         getOAuthToken: (cb) => {
           cb(accessToken);
         },
-        volume: 0.3,
+        volume: 0.5,
       });
 
       player.addListener('ready', ({ device_id }) => {
@@ -92,7 +92,11 @@ const Player: React.FC = () => {
         //   // !state ? setActive(false) : setActive(true);
         // });
       });
+
       player.connect();
+    };
+    return () => {
+      document.body.removeChild(script);
     };
   }, [accessToken]);
 
