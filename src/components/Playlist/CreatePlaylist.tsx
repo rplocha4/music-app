@@ -61,7 +61,6 @@ const CreatePlaylist: React.FC<{
       createdBy: localStorage.getItem('ID')!,
       id: uuid(),
     }).then((res: any) => {
-
       dispatch(showInfo(res.data.message));
       onCreated();
     });
@@ -76,6 +75,13 @@ const CreatePlaylist: React.FC<{
 
   return (
     <div className="flex flex-col justify-center p-10 items-center h-full text-white">
+      <h1
+        className="
+      text-4xl font-bold
+      "
+      >
+        Create Playlist
+      </h1>
       <form
         action=""
         onSubmit={sumbitFormHandler}
@@ -125,7 +131,7 @@ const CreatePlaylist: React.FC<{
             <p className={`${invalid}`}>Enter Valid Playlist Cover</p>
           )}
         </div>
-        <div className="flex self-start gap-2">
+        <div className="flex self-start gap-2 items-center">
           <label htmlFor="public">Private ? </label>
           <input
             type="checkbox"

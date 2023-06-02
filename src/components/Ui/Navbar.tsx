@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { AiFillHeart } from 'react-icons/ai';
+import { AiFillHeart, AiOutlineRollback } from 'react-icons/ai';
 import { BsSearch } from 'react-icons/bs';
 import { FiHome } from 'react-icons/fi';
 import { IoLogOutOutline } from 'react-icons/io5';
@@ -34,6 +34,11 @@ const Navbar = () => {
       path: '/top',
       icon: <BiRightTopArrowCircle className="mr-2" />,
     },
+    // {
+    //   name: 'Recently Played',
+    //   path: '/recently-played',
+    //   icon: <AiOutlineRollback className="mr-2" />,
+    // },
     {
       name: 'Liked Songs',
       path: `/likedSongs/${username}`,

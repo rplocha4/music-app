@@ -30,8 +30,13 @@ const Player: React.FC = () => {
   const [device_id, setDeviceId] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
   const [hovering, setHovering] = useState(false);
+  const [player, setPlayer] = useState<Spotify.Player>();
 
   const dispatch = useDispatch();
+
+  const setVolumeHandler = (volume: number) => {
+    player?.setVolume(volume);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -53,8 +58,10 @@ const Player: React.FC = () => {
         getOAuthToken: (cb) => {
           cb(accessToken);
         },
-        volume: 0.5,
+        volume: 0.3,
       });
+      player && setPlayer(player);
+      console.log(player);
 
       player.addListener('ready', ({ device_id }) => {
         console.log('Ready with Device ID', device_id);
@@ -196,7 +203,7 @@ const Player: React.FC = () => {
         >
           <TbMicrophone2 className="cursor-pointer active:scale-90" />
         </NavLink>
-        <Volume />
+        <Volume onSetVolume={setVolumeHandler} />
       </div>
     </div>
   );

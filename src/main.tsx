@@ -25,6 +25,7 @@ import Profile from './pages/Profile';
 import Playlist from './pages/Playlist';
 import LikedSongs from './pages/LikedSongs';
 import TopTracks from './pages/TopTracks';
+import RecentlyPlayed from './pages/RecentlyPlayed';
 
 const router = createBrowserRouter([
   {
@@ -82,7 +83,14 @@ const router = createBrowserRouter([
       {
         path: '/top',
         element: <TopTracks />,
-        
+      },
+      {
+        path: '*',
+        element: <ErrorPage />,
+      },
+      {
+        path: '/recently-played',
+        element: <RecentlyPlayed />,
       },
     ],
   },

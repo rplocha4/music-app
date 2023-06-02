@@ -1,7 +1,7 @@
 import { BsSpotify } from 'react-icons/bs';
 
 const redirectUri = 'http://localhost:5173';
-const client_id = '36308efa2dd24d35a35792a4c4698fda';
+const client_id = 'fed249ef83ac4c5e8259bf7f8ffff291';
 
 const scopses = [
   'user-top-read',

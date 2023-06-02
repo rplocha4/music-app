@@ -80,6 +80,7 @@ export const spotifyApi = createApi({
         )}`,
         method: 'PUT',
         headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
           
         },
@@ -103,6 +104,15 @@ export const spotifyApi = createApi({
         },
       }),
     }),
+    getRecentlyPlayed: builder.query({
+      query: (limit) => ({
+        url: `me/player/recently-played?limit=${limit}`,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+      }),
+    }),
   }),
 });
 
@@ -117,4 +127,5 @@ export const {
   usePlayContextMutation,
   useGetArtistInfoQuery,
   useLazyGetTopTracksQuery,
+  useLazyGetRecentlyPlayedQuery,
 } = spotifyApi;

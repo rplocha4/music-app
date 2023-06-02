@@ -87,7 +87,7 @@ export interface PlayerState {
 
 const initialState: PlayerState = {
   playing: false,
-  volume: 30,
+  volume: 0.3,
   shuffle: false,
   current_song: {
     id: '',

@@ -11,7 +11,9 @@ import { RootState } from '../../store/store';
 import { useSetVolumeMutation } from '../../store/features/SpotifyApi';
 import { Link } from 'react-router-dom';
 
-const Volume: React.FC = () => {
+const Volume: React.FC<{
+  onSetVolume: (volume: number) => void;
+}> = ({ onSetVolume }) => {
   const playerSelector = useSelector<RootState, PlayerState>(
     (state) => state.player
   );
@@ -22,11 +24,13 @@ const Volume: React.FC = () => {
 
   return (
     <>
-      {playerSelector.volume < 0.1 ? (
+      {playerSelector.volume ==  0.0 ? (
         <BsFillVolumeMuteFill
           onClick={() => {
-            setVolume(prevVolume);
+            // setVolume(prevVolume).catch((err) => console.log(err));
+
             setPrevVolume(playerSelector.volume);
+            onSetVolume(prevVolume);
             dispatch(updateVolume(prevVolume));
           }}
           className="cursor-pointer active:scale-90"
@@ -36,8 +40,9 @@ const Volume: React.FC = () => {
           onClick={() => {
             setPrevVolume(playerSelector.volume);
             dispatch(updateVolume(0));
+            onSetVolume(0);
 
-            setVolume(0);
+            // setVolume(0).catch((err) => console.log(err));
           }}
           className="cursor-pointer active:scale-90"
         />
@@ -45,22 +50,24 @@ const Volume: React.FC = () => {
         <BsFillVolumeUpFill
           onClick={() => {
             setPrevVolume(playerSelector.volume);
+            onSetVolume(0);
             dispatch(updateVolume(0));
-            setVolume(0);
+            // setVolume(0).catch((err) => console.log(err));
           }}
           className="cursor-pointer active:scale-90"
         />
       )}
 
       <input
-        title={`${playerSelector.volume}`}
+        title={`${playerSelector.volume * 100}`}
         type="range"
         min={0}
-        max={100}
-        step={2}
+        max={1}
+        step={0.05}
         value={playerSelector.volume}
         onChange={(event) => {
-          setVolume(event.target.value);
+          // setVolume(event.target.value);
+          onSetVolume(+event.target.value);
           dispatch(updateVolume(event.target.value));
         }}
         className="accent-white  h-1 range-sm outline-none"

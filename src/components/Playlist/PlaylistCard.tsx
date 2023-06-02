@@ -12,7 +12,11 @@ const PlaylistCard: React.FC<{
       to={`/playlist/${id}`}
       className="flex flex-col gap-2 p-5 bg-zinc-900 hover:bg-zinc-700 cursor-pointer rounded-md"
     >
-      <img src={image} alt="album image" className="rounded-md w-52 h-52" />
+      <img
+        src={image}
+        alt="album image"
+        className="rounded-md w-full h-full "
+      />
       <div className="flex flex-col">
         <p className="whitespace-nowrap overflow-hidden">{name}</p>
         <div className="flex items-center gap-1 font-thin text-gray-300">
