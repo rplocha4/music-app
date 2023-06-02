@@ -26,7 +26,7 @@ const PlayOptions: React.FC<{
     (state) => state.player
   );
   return (
-    <div className={`flex justify-center items-center w-10  `}>
+    <div className={`flex w-10 items-center justify-center  `}>
       {hover ? (
         uri &&
         uri === playerSelector.current_song.uri &&
@@ -49,7 +49,8 @@ const PlayOptions: React.FC<{
             }}
           />
         )
-      ) :  i !== '#' && uri &&
+      ) : i !== '#' &&
+        uri &&
         uri === playerSelector.current_song.uri &&
         playerSelector.playing ? (
         <SongAnimation />

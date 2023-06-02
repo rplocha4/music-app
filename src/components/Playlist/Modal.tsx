@@ -4,7 +4,7 @@ const Backdrop: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   return (
     <div
       onClick={onClose}
-      className="fixed top-0 left-0 w-full h-screen z-20 bg-black opacity-75"
+      className="fixed left-0 top-0 z-20 h-screen w-full bg-black opacity-75"
     ></div>
   );
 };
@@ -13,7 +13,7 @@ const ModalOverlay: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   return (
     <div
-      className={`${classes.animate} fixed left-1/4 top-24 w-3/6 h-auto bg-zinc-900 p-2 rounded-xl z-30 shadow-lg `}
+      className={`${classes.animate} fixed left-1/4 top-24 z-30 h-auto w-3/6 rounded-xl bg-zinc-900 p-2 shadow-lg `}
     >
       {children}
     </div>

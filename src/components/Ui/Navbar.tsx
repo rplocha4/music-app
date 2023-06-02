@@ -57,7 +57,7 @@ const Navbar = () => {
   //   setUsername(localStorage.getItem('USERNAME'));
   // }, [localStorage.getItem('USERNAME')]);
   return (
-    <div className="flex flex-col w-1/6 items-start p-5 gap-7 bg-zinc-900 text-white overflow-y-hidden fixed h-screen text-lg ">
+    <div className="fixed flex h-screen w-1/6 flex-col items-start gap-7 overflow-y-hidden bg-zinc-900 p-5 text-lg text-white ">
       {routes.map((route, i) =>
         route.path.includes('likedSongs') ||
         route.path.includes('playlists') ? (
@@ -68,12 +68,12 @@ const Navbar = () => {
                 isPending
                   ? 'text-gray-400'
                   : isActive
-                  ? 'text-white font-bold scale-110'
+                  ? 'scale-110 font-bold text-white'
                   : ''
               }
               key={route.name}
             >
-              <span className="flex justify-center items-center">
+              <span className="flex items-center justify-center">
                 {route.icon}
                 <p>{route.name}</p>
               </span>
@@ -86,12 +86,12 @@ const Navbar = () => {
               isPending
                 ? 'text-gray-400'
                 : isActive
-                ? 'text-white font-bold scale-110'
+                ? 'scale-110 font-bold text-white'
                 : ''
             }
             key={route.name}
           >
-            <span className="flex justify-center items-center">
+            <span className="flex items-center justify-center">
               {route.icon}
               <p>{route.name}</p>
             </span>
@@ -99,7 +99,7 @@ const Navbar = () => {
         )
       )}
       <span
-        className="mr-2 flex items-center gap-2 cursor-pointer justify-center"
+        className="mr-2 flex cursor-pointer items-center justify-center gap-2"
         onClick={() => {
           localStorage.clear();
           dispatch(setUsername(null));

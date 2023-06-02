@@ -38,11 +38,11 @@ const Queue = () => {
   }, [queue]);
 
   return (
-    <div className="flex flex-col p-5 gap-2 text-white">
+    <div className="flex flex-col gap-2 p-5 text-white">
       <h1 className="bold text-3xl">Queue</h1>
       <>
         {q.currentSong?.uri && (
-          <h2 className="text-gray-500 text-xl">Now Playing</h2>
+          <h2 className="text-xl text-gray-500">Now Playing</h2>
         )}
         <div>
           {current_song?.name && (
@@ -55,7 +55,7 @@ const Queue = () => {
         </div>
         {!q.isEmpty() ? (
           <>
-            <h2 className="text-gray-500 text-xl">Up Next</h2>
+            <h2 className="text-xl text-gray-500">Up Next</h2>
             <div>
               <Reorder.Group axis="y" values={queue} onReorder={setQueue}>
                 {q.queue.map((song: Song, index: number) => {
@@ -83,7 +83,7 @@ const Queue = () => {
             </div>
           </>
         ) : (
-          <h1 className="text-gray-500 text-xl">No songs in queue</h1>
+          <h1 className="text-xl text-gray-500">No songs in queue</h1>
         )}
       </>
     </div>

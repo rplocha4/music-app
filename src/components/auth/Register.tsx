@@ -90,7 +90,7 @@ const Register = () => {
     emailReset();
   };
   return (
-    <div className="text-white bg-zinc-950 h-full w-full flex flex-col items-center justify-center gap-10 py-4 rounded-md">
+    <div className="flex h-full w-full flex-col items-center justify-center gap-10 rounded-md bg-zinc-950 py-4 text-white">
       <p
         className={`font-bold ${
           serverError ? 'text-2xl text-red-500' : 'text-4xl text-white'
@@ -101,10 +101,10 @@ const Register = () => {
       {/* {serverError && <p className="text-red-500">{serverError}</p>} */}
 
       <form
-        className="flex justify-center items-center rounded-lg"
+        className="flex items-center justify-center rounded-lg"
         onSubmit={loginHandler}
       >
-        <div className="flex justify-center items-center">
+        <div className="flex items-center justify-center">
           <div className="flex flex-col gap-3">
             <div className="flex flex-col">
               <label htmlFor="email">Email</label>
@@ -112,7 +112,7 @@ const Register = () => {
                 type="email"
                 name="email"
                 id="email"
-                className="text-black rounded-sm p-1"
+                className="rounded-sm p-1 text-black"
                 value={emailValue}
                 onChange={emailChangeHandler}
                 onBlur={emailBlurHandler}
@@ -129,7 +129,7 @@ const Register = () => {
                 name="username"
                 id="username"
                 value={usernameValue}
-                className="text-black rounded-sm p-1 opacity-95 active:border-0 "
+                className="rounded-sm p-1 text-black opacity-95 active:border-0 "
                 onChange={usernameChangeHandler}
                 onBlur={usernameBlurHandler}
                 placeholder="Username"
@@ -144,7 +144,7 @@ const Register = () => {
                 type="password"
                 name="password"
                 id="password"
-                className="text-black rounded-sm p-1"
+                className="rounded-sm p-1 text-black"
                 value={passwordValue}
                 onChange={passwordChangeHandler}
                 onBlur={passwordBlurHandler}
@@ -158,7 +158,7 @@ const Register = () => {
             <button
               disabled={!formIsValid}
               type="submit"
-              className="bg-white text-black rounded-sm font-bold text-md py-1"
+              className="text-md rounded-sm bg-white py-1 font-bold text-black"
             >
               Register
             </button>
@@ -166,7 +166,7 @@ const Register = () => {
               <p className="text-white">
                 Already have an account?{' '}
                 <span
-                  className="text-blue-500 cursor-pointer"
+                  className="cursor-pointer text-blue-500"
                   onClick={() => {
                     dispatch(hideRegister());
                     dispatch(showLogin());

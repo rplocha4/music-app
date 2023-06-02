@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '../../store/store';
@@ -18,6 +18,7 @@ import {
 } from 'react-icons/md';
 import { TbMicrophone2 } from 'react-icons/tb';
 import LikeTrack from '../Tracks/LikeTrack';
+import { useSetResumeMutation } from '../../store/features/SpotifyApi';
 
 const Player: React.FC = () => {
   const [accessToken, setAccessToken] = useState(
@@ -31,12 +32,36 @@ const Player: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [player, setPlayer] = useState<Spotify.Player>();
+  const [setResume] = useSetResumeMutation();
+  const [setPause] = useSetResumeMutation();
 
   const dispatch = useDispatch();
 
   const setVolumeHandler = (volume: number) => {
     player?.setVolume(volume);
   };
+  // const handleKeyDown = useCallback(
+  //   (e: KeyboardEvent) => {
+  //     if (e.code === 'Space') {
+  //       e.preventDefault();
+  //       if (playerSelector.playing) {
+  //         setPause('');
+  //       } else {
+  //         setResume('');
+  //       }
+  //       // player?.togglePlay();
+  //     }
+  //   },
+  //   [playerSelector.playing]
+  // );
+
+  // useEffect(() => {
+  //   window.addEventListener('keydown', handleKeyDown);
+
+  //   return () => {
+  //     window.removeEventListener('keydown', handleKeyDown);
+  //   };
+  // }, [handleKeyDown]);
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -60,7 +85,7 @@ const Player: React.FC = () => {
         },
         volume: 0.3,
       });
-      player && setPlayer(player);
+      player !== undefined && setPlayer(player);
       console.log(player);
 
       player.addListener('ready', ({ device_id }) => {
@@ -112,10 +137,10 @@ const Player: React.FC = () => {
   }, [device_id]);
 
   return (
-    <div className="flex justify-between items-center p-4 bg-zinc-900 text-white opacity-95 h-24">
-      <div className="flex justify-start items-center gap-2 w-80 text-left ">
+    <div className="flex h-24 items-center justify-between bg-zinc-900 p-4 text-white opacity-95">
+      <div className="flex w-80 items-center justify-start gap-2 text-left ">
         <div
-          className={`w-1/6 h-auto ${
+          className={`h-auto w-1/6 ${
             isExpanded && 'absolute bottom-24 left-0'
           } `}
           onMouseEnter={() => setHovering(true)}
@@ -125,8 +150,8 @@ const Player: React.FC = () => {
             {hovering &&
               (!isExpanded ? (
                 <MdOutlineKeyboardArrowUp
-                  className="absolute top-1 right-1 text-2xl bg-black rounded-full opacity-70 hover:opacity-100
-               text-gray-300 hover:scale-110 hover:text-white"
+                  className="absolute right-1 top-1 rounded-full bg-black text-2xl text-gray-300 opacity-70
+               hover:scale-110 hover:text-white hover:opacity-100"
                   onClick={() => {
                     setIsExpanded(true);
                     setHovering(false);
@@ -134,8 +159,8 @@ const Player: React.FC = () => {
                 />
               ) : (
                 <MdOutlineKeyboardArrowDown
-                  className="absolute top-1 right-1 text-2xl bg-black rounded-full opacity-70 hover:opacity-100
-                text-gray-300 hover:scale-110 hover:text-white"
+                  className="absolute right-1 top-1 rounded-full bg-black text-2xl text-gray-300 opacity-70
+                hover:scale-110 hover:text-white hover:opacity-100"
                   onClick={() => {
                     setIsExpanded(false);
                     setHovering(false);
@@ -143,7 +168,7 @@ const Player: React.FC = () => {
                 />
               ))}
             <img
-              className="object-cover w-full"
+              className="w-full object-cover"
               src={
                 playerSelector.current_song.uri &&
                 playerSelector.current_song.album.images[0].url
@@ -183,10 +208,10 @@ const Player: React.FC = () => {
         )}
       </div>
       <div className="flex flex-col justify-center gap-3">
-        <div className="flex justify-center items-center gap-3">
+        <div className="flex items-center justify-center gap-3">
           <Controlls />
         </div>
-        <div className="flex justify-center items-center">
+        <div className="flex items-center justify-center">
           <SongProgress />
         </div>
       </div>
@@ -197,7 +222,7 @@ const Player: React.FC = () => {
             isPending
               ? 'text-gray-400'
               : isActive
-              ? 'text-green-500 font-bold scale-110'
+              ? 'scale-110 font-bold text-green-500'
               : ''
           }
         >

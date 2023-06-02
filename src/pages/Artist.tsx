@@ -49,7 +49,7 @@ const Artist = () => {
   };
 
   return (
-    <div className="w-full flex flex-col text-white">
+    <div className="flex w-full flex-col text-white">
       <React.Suspense fallback={<Loading />}>
         <Await resolve={artist}>
           {(loadedArtist: ArtistT) => {
@@ -67,7 +67,7 @@ const Artist = () => {
                         ? followArtistHandler(loadedArtist)
                         : unfollowArtistHandler(loadedArtist)
                     }
-                    className="m-2 p-2 border border-gray-600 hover:border-white rounded-md grow-0"
+                    className="m-2 grow-0 rounded-md border border-gray-600 p-2 hover:border-white"
                   >
                     {isFollowingState ? 'FOLLOWING' : 'FOLLOW'}
                   </button>
@@ -76,7 +76,7 @@ const Artist = () => {
             );
           }}
         </Await>
-        <h1 className="font-bold text-3xl p-3">Popular</h1>
+        <h1 className="p-3 text-3xl font-bold">Popular</h1>
         <Await resolve={topTracks}>
           {(loadedTracks) => {
             return <TopTracks tracks={loadedTracks.tracks} />;
@@ -86,8 +86,8 @@ const Artist = () => {
           {(loadedAlbums) => {
             return (
               <>
-                <h1 className="font-bold text-3xl p-3">Albums</h1>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 px-2 ">
+                <h1 className="p-3 text-3xl font-bold">Albums</h1>
+                <div className="grid grid-cols-2 gap-5 px-2 md:grid-cols-3 lg:grid-cols-5 ">
                   <AlbumResults
                     albums={loadedAlbums.items.reduce((acc: any, curr: any) => {
                       if (!acc.some((el: any) => el.name === curr.name)) {
@@ -103,8 +103,8 @@ const Artist = () => {
         </Await>
       </React.Suspense>
       <React.Suspense fallback={<Loading />}>
-        <h1 className="font-bold text-3xl p-3">Related Artists</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
+        <h1 className="p-3 text-3xl font-bold">Related Artists</h1>
+        <div className="grid grid-cols-1 gap-5 px-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           <Await resolve={relatedArtists}>
             {(loadedRelatedArtists: { artists: ArtistT[] }) => {
               return (

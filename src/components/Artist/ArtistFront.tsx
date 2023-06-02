@@ -12,7 +12,7 @@ const ArtistFront: React.FC<{
 
   return (
     <div
-      className="flex flex-col p-5 gap-6 justify-end"
+      className="flex flex-col justify-end gap-6 p-5"
       style={{
         backgroundImage: `url(${img})`,
         height: '450px',
@@ -23,7 +23,7 @@ const ArtistFront: React.FC<{
       }}
     >
       <h1 className="text-9xl font-bold text-white">{name}</h1>
-      <h2 className="text-white font-semibold p-2">
+      <h2 className="p-2 font-semibold text-white">
         {followersString} followers
       </h2>
     </div>

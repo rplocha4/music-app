@@ -23,7 +23,7 @@ const TrackCardSortable: React.FC<{
     <div
       className={`grid grid-cols-6 gap-10 ${
         hover && 'bg-zinc-700'
-      } p-2 w-full ${i === '#' && 'border-b border-gray-600'}`}
+      } w-full p-2 ${i === '#' && 'border-b border-gray-600'}`}
       onMouseEnter={() => {
         i !== '#' && setHover(true);
       }}
@@ -31,7 +31,7 @@ const TrackCardSortable: React.FC<{
         setHover(false);
       }}
     >
-      <div className="flex gap-2 items-center col-span-2">
+      <div className="col-span-2 flex items-center gap-2">
         <PlayOptions track={track} i={i} hover={hover} />
         <TrackInfo track={track} i={i} />
       </div>
@@ -40,10 +40,10 @@ const TrackCardSortable: React.FC<{
         name={track.album.name}
         i={i}
       />
-      <p className="text-center flex justify-center items-center">
+      <p className="flex items-center justify-center text-center">
         {added.split('T')[0]}
       </p>
-      <div className=" flex items-center justify-center gap-2 relative">
+      <div className=" relative flex items-center justify-center gap-2">
         {hover && <LikeTrack track={track} />}
         <p>{millisToMinutesAndSeconds(track.duration_ms)}</p>
         {hover && (

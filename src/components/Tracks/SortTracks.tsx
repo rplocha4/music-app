@@ -106,27 +106,27 @@ const SortTracks: React.FC<{
 
   return (
     <>
-      <div className="self-end mr-10 w-20">
+      <div className="mr-10 w-20 self-end">
         <div className="relative ">
           <span
             onClick={() => setHover((prev) => !prev)}
-            className="flex items-center justify-center cursor-pointer"
+            className="flex cursor-pointer items-center justify-center"
           >
             <>
               {sortType}{' '}
               {sortAscending ? (
-                <MdOutlineKeyboardArrowUp className="font-bold text-2xl" />
+                <MdOutlineKeyboardArrowUp className="text-2xl font-bold" />
               ) : (
-                <MdOutlineKeyboardArrowDown className="font-bold text-2xl" />
+                <MdOutlineKeyboardArrowDown className="text-2xl font-bold" />
               )}
             </>
           </span>
           {hover && (
             <div
-              className="absolute bg-zinc-700 flex flex-col -left-full items-start text-sta justify-start w-40 rounded-lg z-20"
+              className="text-sta absolute -left-full z-20 flex w-40 flex-col items-start justify-start rounded-lg bg-zinc-700"
               ref={ref}
             >
-              <p className="text-gray-400 text-sm font-bold p-2">Sort by</p>
+              <p className="p-2 text-sm font-bold text-gray-400">Sort by</p>
               {options.map((option) => (
                 <button
                   key={option.name}
@@ -137,9 +137,9 @@ const SortTracks: React.FC<{
                     setSortType(option.name);
                     setHover(false);
                   }}
-                  className={`rounded-lg hover:bg-zinc-600 flex items-center justify-start${
+                  className={`flex items-center rounded-lg hover:bg-zinc-600 justify-start${
                     sortType === option.name && ' text-green-600'
-                  } w-full h-full p-2`}
+                  } h-full w-full p-2`}
                 >
                   Sort by {option.label}{' '}
                   {sortType === option.name &&
@@ -156,10 +156,10 @@ const SortTracks: React.FC<{
           )}
         </div>
       </div>
-      <div className="grid grid-cols-6 gap-10 py-2 w-full text-left font-bold border-b border-gray-400">
-        <div className="col-span-2 flex gap-12 items-center  text-center">
+      <div className="grid w-full grid-cols-6 gap-10 border-b border-gray-400 py-2 text-left font-bold">
+        <div className="col-span-2 flex items-center gap-12  text-center">
           <span className="w-10 text-gray-300">#</span>
-          <div className="flex items-center gap-5 justify-center">
+          <div className="flex items-center justify-center gap-5">
             <span
               className={`${optionClasess}`}
               onMouseDown={() => {

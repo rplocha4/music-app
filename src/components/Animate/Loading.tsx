@@ -2,10 +2,10 @@ import React from 'react';
 
 function Loading() {
   return (
-    <div className="flex justify-center items-center w-full h-screen ">
+    <div className="flex h-screen w-full items-center justify-center ">
       <svg
         aria-hidden="true"
-        className="w-11 h-11 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-white"
+        className="mr-2 h-11 w-11 animate-spin fill-white text-gray-200 dark:text-gray-600"
         viewBox="0 0 100 101"
         fill="none"
       >

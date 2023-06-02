@@ -43,7 +43,7 @@ const AlbumCard: React.FC<{
 
   return (
     <Link
-      className="flex  flex-col p-5 gap-2 bg-zinc-900 hover:bg-zinc-700 cursor-pointer rounded-md "
+      className="flex  cursor-pointer flex-col gap-2 rounded-md bg-zinc-900 p-5 hover:bg-zinc-700 "
       title={name}
       to={`${!hoverButton ? '/album/' + id : '#'}`}
       onMouseEnter={() => setHover(true)}
@@ -53,7 +53,7 @@ const AlbumCard: React.FC<{
         <img src={image} alt="album image" className="rounded-md" />
         {hover && (
           <GoPlay
-            className={`${classes.animate2} absolute bottom-1 right-1 text-5xl rounded-full  border-0 ${hoverClass}`}
+            className={`${classes.animate2} absolute bottom-1 right-1 rounded-full border-0  text-5xl ${hoverClass}`}
             onMouseEnter={() => {
               setHoverClass('scale-95 text-green-500');
               setHoverButton(true);
@@ -69,11 +69,11 @@ const AlbumCard: React.FC<{
         )}
       </div>
       <div className="flex flex-col">
-        <p className="whitespace-nowrap overflow-hidden">{name}</p>
+        <p className="overflow-hidden whitespace-nowrap">{name}</p>
         <div className="flex items-center gap-1 font-thin text-gray-300">
           <p>{year}</p>
           <p className="font-extrabold">·</p>
-          <p className="whitespace-nowrap overflow-hidden">{artist}</p>
+          <p className="overflow-hidden whitespace-nowrap">{artist}</p>
         </div>
       </div>
     </Link>

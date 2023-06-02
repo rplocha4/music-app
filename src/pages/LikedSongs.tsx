@@ -60,7 +60,7 @@ const LikedSongs = () => {
                 boxShadow: `0px 0px 60px 5px rgba(9, 9, 121, 1)`,
               }}
             />
-            <div className="flex flex-col justify-between ml-5 font-semibold">
+            <div className="ml-5 flex flex-col justify-between font-semibold">
               <p>Playlist</p>
               <h1 className="text-5xl font-bold text-white">Liked Songs</h1>
               <div className="flex gap-1 ">

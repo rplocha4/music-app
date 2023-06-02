@@ -70,9 +70,9 @@ function Profile() {
 
             return (
               <>
-                <div className="flex p-5 bg-zinc-700 relative">
+                <div className="relative flex bg-zinc-700 p-5">
                   <div
-                    className="self-start relative"
+                    className="relative self-start"
                     onMouseEnter={() => {
                       setProfileHover(true);
                     }}
@@ -93,12 +93,12 @@ function Profile() {
                     ) : (
                       <FaUserAlt
                         style={{ width: '200px', height: '200px' }}
-                        className="bg-zinc-400 p-2 rounded-full"
+                        className="rounded-full bg-zinc-400 p-2"
                       />
                     )}
                     {username === loadedUser.user?.username && profileHover && (
                       <div
-                        className="absolute bg-black opacity-70 top-0 rounded-full flex justify-center items-center text-4xl text-white"
+                        className="absolute top-0 flex items-center justify-center rounded-full bg-black text-4xl text-white opacity-70"
                         style={{ height: '200px', width: '200px' }}
                         onClick={() => {
                           avatarRef.current?.click();
@@ -119,12 +119,12 @@ function Profile() {
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-col justify-between ml-5 text-white">
+                  <div className="ml-5 flex flex-col justify-between text-white">
                     <p>Profile</p>
-                    <p className="font-bold text-7xl">
+                    <p className="text-7xl font-bold">
                       {loadedUser?.user.username}
                     </p>
-                    <div className="flex gap-1 items-center font-semibold">
+                    <div className="flex items-center gap-1 font-semibold">
                       <p>{loadedUser?.user.followers.length} followers</p>
                       <p className="font-extrabold">·</p>
 
@@ -153,7 +153,7 @@ function Profile() {
                         );
                       }
                     }}
-                    className="m-2 p-2 border border-gray-600 hover:border-white rounded-md grow-0 text-white"
+                    className="m-2 grow-0 rounded-md border border-gray-600 p-2 text-white hover:border-white"
                   >
                     {isFollowingState ? 'Unfollow' : 'Follow'}
                   </button>
@@ -179,9 +179,9 @@ function Profile() {
                   )}
                 </div> */}
 
-                <div className="text-white flex flex-col gap-2">
-                  <p className="font-bold text-4xl p-2">Followed Artists</p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
+                <div className="flex flex-col gap-2 text-white">
+                  <p className="p-2 text-4xl font-bold">Followed Artists</p>
+                  <div className="grid grid-cols-1 gap-5 px-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                     {loadedUser?.user.followingArtists.length > 0 ? (
                       <ArtistsResults
                         artists={loadedUser.user.followingArtists}
@@ -191,8 +191,8 @@ function Profile() {
                     )}
                   </div>
 
-                  <p className="font-bold text-4xl p-2">Liked Albums</p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
+                  <p className="p-2 text-4xl font-bold">Liked Albums</p>
+                  <div className="grid grid-cols-1 gap-5 px-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                     {loadedUser?.user.likedAlbums.length > 0 ? (
                       <AlbumResults albums={loadedUser.user.likedAlbums} />
                     ) : (
@@ -204,8 +204,8 @@ function Profile() {
                   <Loading />
                 ) : (
                   <div className="text-white">
-                    <p className="font-bold text-4xl p-2">Liked Playlists</p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
+                    <p className="p-2 text-4xl font-bold">Liked Playlists</p>
+                    <div className="grid grid-cols-1 gap-5 px-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                       {loadedUser?.user.likedPlaylists.length > 0 ? (
                         <PlaylistResults playlists={followedPlaylists} />
                       ) : (

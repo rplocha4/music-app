@@ -24,9 +24,9 @@ export const loginUrl = `https://accounts.spotify.com/authorize?client_id=${clie
 )}&response_type=code&show_dialog=true`;
 function SpotifyAuth() {
   return (
-    <div className="flex flex-col gap-10 justify-center items-center h-screen ">
+    <div className="flex h-screen flex-col items-center justify-center gap-10 ">
       <a
-        className=" text-green-600 font-extrabold rounded-xl p-5 text-2xl flex flex-col gap-10 justify-center items-center"
+        className=" flex flex-col items-center justify-center gap-10 rounded-xl p-5 text-2xl font-extrabold text-green-600"
         href={loginUrl}
       >
         <BsSpotify className="text-9xl " />

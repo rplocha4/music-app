@@ -74,7 +74,7 @@ const CreatePlaylist: React.FC<{
   const invalid = 'text-red-500';
 
   return (
-    <div className="flex flex-col justify-center p-10 items-center h-full text-white">
+    <div className="flex h-full flex-col items-center justify-center p-10 text-white">
       <h1
         className="
       text-4xl font-bold
@@ -85,14 +85,14 @@ const CreatePlaylist: React.FC<{
       <form
         action=""
         onSubmit={sumbitFormHandler}
-        className="flex flex-col gap-5 justify-center items-center w-5/6"
+        className="flex w-5/6 flex-col items-center justify-center gap-5"
       >
         <div className={` ${inputClasses}`}>
           <label htmlFor="name">Playlist Name</label>
           <input
             type="text"
             placeholder="Playlist name "
-            className="p-2 outline-none text-black w-full rounded-lg"
+            className="w-full rounded-lg p-2 text-black outline-none"
             id="name"
             value={nameValue}
             onChange={nameChangeHandler}
@@ -106,7 +106,7 @@ const CreatePlaylist: React.FC<{
           <label htmlFor="description">Playlist Description</label>
           <textarea
             placeholder="Playlist description"
-            className="p-2 outline-none text-black w-full rounded-lg"
+            className="w-full rounded-lg p-2 text-black outline-none"
             value={descriptionValue}
             id="description"
             onChange={descriptionChangeHandler}
@@ -121,7 +121,7 @@ const CreatePlaylist: React.FC<{
           <input
             type="text"
             placeholder="Image cover url "
-            className="p-2 outline-none text-black w-full rounded-lg"
+            className="w-full rounded-lg p-2 text-black outline-none"
             value={imageUrlValue}
             id="image"
             onChange={imageUrlChangeHandler}
@@ -131,7 +131,7 @@ const CreatePlaylist: React.FC<{
             <p className={`${invalid}`}>Enter Valid Playlist Cover</p>
           )}
         </div>
-        <div className="flex self-start gap-2 items-center">
+        <div className="flex items-center gap-2 self-start">
           <label htmlFor="public">Private ? </label>
           <input
             type="checkbox"
@@ -142,7 +142,7 @@ const CreatePlaylist: React.FC<{
         <button
           disabled={!formIsValid}
           type="submit"
-          className="bg-green-300 p-3 rounded-md w-24 text-black font-semibold "
+          className="w-24 rounded-md bg-green-300 p-3 font-semibold text-black "
         >
           Create
         </button>

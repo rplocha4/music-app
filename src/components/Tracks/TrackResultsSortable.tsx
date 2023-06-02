@@ -28,7 +28,7 @@ const TrackResultsSortable: React.FC<{
   return (
     <div className="flex flex-col text-white ">
       <BsPlayCircleFill
-        className="text-6xl text-green-500 hover:text-green-400 hover:scale-110 hover:cursor-pointer mx-5 mt-5"
+        className="mx-5 mt-5 text-6xl text-green-500 hover:scale-110 hover:cursor-pointer hover:text-green-400"
         onClick={() => {
           playSongs(songUris);
           dispatch(

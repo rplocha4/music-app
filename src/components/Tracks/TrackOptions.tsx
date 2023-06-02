@@ -49,10 +49,10 @@ const TrackOptions: React.FC<{
   return (
     <div
       ref={ref}
-      className="absolute right-5 top-10  bg-zinc-900 rounded-md z-10 flex flex-col justify-center items-center w-48 "
+      className="absolute right-5 top-10  z-10 flex w-48 flex-col items-center justify-center rounded-md bg-zinc-900 "
     >
       <button
-        className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2"
+        className="w-full cursor-pointer rounded-md p-2 text-center hover:bg-zinc-950"
         onClick={() => {
           if (!inQueue) {
             dispatch(showInfo(`${name} added to queue`));
@@ -66,7 +66,7 @@ const TrackOptions: React.FC<{
                 id: getIdFromUri(uri),
               })
             );
-            } else {
+          } else {
             dispatch(showInfo(`${name} removed to queue`));
 
             const newQueue = playerSelector.queue.queue.filter(
@@ -91,17 +91,17 @@ const TrackOptions: React.FC<{
         }}
       >
         {username && (
-          <button className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2">
+          <button className="w-full cursor-pointer rounded-md p-2 text-center hover:bg-zinc-950">
             Add to playlist
           </button>
         )}
 
         {hoverPlaylist && (
-          <div className="absolute top-0 -left-full bg-zinc-900 rounded-md z-10 flex flex-col justify-center items-center w-48 ">
+          <div className="absolute -left-full top-0 z-10 flex w-48 flex-col items-center justify-center rounded-md bg-zinc-900 ">
             {userPlaylists?.map((playlist: Playlist) => {
               return (
                 <button
-                  className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2"
+                  className="w-full cursor-pointer rounded-md p-2 text-center hover:bg-zinc-950"
                   key={playlist._id}
                   onClick={() => {
                     addSongToPlaylist({ playlistId: playlist._id, track })
@@ -122,13 +122,13 @@ const TrackOptions: React.FC<{
         )}
       </div>
       <button
-        className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2"
+        className="w-full cursor-pointer rounded-md p-2 text-center hover:bg-zinc-950"
         onClick={() => navigate(`/album/${album.id}`)}
       >
         Go to album
       </button>
       <button
-        className="cursor-pointer hover:bg-zinc-950 w-full rounded-md text-center p-2"
+        className="w-full cursor-pointer rounded-md p-2 text-center hover:bg-zinc-950"
         onClick={() => navigate(`/artist/${artists[0].id}`)}
       >
         Go to artist

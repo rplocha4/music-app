@@ -27,7 +27,7 @@ const TrackCard: React.FC<{
     <>
       <div
         className={`grid grid-cols-6 gap-10  
-      ${hover && 'bg-zinc-700'} p-2 w-full ${
+      ${hover && 'bg-zinc-700'} w-full p-2 ${
           i === '#' && 'border-b border-gray-600'
         }`}
         onMouseEnter={() => {
@@ -38,7 +38,7 @@ const TrackCard: React.FC<{
         }}
         // title={name}
       >
-        <div className={`flex gap-3 items-center col-span-3 `}>
+        <div className={`col-span-3 flex items-center gap-3 `}>
           <PlayOptions track={track as TrackItem} i={i} hover={hover} />
           <TrackInfo track={track as TrackItem} i={i} />
         </div>
@@ -47,7 +47,7 @@ const TrackCard: React.FC<{
           name={album.name}
           i={i}
         />
-        <div className=" flex items-center justify-center gap-2 relative">
+        <div className=" relative flex items-center justify-center gap-2">
           {duration_ms >= 0 && hover && <LikeTrack track={track} />}
           <p>
             {i !== '#' ? millisToMinutesAndSeconds(duration_ms) : <BiTime />}

@@ -14,8 +14,8 @@ function Lyricks() {
 
   if (playerSelector.current_song.name === '')
     return (
-      <div className="h-full flex justify-center items-center ">
-        <h1 className="text-white text-center text-2xl  ">No song playing</h1>
+      <div className="flex h-full items-center justify-center ">
+        <h1 className="text-center text-2xl text-white  ">No song playing</h1>
       </div>
     );
 
@@ -76,7 +76,7 @@ function Lyricks() {
           <Loading />
         ) : (
           <div
-            className="text-white text-center text-2xl"
+            className="text-center text-2xl text-white"
             dangerouslySetInnerHTML={{ __html: lyricks }}
           ></div>
         ))}

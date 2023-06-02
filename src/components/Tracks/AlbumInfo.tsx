@@ -9,13 +9,13 @@ const AlbumInfo: React.FC<{ id: string; name: string; i: string }> = ({
   return (
     <>
       {i === '#' ? (
-        <div className="flex items-center justify-center col-span-2 text-center">
+        <div className="col-span-2 flex items-center justify-center text-center">
           Album
         </div>
       ) : (
         <Link
           to={`/album/${id}`}
-          className="flex items-center justify-center col-span-2 hover:underline text-center"
+          className="col-span-2 flex items-center justify-center text-center hover:underline"
         >
           {name}
         </Link>

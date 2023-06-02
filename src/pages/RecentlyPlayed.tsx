@@ -36,12 +36,12 @@ function RecentlyPlayed() {
 
   return (
     <div>
-      <h1 className="text-4xl font-bold p-3 text-white">Recently Played</h1>
+      <h1 className="p-3 text-4xl font-bold text-white">Recently Played</h1>
       <div className="flex flex-row gap-5 p-5">
         <button
           className={`${
             limit === 20 ? 'bg-zinc-400' : 'bg-zinc-600'
-          } p-2 rounded-md`}
+          } rounded-md p-2`}
           onClick={() => setLimit(20)}
         >
           Last 20
@@ -49,7 +49,7 @@ function RecentlyPlayed() {
         <button
           className={`${
             limit === 30 ? 'bg-zinc-400' : 'bg-zinc-600'
-          } p-2 rounded-md`}
+          } rounded-md p-2`}
           onClick={() => setLimit(30)}
         >
           Last 30
@@ -57,7 +57,7 @@ function RecentlyPlayed() {
         <button
           className={`${
             limit === 40 ? 'bg-zinc-400' : 'bg-zinc-600'
-          } p-2 rounded-md`}
+          } rounded-md p-2`}
           onClick={() => setLimit(40)}
         >
           Last 40
@@ -65,14 +65,14 @@ function RecentlyPlayed() {
         <button
           className={`${
             limit === 50 ? 'bg-zinc-400' : 'bg-zinc-600'
-          } p-2 rounded-md`}
+          } rounded-md p-2`}
           onClick={() => setLimit(50)}
         >
           Last 50
         </button>
       </div>
       <BsPlayCircleFill
-        className="text-6xl text-green-500 hover:text-green-400 hover:scale-110 hover:cursor-pointer m-5"
+        className="m-5 text-6xl text-green-500 hover:scale-110 hover:cursor-pointer hover:text-green-400"
         onClick={() => {
           playSongs(songUris);
           dispatch(

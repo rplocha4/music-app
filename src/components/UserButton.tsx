@@ -47,7 +47,7 @@ const UserButton: React.FC = ({}) => {
         ref={ref}
         onClick={() => setIsExpanded((prev) => !prev)}
       >
-        <span className="flex justify-center items-center gap-2 ">
+        <span className="flex items-center justify-center gap-2 ">
           {avatar ? (
             <img
               src={avatar}
@@ -56,23 +56,23 @@ const UserButton: React.FC = ({}) => {
               className="rounded-full"
             />
           ) : (
-            <FaUserAlt className="bg-slate-500 rounded-full w-10 p-1 h-10" />
+            <FaUserAlt className="h-10 w-10 rounded-full bg-slate-500 p-1" />
           )}
 
           {username ? username : 'Login'}
           {isExpanded ? (
-            <MdKeyboardArrowUp className="font-bold text-2xl" />
+            <MdKeyboardArrowUp className="text-2xl font-bold" />
           ) : (
-            <MdKeyboardArrowDown className="font-bold text-2xl" />
+            <MdKeyboardArrowDown className="text-2xl font-bold" />
           )}
         </span>
       </button>
       {isExpanded && (
-        <div className="absolute bg-zinc-600  rounded-xl  w-full mt-1 flex flex-col">
+        <div className="absolute mt-1  flex  w-full flex-col rounded-xl bg-zinc-600">
           {username ? (
             <>
               <span
-                className="hover:bg-zinc-500 h-full w-full rounded-xl p-2 cursor-pointer"
+                className="h-full w-full cursor-pointer rounded-xl p-2 hover:bg-zinc-500"
                 onMouseDown={() => {
                   navigate(`user/${username}`);
                 }}
@@ -80,7 +80,7 @@ const UserButton: React.FC = ({}) => {
                 Profile
               </span>
               <span
-                className="hover:bg-zinc-500 h-full w-full rounded-xl p-2 cursor-pointer"
+                className="h-full w-full cursor-pointer rounded-xl p-2 hover:bg-zinc-500"
                 onMouseDown={logoutHandler}
               >
                 Logout
@@ -92,7 +92,7 @@ const UserButton: React.FC = ({}) => {
                 onMouseDown={() => {
                   dispatch(showLogin());
                 }}
-                className="hover:bg-zinc-500 h-full w-full rounded-xl p-2 cursor-pointer"
+                className="h-full w-full cursor-pointer rounded-xl p-2 hover:bg-zinc-500"
               >
                 Login
               </span>
@@ -100,7 +100,7 @@ const UserButton: React.FC = ({}) => {
                 onMouseDown={() => {
                   dispatch(showRegister());
                 }}
-                className="hover:bg-zinc-500 h-full w-full rounded-xl p-2 cursor-pointer"
+                className="h-full w-full cursor-pointer rounded-xl p-2 hover:bg-zinc-500"
               >
                 Register
               </span>

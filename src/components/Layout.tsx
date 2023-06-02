@@ -55,8 +55,8 @@ const Layout: React.FC<{}> = () => {
     <div className="flex" style={{ minHeight: '100vh', width: '100%' }}>
       <Navbar />
       <div className="w-1/6"></div>
-      <div className="flex flex-col w-5/6 bg-zinc-800 relative">
-        <div className="text-white right-3 top-1 fixed z-20 ">
+      <div className="relative flex w-5/6 flex-col bg-zinc-800">
+        <div className="fixed right-3 top-1 z-20 text-white ">
           <UserButton />
         </div>
         <div className="min-h-screen pb-24">
@@ -75,7 +75,7 @@ const Layout: React.FC<{}> = () => {
         </div>
       </div>
 
-      <div className="fixed w-full bottom-0 ">
+      <div className="fixed bottom-0 w-full ">
         <Player />
       </div>
     </div>

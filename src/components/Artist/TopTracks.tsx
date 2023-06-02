@@ -6,7 +6,7 @@ const TopTracks: React.FC<{ tracks: any }> = ({ tracks }) => {
   const [seeMore, setSeeMore] = React.useState(false);
 
   return (
-    <div className="text-white flex flex-col">
+    <div className="flex flex-col text-white">
       <TrackResults showInfo={false} tracks={tracks.slice(0, 5)} />
       {seeMore && (
         <TrackResults showInfo={false} tracks={tracks.slice(5)} start={5} />
@@ -15,7 +15,7 @@ const TopTracks: React.FC<{ tracks: any }> = ({ tracks }) => {
         onClick={() => {
           setSeeMore((prev) => !prev);
         }}
-        className="bg-zinc-800 self-start px-5 py-3"
+        className="self-start bg-zinc-800 px-5 py-3"
       >
         {seeMore ? 'Show Less' : 'Show More'}
       </button>

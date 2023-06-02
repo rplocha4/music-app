@@ -74,7 +74,7 @@ const AlbumFront: React.FC<{
             }}
             className="self-end"
           />
-          <div className="flex flex-col px-5 justify-end gap-3">
+          <div className="flex flex-col justify-end gap-3 px-5">
             <p>{album_type}</p>
             <p
               className="font-bold"
@@ -84,7 +84,7 @@ const AlbumFront: React.FC<{
             >
               {name}
             </p>
-            <div className="flex gap-1 items-center font-semibold">
+            <div className="flex items-center gap-1 font-semibold">
               <img
                 src={artistImg?.images[0].url}
                 alt=""

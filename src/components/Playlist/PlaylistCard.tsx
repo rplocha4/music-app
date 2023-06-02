@@ -10,15 +10,15 @@ const PlaylistCard: React.FC<{
   return (
     <Link
       to={`/playlist/${id}`}
-      className="flex flex-col gap-2 p-5 bg-zinc-900 hover:bg-zinc-700 cursor-pointer rounded-md"
+      className="flex cursor-pointer flex-col gap-2 rounded-md bg-zinc-900 p-5 hover:bg-zinc-700"
     >
       <img
         src={image}
         alt="album image"
-        className="rounded-md w-full h-full "
+        className="h-full w-full rounded-md "
       />
       <div className="flex flex-col">
-        <p className="whitespace-nowrap overflow-hidden">{name}</p>
+        <p className="overflow-hidden whitespace-nowrap">{name}</p>
         <div className="flex items-center gap-1 font-thin text-gray-300">
           Created by <p>{author}</p>
         </div>

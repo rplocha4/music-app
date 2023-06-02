@@ -29,7 +29,7 @@ function TopTracks() {
   return (
     <div>
       <div>
-        <h1 className="text-4xl font-bold p-3 mb-5 text-white">
+        <h1 className="mb-5 p-3 text-4xl font-bold text-white">
           Your most listen tracks{' '}
           {time_range === 'short_term'
             ? 'in the last month'
@@ -42,7 +42,7 @@ function TopTracks() {
           <button
             className={`${
               time_range === 'short_term' ? 'bg-zinc-400' : 'bg-zinc-600'
-            } p-2 rounded-md`}
+            } rounded-md p-2`}
             onClick={() => setTimeRange('short_term')}
           >
             Last Month
@@ -50,7 +50,7 @@ function TopTracks() {
           <button
             className={`${
               time_range === 'medium_term' ? 'bg-zinc-400' : 'bg-zinc-600'
-            } p-2 rounded-md`}
+            } rounded-md p-2`}
             onClick={() => setTimeRange('medium_term')}
           >
             Last 6 Months
@@ -58,14 +58,14 @@ function TopTracks() {
           <button
             className={`${
               time_range === 'long_term' ? 'bg-zinc-400' : 'bg-zinc-600'
-            } p-2 rounded-md`}
+            } rounded-md p-2`}
             onClick={() => setTimeRange('long_term')}
           >
             All Time
           </button>
           <button
             className={`
-          ${limit === 20 ? 'bg-zinc-400' : 'bg-zinc-600'} p-2 rounded-md`}
+          ${limit === 20 ? 'bg-zinc-400' : 'bg-zinc-600'} rounded-md p-2`}
             onClick={() => setLimit(20)}
           >
             20
@@ -73,21 +73,21 @@ function TopTracks() {
 
           <button
             className={`
-          ${limit === 30 ? 'bg-zinc-400' : 'bg-zinc-600'} p-2 rounded-md`}
+          ${limit === 30 ? 'bg-zinc-400' : 'bg-zinc-600'} rounded-md p-2`}
             onClick={() => setLimit(30)}
           >
             30
           </button>
           <button
             className={`
-          ${limit === 40 ? 'bg-zinc-400' : 'bg-zinc-600'} p-2 rounded-md`}
+          ${limit === 40 ? 'bg-zinc-400' : 'bg-zinc-600'} rounded-md p-2`}
             onClick={() => setLimit(40)}
           >
             40
           </button>
           <button
             className={`
-          ${limit === 50 ? 'bg-zinc-400' : 'bg-zinc-600'} p-2 rounded-md`}
+          ${limit === 50 ? 'bg-zinc-400' : 'bg-zinc-600'} rounded-md p-2`}
             onClick={() => setLimit(50)}
           >
             50
@@ -95,7 +95,7 @@ function TopTracks() {
         </div>
       </div>
       <BsPlayCircleFill
-        className="text-6xl text-green-500 hover:text-green-400 hover:scale-110 hover:cursor-pointer m-5"
+        className="m-5 text-6xl text-green-500 hover:scale-110 hover:cursor-pointer hover:text-green-400"
         onClick={() => {
           const songUris = tracks.map((item: any) => item.uri);
           playSongs(songUris);

@@ -24,7 +24,7 @@ const Volume: React.FC<{
 
   return (
     <>
-      {playerSelector.volume ==  0.0 ? (
+      {playerSelector.volume == 0.0 ? (
         <BsFillVolumeMuteFill
           onClick={() => {
             // setVolume(prevVolume).catch((err) => console.log(err));
@@ -70,7 +70,7 @@ const Volume: React.FC<{
           onSetVolume(+event.target.value);
           dispatch(updateVolume(event.target.value));
         }}
-        className="accent-white  h-1 range-sm outline-none"
+        className="range-sm  h-1 accent-white outline-none"
       />
     </>
   );

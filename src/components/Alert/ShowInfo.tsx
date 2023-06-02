@@ -7,10 +7,10 @@ const ShowInfo: React.FC<{ message: string }> = ({ message }) => {
 
   return ReactDOM.createPortal(
     <div
-      className={`fixed bottom-28 left-1/2 bg-blue-500 px-5 py-2 rounded-xl text-white z-50 shadow-lg ${classes.animateIn}`}
+      className={`fixed bottom-28 left-1/2 z-50 rounded-xl bg-blue-500 px-5 py-2 text-white shadow-lg ${classes.animateIn}`}
       style={{ transform: 'translateX(-50%)' }}
     >
-      <div className="flex justify-center items-center font-semibold text-lg w-full h-full">
+      <div className="flex h-full w-full items-center justify-center text-lg font-semibold">
         {message}
       </div>
     </div>,

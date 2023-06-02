@@ -42,7 +42,7 @@ const SongProgress: React.FC = () => {
 
   return (
     <>
-      <p className="text-gray-400 text-xs mr-1">
+      <p className="mr-1 text-xs text-gray-400">
         {millisToMinutesAndSeconds(progress)}
       </p>
       <input
@@ -55,9 +55,9 @@ const SongProgress: React.FC = () => {
           seekToPosition(event.target.valueAsNumber);
           setProgress(event.target.valueAsNumber);
         }}
-        className="md:w-96 w-64 accent-white bg-zinc-700 color-white h-1 range-sm "
+        className="color-white range-sm h-1 w-64 bg-zinc-700 accent-white md:w-96 "
       />
-      <p className=" text-gray-400 text-xs ml-1">
+      <p className=" ml-1 text-xs text-gray-400">
         {millisToMinutesAndSeconds(playerSelector.current_song.duration_ms)}
       </p>
     </>

@@ -21,8 +21,8 @@ const Playlists = () => {
   };
 
   return (
-    <div className="flex flex-col text-white p-3">
-      <h1 className="text-4xl font-bold p-3 mb-5">Your Playlists</h1>
+    <div className="flex flex-col p-3 text-white">
+      <h1 className="mb-5 p-3 text-4xl font-bold">Your Playlists</h1>
       {isLoading ? (
         <Loading />
       ) : (
@@ -32,7 +32,7 @@ const Playlists = () => {
               <p>You have no playlists yet. Create first one.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
               <PlaylistResults playlists={data} />
             </div>
           )}
@@ -40,9 +40,9 @@ const Playlists = () => {
       )}
 
       <div>
-        <h2 className="text-2xl font-bold p-2">Create new playlist</h2>
+        <h2 className="p-2 text-2xl font-bold">Create new playlist</h2>
         <button
-          className="flex justify-center items-center text-8xl pb-4 h-40 w-40 bg-zinc-700 hover:bg-zinc-600 "
+          className="flex h-40 w-40 items-center justify-center bg-zinc-700 pb-4 text-8xl hover:bg-zinc-600 "
           onClick={() => setFormIsShown(true)}
         >
           +

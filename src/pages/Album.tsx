@@ -63,7 +63,7 @@ const Album = () => {
   };
 
   return (
-    <div className="text-white flex flex-col">
+    <div className="flex flex-col text-white">
       <AlbumFront
         key={album.id}
         name={album.name}
@@ -77,9 +77,9 @@ const Album = () => {
         release_date={album.release_date}
         totalDuration={totalDurationFormatted}
       />
-      <div className="flex gap-2 justify-start items-center">
+      <div className="flex items-center justify-start gap-2">
         <BsPlayCircleFill
-          className="text-6xl text-green-500 hover:text-green-400 hover:scale-110 hover:cursor-pointer m-5"
+          className="m-5 text-6xl text-green-500 hover:scale-110 hover:cursor-pointer hover:text-green-400"
           onClick={() => {
             playContext(album.uri);
 
@@ -132,10 +132,10 @@ const Album = () => {
       />
       {artistAlbums?.length > 0 && (
         <>
-          <h2 className="text-3xl font-bold p-5">
+          <h2 className="p-5 text-3xl font-bold">
             More by: {album.artists[0].name}
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5 px-5">
+          <div className="grid grid-cols-2 gap-5 px-5 sm:grid-cols-3 lg:grid-cols-5">
             <AlbumResults albums={artistAlbums} />
           </div>
         </>

@@ -20,7 +20,7 @@ const TrackInfo: React.FC<{ track: TrackItem; i: string }> = ({ track, i }) => {
         />
       )}
 
-      <div className="flex flex-col justify-between w-full whitespace-nowrap overflow-hidden">
+      <div className="flex w-full flex-col justify-between overflow-hidden whitespace-nowrap">
         <p
           className={`font-bold ${
             i !== '#' &&
