@@ -68,11 +68,11 @@ const UserButton: React.FC = ({}) => {
         </span>
       </button>
       {isExpanded && (
-        <div className="absolute mt-1  flex  w-full flex-col rounded-xl bg-zinc-600">
+        <div className="absolute mt-1  flex  w-full flex-col rounded-xl bg-zinc-900">
           {username ? (
             <>
               <span
-                className="h-full w-full cursor-pointer rounded-xl p-2 hover:bg-zinc-500"
+                className="h-full w-full cursor-pointer rounded-xl p-2 text-center hover:bg-zinc-700"
                 onMouseDown={() => {
                   navigate(`user/${username}`);
                 }}
@@ -80,7 +80,7 @@ const UserButton: React.FC = ({}) => {
                 Profile
               </span>
               <span
-                className="h-full w-full cursor-pointer rounded-xl p-2 hover:bg-zinc-500"
+                className="h-full w-full cursor-pointer rounded-xl p-2 text-center hover:bg-zinc-700"
                 onMouseDown={logoutHandler}
               >
                 Logout
@@ -92,7 +92,7 @@ const UserButton: React.FC = ({}) => {
                 onMouseDown={() => {
                   dispatch(showLogin());
                 }}
-                className="h-full w-full cursor-pointer rounded-xl p-2 hover:bg-zinc-500"
+                className="h-full w-full cursor-pointer rounded-xl p-2 text-center hover:bg-zinc-700"
               >
                 Login
               </span>
@@ -100,7 +100,7 @@ const UserButton: React.FC = ({}) => {
                 onMouseDown={() => {
                   dispatch(showRegister());
                 }}
-                className="h-full w-full cursor-pointer rounded-xl p-2 hover:bg-zinc-500"
+                className="h-full w-full cursor-pointer rounded-xl p-2 text-center hover:bg-zinc-700"
               >
                 Register
               </span>

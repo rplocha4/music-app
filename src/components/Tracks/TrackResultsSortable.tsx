@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TrackItem } from '../../types/types';
 import TrackCardSortable from './TrackCardSortable';
 import SortTracks from './SortTracks';
@@ -12,25 +12,30 @@ const TrackResultsSortable: React.FC<{
   onDelete: (id: string) => void;
   owner?: string;
 }> = ({ tracks, onDelete, owner }) => {
-  const [sortedTracks, setSortedTracks] = React.useState(tracks);
-  const [songUris, setSongUris] = React.useState<string[]>([]);
+  const [sortedTracks, setSortedTracks] = useState(tracks);
+  const [openTrackIndex, setOpenTrackIndex] = useState(-1);
 
   const handleSort = (tracks: { track: TrackItem; added: string }[]) => {
     setSortedTracks(tracks);
   };
   const [playSongs] = usePlaySongsMutation();
   const dispatch = useDispatch();
-  useEffect(() => {
-    const songUris = sortedTracks.map((item: any) => item.track.uri);
-    setSongUris(songUris);
-  }, [sortedTracks]);
+
+  const handleTrackCardClick = (index: number) => {
+    setOpenTrackIndex(index === openTrackIndex ? -1 : index);
+  };
+  const handleClosing = () => {
+    setOpenTrackIndex(-1);
+  };
 
   return (
     <div className="flex flex-col text-white ">
       <BsPlayCircleFill
         className="mx-5 mt-5 text-6xl text-green-500 hover:scale-110 hover:cursor-pointer hover:text-green-400"
         onClick={() => {
-          playSongs(songUris);
+          playSongs(
+            sortedTracks.map((item: { track: TrackItem }) => item.track.uri)
+          );
           dispatch(
             makeQueue(
               sortedTracks.map((item: any) => {
@@ -51,6 +56,9 @@ const TrackResultsSortable: React.FC<{
           i={i.toString()}
           onDelete={(id) => onDelete(id)}
           owner={owner}
+          isOpen={i === openTrackIndex}
+          handleClick={() => handleTrackCardClick(i)}
+          handleClosing={handleClosing}
         />
       ))}
     </div>

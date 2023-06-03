@@ -151,6 +151,10 @@ export const serverApi = createApi({
         body: { user },
       }),
     }),
+    getPlaylistInfo: builder.query({
+      query: (playlistId) => `getPlaylist/${playlistId}`,
+    }),
+
   }),
 });
 
@@ -180,4 +184,5 @@ export const {
   useSetProfilePicMutation,
   useFollowUserMutation,
   useUnfollowUserMutation,
+  useGetPlaylistInfoQuery,
 } = serverApi;

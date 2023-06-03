@@ -6,6 +6,7 @@ const useAuth = (code: string) => {
   const [refreshToken, setRefreshToken] = React.useState();
   const [expiresIn, setExpiresIn] = React.useState();
 
+
   
 
   useEffect(() => {
@@ -15,7 +16,7 @@ const useAuth = (code: string) => {
         code,
       })
       .then((res) => {
-          console.log(Date.now() + res.data.expiresIn * 1000);
+          // console.log(Date.now() + res.data.expiresIn * 1000);
 
         setAccessToken(res.data.accessToken);
         localStorage.setItem('accessToken', res.data.accessToken);
@@ -48,7 +49,7 @@ const useAuth = (code: string) => {
           // window.history.pushState({}, null, '/');
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
 
           // window.location = '/';
         });

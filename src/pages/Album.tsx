@@ -160,7 +160,7 @@ export async function loader({ params }: any) {
 
     isAlbumLiked = data.isLiked;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 
   let response = await fetch(`https://api.spotify.com/v1/albums/${id}`, {

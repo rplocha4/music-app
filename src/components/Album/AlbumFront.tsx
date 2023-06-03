@@ -49,7 +49,7 @@ const AlbumFront: React.FC<{
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }, [img]);
   return (

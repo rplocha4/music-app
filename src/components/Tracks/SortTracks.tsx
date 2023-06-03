@@ -85,9 +85,9 @@ const SortTracks: React.FC<{
   const [hover, setHover] = React.useState(false);
   const sortedTracks = useMemo(() => {
     const sorted = sortTracks(sortType, sortAscending, tracks);
-    onSort(sorted);
     return sorted;
   }, [sortType, sortAscending, tracks]);
+  onSort(sortedTracks);
 
   const ref = React.useRef<any>(null);
   useEffect(() => {

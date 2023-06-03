@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import AlbumResults from '../components/Album/AlbumResults';
 import ArtistsResults from '../components/Artist/ArtistsResults';
@@ -30,6 +30,11 @@ const Search: React.FC = ({}) => {
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [currentFilter, setCurrentFilter] = useState<string>('songs');
+  const ref = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (ref.current) ref.current.focus();
+  }, []);
 
   const [refetchPlaylist] = useLazySearchPlaylistQuery();
   const [refetchUsers] = useLazySearchUserQuery();
@@ -48,7 +53,7 @@ const Search: React.FC = ({}) => {
         })
         .catch((err: any) => {
           setPlaylists([]);
-          console.log(err);
+          // console.log(err);
         });
     } else if (currentFilter === 'users') {
       refetchUsers(search)
@@ -56,7 +61,7 @@ const Search: React.FC = ({}) => {
           if (!res.data || res.data.length === 0) setUsers([]);
           else {
             setUsers(res.data);
-            console.log(res.data);
+            // console.log(res.data);
           }
         })
         .catch((err: any) => {
@@ -92,6 +97,7 @@ const Search: React.FC = ({}) => {
             type="text"
             className=" ml-1 w-full rounded-sm border-gray-600 outline-none"
             placeholder="What do you want to listen to?"
+            ref={ref}
           />
         </span>
       </div>

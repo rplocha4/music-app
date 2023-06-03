@@ -58,16 +58,16 @@ export function loader({ params }: any) {
     }
   );
 
-  const topTracks = fetch(
-    `https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=long_term`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-      },
-    }
-  );
+  // const topTracks = fetch(
+  //   `https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=long_term`,
+  //   {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+  //     },
+  //   }
+  // );
   const newReleases = fetch(
     `https://api.spotify.com/v1/browse/new-releases?limit=5&country=US`,
     {
@@ -81,7 +81,7 @@ export function loader({ params }: any) {
 
   return defer({
     topArtists: topArtists.then((res) => res.json()),
-    topTracks: topTracks.then((res) => res.json()),
+    // topTracks: topTracks.then((res) => res.json()),
     newReleases: newReleases.then((res) => res.json()),
   });
 }

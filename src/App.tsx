@@ -34,7 +34,7 @@ const App: React.FC = () => {
             );
           })
           .catch((err) => {
-            console.log(err);
+            // console.log(err);
           });
       },
       Number(localStorage.getItem('expiresAt')) - Date.now() > 0

@@ -136,7 +136,7 @@ export async function loader({ params }: { params: { id?: string } }) {
     const data = await res.json();
     isFollowing = data.isFollowing;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
 
   const artist = fetch(`https://api.spotify.com/v1/artists/${artistId}`, {

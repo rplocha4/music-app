@@ -162,8 +162,8 @@ function Profile() {
                 <div className="text-white">
                   {loadedUser?.user.followingUsers.length > 0 && (
                     <>
-                      <p className="font-bold text-4xl p-2">Followed Users</p>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5 px-2">
+                      <p className="p-2 text-4xl font-bold">Followed Users</p>
+                      <div className="grid grid-cols-1 gap-5 px-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                         <UserResults
                           users={loadedUser.user.followingUsers.map(
                             (user: any) => {

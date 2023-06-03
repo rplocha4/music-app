@@ -14,8 +14,20 @@ const TrackCardSortable: React.FC<{
   i: string;
   added: string;
   onDelete: (id: string) => void;
+  handleClosing?: () => void;
+  handleClick?: () => void;
   owner?: string;
-}> = ({ track, i, added, onDelete, owner }) => {
+  isOpen?: boolean;
+}> = ({
+  track,
+  i,
+  added,
+  onDelete,
+  owner,
+  isOpen,
+  handleClick,
+  handleClosing,
+}) => {
   const [hover, setHover] = React.useState(false);
   const { username } = useSelector((state: any) => state.user);
 
@@ -48,11 +60,11 @@ const TrackCardSortable: React.FC<{
         <p>{millisToMinutesAndSeconds(track.duration_ms)}</p>
         {hover && (
           <BsThreeDots
-            // onClick={isOpen ? handleClosing : handleClick}
+            onClick={isOpen ? handleClosing : handleClick}
             className="cursor-pointer text-xl "
           />
         )}
-        {hover && username === owner && (
+        {isOpen && username === owner && (
           <button
             onClick={() => {
               onDelete(track.id);

@@ -25,17 +25,11 @@ const LikedSongs = () => {
 
   const { data, isLoading, refetch, isError } =
     useGetLikedTracksQuery(username);
-  const [totalDuration, setTotalDuration] = React.useState<number>(0);
-
-  useEffect(() => {
-    if (data) {
-      const totalDuration = data.likedTracks.reduce(
-        (acc: number, item: any) => acc + item.track.duration_ms,
-        0
-      );
-      setTotalDuration(totalDuration);
-    }
-  }, [data]);
+  const totalDuration =
+    data?.likedTracks.reduce(
+      (acc: number, item: any) => acc + item.track.duration_ms,
+      0
+    ) ?? 0;
 
   return (
     <div className="">
