@@ -15,7 +15,9 @@ const TrackResults: React.FC<{
   start?: number;
 }> = ({ tracks, showInfo, start }) => {
   const [openTrackIndex, setOpenTrackIndex] = useState(-1);
-  const { data: playlists, refetch } = useGetUserPlaylistsQuery();
+  const { data: playlists, refetch } = useGetUserPlaylistsQuery('', {
+    skip: localStorage.getItem('USERNAME') ? false : true,
+  });
   const [userPlaylists, setUserPlaylists] = useState(playlists);
   const handleTrackCardClick = (index: number) => {
     setOpenTrackIndex(index === openTrackIndex ? -1 : index);
