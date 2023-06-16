@@ -136,7 +136,7 @@ export default Playlist;
 
 export async function loader({ params }: any) {
   const id = params.id;
-  // const res = fetch(`http://localhost:5000/api/getPlaylist/${id}`);
+  // const res = fetch(`https://music-backend-2hi1.onrender.com/api/getPlaylist/${id}`);
   // const res = fetch(`https://api.spotify.com/v1/playlists/${id}`, {
   //   method: 'GET',
   //   headers: {

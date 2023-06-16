@@ -39,7 +39,7 @@ export default function Login() {
       return;
     }
 
-    fetch('http://localhost:5000/login', {
+    fetch('https://music-backend-2hi1.onrender.com/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

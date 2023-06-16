@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TrackItem } from '../../types/types';
 import PlayOptions from './PlayOptions';
 import TrackInfo from './TrackInfo';
 import AlbumInfo from './AlbumInfo';
 import { getIdFromUri, millisToMinutesAndSeconds } from '../../utils';
-import { BiTime } from 'react-icons/bi';
 import LikeTrack from './LikeTrack';
 import { BsThreeDots } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
@@ -30,6 +29,20 @@ const TrackCardSortable: React.FC<{
 }) => {
   const [hover, setHover] = React.useState(false);
   const { username } = useSelector((state: any) => state.user);
+  const ref = React.useRef<any>(null);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        handleClosing!();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [ref]);
 
   return (
     <div
@@ -64,15 +77,21 @@ const TrackCardSortable: React.FC<{
             className="cursor-pointer text-xl "
           />
         )}
-        {isOpen && username === owner && (
-          <button
-            onClick={() => {
-              onDelete(track.id);
-            }}
-          >
-            delete
-          </button>
-        )}
+        <div
+          ref={ref}
+          className="absolute right-5 top-10  z-10 flex w-48 flex-col items-center justify-center rounded-md bg-zinc-900 "
+        >
+          {isOpen && username === owner && (
+            <button
+              className="w-full cursor-pointer rounded-md p-2 text-center hover:bg-zinc-950"
+              onMouseDown={() => {
+                onDelete(track.id);
+              }}
+            >
+              delete
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

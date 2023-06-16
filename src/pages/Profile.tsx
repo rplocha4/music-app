@@ -227,9 +227,11 @@ export default Profile;
 
 export async function loader({ params }: any) {
   const { username } = params;
-  const data = fetch(`http://localhost:5000/api/user/${username}`);
+  const data = fetch(
+    `https://music-backend-2hi1.onrender.com/api/user/${username}`
+  );
   const res = await fetch(
-    `http://localhost:5000/api/isFollowingUser/${localStorage.getItem(
+    `https://music-backend-2hi1.onrender.com/api/isFollowingUser/${localStorage.getItem(
       'USERNAME'
     )}/${username}`
   );

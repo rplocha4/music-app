@@ -53,7 +53,7 @@ const Register = () => {
       return;
     }
 
-    fetch('http://localhost:5000/register', {
+    fetch('https://music-backend-2hi1.onrender.com/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

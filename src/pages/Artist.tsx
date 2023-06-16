@@ -130,7 +130,7 @@ export async function loader({ params }: { params: { id?: string } }) {
 
   const username = localStorage.getItem('USERNAME');
   const res = await fetch(
-    `http://localhost:5000/api/isFollowingArtist/${username}/${artistId}`
+    `https://music-backend-2hi1.onrender.com/api/isFollowingArtist/${username}/${artistId}`
   );
   try {
     const data = await res.json();

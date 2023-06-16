@@ -22,7 +22,7 @@ const App: React.FC = () => {
       () => {
         const refreshToken = localStorage.getItem('refreshToken');
         axios
-          .post('http://localhost:5000/auth/refresh', {
+          .post('https://music-backend-2hi1.onrender.com/auth/refresh', {
             refreshToken,
           })
           .then((res) => {

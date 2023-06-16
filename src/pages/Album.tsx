@@ -151,7 +151,7 @@ export async function loader({ params }: any) {
   let isAlbumLiked = false;
 
   const responseLikedAlbum = await fetch(
-    `http://localhost:5000/api/isAlbumLiked/${localStorage.getItem(
+    `https://music-backend-2hi1.onrender.com/api/isAlbumLiked/${localStorage.getItem(
       'USERNAME'
     )}/${id}`
   );

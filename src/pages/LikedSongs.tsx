@@ -82,7 +82,7 @@ export default LikedSongs;
 
 export async function loader({ params }: any) {
   // const res = fetch(
-  //   `http://localhost:5000/api/likedTracks/${localStorage.getItem('USERNAME')}`
+  //   `https://music-backend-2hi1.onrender.com/api/likedTracks/${localStorage.getItem('USERNAME')}`
   // );
   // return defer({
   //   likedSongs: res.then((res) => res.json()),

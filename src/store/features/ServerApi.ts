@@ -6,7 +6,9 @@ import { Song } from '../playerSlice';
 
 export const serverApi = createApi({
   reducerPath: 'serverApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://music-backend-2hi1.onrender.com/api/',
+  }),
   refetchOnReconnect: true,
 
   endpoints: (builder) => ({
@@ -154,7 +156,6 @@ export const serverApi = createApi({
     getPlaylistInfo: builder.query({
       query: (playlistId) => `getPlaylist/${playlistId}`,
     }),
-
   }),
 });
 
