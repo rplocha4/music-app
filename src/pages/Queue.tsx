@@ -14,7 +14,9 @@ const Queue = () => {
 
   const current_song = q.currentSong as Song;
   const [openTrackIndex, setOpenTrackIndex] = useState(-1);
-  const { data: playlists, refetch } = useGetUserPlaylistsQuery();
+  const { data: playlists, refetch } = useGetUserPlaylistsQuery('', {
+    skip: localStorage.getItem('USERNAME') ? false : true,
+  });
   const userPlaylists = playlists?.userPlaylists;
 
   const dispatch = useDispatch();
