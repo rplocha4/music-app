@@ -1,6 +1,6 @@
 import { BsSpotify } from 'react-icons/bs';
 
-const redirectUri = 'http://localhost:5173';
+const redirectUri = 'https://music-app-rplocha4.vercel.app/';
 const client_id = 'fed249ef83ac4c5e8259bf7f8ffff291';
 
 const scopses = [
