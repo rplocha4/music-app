@@ -23,8 +23,12 @@ const LikedSongs = () => {
     return <Navigate to="/" replace />;
   }
 
-  const { data, isLoading, refetch, isError } =
-    useGetLikedTracksQuery(username);
+  const { data, isLoading, refetch, isError } = useGetLikedTracksQuery(
+    username,
+    {
+      skip: !username,
+    }
+  );
   const totalDuration =
     data?.likedTracks.reduce(
       (acc: number, item: any) => acc + item.track.duration_ms,

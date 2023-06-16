@@ -20,7 +20,9 @@ const LikeTrack: React.FC<{
     skip: localStorage.getItem('USERNAME') ? false : true,
   });
   const { username } = useSelector((state: any) => state.user);
-  const { refetch: refetchLiked } = useGetLikedTracksQuery(username);
+  const { refetch: refetchLiked } = useGetLikedTracksQuery(username, {
+    skip: localStorage.getItem('USERNAME') ? false : true,
+  });
   const likedTrack = data?.isLiking || false;
   const dispatch = useDispatch();
 
