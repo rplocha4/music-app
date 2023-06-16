@@ -78,7 +78,7 @@ export const serverApi = createApi({
         body: { ...playlist },
       }),
     }),
-    getUserPlaylists: builder.query<any, void>({
+    getUserPlaylists: builder.query({
       query: () => `getUserPlaylists/${localStorage.getItem('ID')}`,
     }),
     addTrackToPlaylist: builder.mutation({

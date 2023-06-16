@@ -16,7 +16,9 @@ const LikeTrack: React.FC<{
 }> = ({ track }) => {
   const [likeSong, resultLike] = useLikeTrackMutation();
   const [unlikeSong, resultUnlike] = useUnlikeTrackMutation();
-  const { data, refetch } = useIsLikingTrackQuery(track.id);
+  const { data, refetch } = useIsLikingTrackQuery(track.id, {
+    skip: localStorage.getItem('USERNAME') ? false : true,
+  });
   const { username } = useSelector((state: any) => state.user);
   const { refetch: refetchLiked } = useGetLikedTracksQuery(username);
   const likedTrack = data?.isLiking || false;

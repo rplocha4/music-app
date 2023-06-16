@@ -14,7 +14,11 @@ const Playlists = () => {
   if (!username) {
     return <Navigate to="/" replace />;
   }
-  const { data, refetch, isLoading } = useGetUserPlaylistsQuery();
+  const { data, refetch, isLoading } = useGetUserPlaylistsQuery('', {
+    refetchOnReconnect: true,
+    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
+  });
 
   const handleFormClose = () => {
     setFormIsShown(false);

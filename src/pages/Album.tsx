@@ -150,17 +150,19 @@ export async function loader({ params }: any) {
   const id = params.id;
   let isAlbumLiked = false;
 
-  const responseLikedAlbum = await fetch(
-    `https://music-backend-2hi1.onrender.com/api/isAlbumLiked/${localStorage.getItem(
-      'USERNAME'
-    )}/${id}`
-  );
-  try {
-    const data = await responseLikedAlbum.json();
+  const username = localStorage.getItem('USERNAME');
 
-    isAlbumLiked = data.isLiked;
-  } catch (error) {
-    // console.log(error);
+  if (username) {
+    const responseLikedAlbum = await fetch(
+      `https://music-backend-2hi1.onrender.com/api/isAlbumLiked/${username}/${id}`
+    );
+    try {
+      const data = await responseLikedAlbum.json();
+
+      isAlbumLiked = data.isLiked;
+    } catch (error) {
+      // console.log(error);
+    }
   }
 
   let response = await fetch(`https://api.spotify.com/v1/albums/${id}`, {

@@ -21,8 +21,7 @@ import {
 import { showInfo } from '../store/uiSlice';
 import { useDispatch, useSelector } from 'react-redux';
 const Playlist = () => {
-  const data: any = useLoaderData();
-  const { id } = data;
+  const { id }: any = useLoaderData();
   const {
     data: playlist,
     refetch: refetchPlaylist,
@@ -136,16 +135,8 @@ export default Playlist;
 
 export async function loader({ params }: any) {
   const id = params.id;
-  // const res = fetch(`https://music-backend-2hi1.onrender.com/api/getPlaylist/${id}`);
-  // const res = fetch(`https://api.spotify.com/v1/playlists/${id}`, {
-  //   method: 'GET',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-  //   },
-  // });
-  return defer({
-    // playlist: res.then((res) => res.json()),
+
+  return {
     id: id,
-  });
+  };
 }
