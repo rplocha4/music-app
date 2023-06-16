@@ -141,13 +141,13 @@ function Profile() {
               }).then((res: any) => {
                 refetchUser();
 
-                dispatch(showInfo(res.data.message));
+                dispatch(showInfo(`Unfollowed ${user1.user.username}`));
 
                 setIsFollowingState(false);
               });
             } else {
               followUser({ username, user: user1.user }).then((res: any) => {
-                dispatch(showInfo(res.data.message));
+                dispatch(showInfo(`Followed ${user1.user.username}`));
                 refetchUser();
                 setIsFollowingState(true);
               });
