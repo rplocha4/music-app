@@ -13,6 +13,7 @@ import {
   useSearchUserQuery,
 } from '../store/features/ServerApi';
 import UserResults from '../components/User/UserResults';
+import Loading from '../components/Animate/Loading';
 
 const filters = [
   { name: 'songs' },
