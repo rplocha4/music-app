@@ -30,6 +30,7 @@ const Search: React.FC = ({}) => {
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [currentFilter, setCurrentFilter] = useState<string>('songs');
+  const [isLoading, setIsLoading] = useState(false);
   const ref = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -44,14 +45,19 @@ const Search: React.FC = ({}) => {
       setTracks([]);
       return;
     }
+    setIsLoading(true);
 
     if (currentFilter === 'playlists') {
       refetchPlaylist(search)
         .then((res: any) => {
           if (!res.data || res.data.length === 0) setPlaylists([]);
-          else setPlaylists(res.data);
+          else {
+            setPlaylists(res.data);
+            setIsLoading(false);
+          }
         })
         .catch((err: any) => {
+          setIsLoading(false);
           setPlaylists([]);
           // console.log(err);
         });
@@ -61,10 +67,14 @@ const Search: React.FC = ({}) => {
           if (!res.data || res.data.length === 0) setUsers([]);
           else {
             setUsers(res.data);
+            setIsLoading(false);
+
             // console.log(res.data);
           }
         })
         .catch((err: any) => {
+          setIsLoading(false);
+
           setUsers([]);
         });
     } else
@@ -83,6 +93,7 @@ const Search: React.FC = ({}) => {
           setTracks(data.tracks.items);
           setArtist(data.artists.items);
           setAlbums(data.albums.items);
+          setIsLoading(false);
         });
   }, [search, currentFilter]);
 
@@ -124,21 +135,24 @@ const Search: React.FC = ({}) => {
               <TrackResults showInfo={true} tracks={tracks} />
             )}
           </div>
-
-          <div className="grid grid-cols-1 gap-5 px-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-            {search && currentFilter === 'artists' && (
-              <ArtistsResults artists={artists} />
-            )}
-            {search && currentFilter === 'albums' && (
-              <AlbumResults albums={albums} />
-            )}
-            {search && currentFilter === 'playlists' && (
-              <PlaylistResults playlists={playlists} />
-            )}
-            {search && currentFilter === 'users' && (
-              <UserResults users={users} />
-            )}
-          </div>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <div className="grid grid-cols-1 gap-5 px-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+              {search && currentFilter === 'artists' && (
+                <ArtistsResults artists={artists} />
+              )}
+              {search && currentFilter === 'albums' && (
+                <AlbumResults albums={albums} />
+              )}
+              {search && currentFilter === 'playlists' && (
+                <PlaylistResults playlists={playlists} />
+              )}
+              {search && currentFilter === 'users' && (
+                <UserResults users={users} />
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
