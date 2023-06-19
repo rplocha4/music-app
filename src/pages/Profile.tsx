@@ -27,7 +27,7 @@ function Profile() {
   const { username } = useSelector((state: any) => state.user);
 
   const {
-    data: user1,
+    data: user,
     isLoading,
     refetch: refetchUser,
   } = useGetUserQuery(usernameFromParams);
@@ -67,7 +67,7 @@ function Profile() {
   if (isLoading) {
     return <Loading />;
   }
-  // console.log(user1);
+  // console.log(user);
 
   return (
     <div>
@@ -81,9 +81,9 @@ function Profile() {
             setProfileHover(false);
           }}
         >
-          {user1.profilePicture ? (
+          {user.profilePicture ? (
             <img
-              src={user1.profilePicture}
+              src={user.profilePicture}
               alt="profile picture"
               style={{
                 height: '200px',
@@ -97,7 +97,7 @@ function Profile() {
               className="rounded-full bg-zinc-400 p-2"
             />
           )}
-          {username === user1.user?.username && profileHover && (
+          {username === user.user?.username && profileHover && (
             <div
               className="absolute top-0 flex items-center justify-center rounded-full bg-black text-4xl text-white opacity-70"
               style={{ height: '200px', width: '200px' }}
@@ -122,32 +122,32 @@ function Profile() {
         </div>
         <div className="ml-5 flex flex-col justify-between text-white">
           <p>Profile</p>
-          <p className="text-7xl font-bold">{user1?.user.username}</p>
+          <p className="text-7xl font-bold">{user?.user.username}</p>
           <div className="flex items-center gap-1 font-semibold">
-            <p>{user1?.user.followers.length} followers</p>
+            <p>{user?.user.followers.length} followers</p>
             <p className="font-extrabold">·</p>
 
-            <p>{user1?.user.followingUsers.length} following</p>
+            <p>{user?.user.followingUsers.length} following</p>
           </div>
         </div>
       </div>
-      {username && username !== user1.user?.username && (
+      {username && username !== user.user?.username && (
         <button
           onClick={() => {
             if (isFollowingState) {
               unfollowUser({
                 username,
-                user: user1.user,
-              }).then((res: any) => {
+                user: user.user,
+              }).then(() => {
                 refetchUser();
 
-                dispatch(showInfo(`Unfollowed ${user1.user.username}`));
+                dispatch(showInfo(`Unfollowed ${user.user.username}`));
 
                 setIsFollowingState(false);
               });
             } else {
-              followUser({ username, user: user1.user }).then((res: any) => {
-                dispatch(showInfo(`Followed ${user1.user.username}`));
+              followUser({ username, user: user.user }).then(() => {
+                dispatch(showInfo(`Followed ${user.user.username}`));
                 refetchUser();
                 setIsFollowingState(true);
               });
@@ -162,19 +162,19 @@ function Profile() {
       <div className="flex flex-col gap-2 text-white">
         <p className="p-2 text-4xl font-bold">Followed Artists</p>
         <div className="grid grid-cols-1 gap-5 px-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-          {user1?.user.followingArtists.length > 0 ? (
-            <ArtistsResults artists={user1.user.followingArtists} />
+          {user?.user.followingArtists.length > 0 ? (
+            <ArtistsResults artists={user.user.followingArtists} />
           ) : (
-            <p>No followed artists by {user1.user.username}</p>
+            <p>No followed artists by {user.user.username}</p>
           )}
         </div>
 
         <p className="p-2 text-4xl font-bold">Liked Albums</p>
         <div className="grid grid-cols-1 gap-5 px-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-          {user1?.user.likedAlbums.length > 0 ? (
-            <AlbumResults albums={user1.user.likedAlbums} />
+          {user?.user.likedAlbums.length > 0 ? (
+            <AlbumResults albums={user.user.likedAlbums} />
           ) : (
-            <p>No liked albums by {user1.user.username}</p>
+            <p>No liked albums by {user.user.username}</p>
           )}
         </div>
       </div>
@@ -184,10 +184,10 @@ function Profile() {
         <div className="text-white">
           <p className="p-2 text-4xl font-bold">Liked Playlists</p>
           <div className="grid grid-cols-1 gap-5 px-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-            {user1?.user.likedPlaylists.length > 0 ? (
+            {user?.user.likedPlaylists.length > 0 ? (
               <PlaylistResults playlists={followedPlaylists} />
             ) : (
-              <p>No liked playlists by {user1.user.username}</p>
+              <p>No liked playlists by {user.user.username}</p>
             )}
           </div>
         </div>
@@ -200,14 +200,20 @@ export default Profile;
 
 export async function loader({ params }: any) {
   const { username } = params;
-  const res = await fetch(
-    `https://music-backend-2hi1.onrender.com/api/isFollowingUser/${localStorage.getItem(
-      'USERNAME'
-    )}/${username}`
-  );
-  const isFollowing = await res.json();
+
+  let isFollowing = false;
+  if (localStorage.getItem('USERNAME')) {
+    const res = await fetch(
+      `https://music-backend-2hi1.onrender.com/api/isFollowingUser/${localStorage.getItem(
+        'USERNAME'
+      )}/${username}`
+    );
+
+    const data = await res.json();
+    isFollowing = data.isFollowing;
+  }
   return defer({
-    isFollowing: isFollowing.isFollowing,
+    isFollowing: isFollowing,
     username,
   });
 }

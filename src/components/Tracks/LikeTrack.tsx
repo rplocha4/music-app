@@ -10,6 +10,7 @@ import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { showInfo } from '../../store/uiSlice';
 import { Song } from '../../store/playerSlice';
+import { RootState } from '../../store/store';
 
 const LikeTrack: React.FC<{
   track: TrackItem | Song;
@@ -19,7 +20,7 @@ const LikeTrack: React.FC<{
   const { data, refetch } = useIsLikingTrackQuery(track.id, {
     skip: localStorage.getItem('USERNAME') ? false : true,
   });
-  const { username } = useSelector((state: any) => state.user);
+  const { username } = useSelector((state: RootState) => state.user);
   const { refetch: refetchLiked } = useGetLikedTracksQuery(username, {
     skip: localStorage.getItem('USERNAME') ? false : true,
   });

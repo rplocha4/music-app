@@ -14,6 +14,7 @@ import {
 } from '../store/features/ServerApi';
 import UserResults from '../components/User/UserResults';
 import Loading from '../components/Animate/Loading';
+import useDebounce from '../hooks/useDebounce';
 
 const filters = [
   { name: 'songs' },
@@ -34,6 +35,8 @@ const Search: React.FC = ({}) => {
   const [isLoading, setIsLoading] = useState(false);
   const ref = useRef<HTMLInputElement>(null);
 
+  const debauncedSearch = useDebounce({ value: search, delay: 200 });
+
   useEffect(() => {
     if (ref.current) ref.current.focus();
   }, []);
@@ -42,14 +45,14 @@ const Search: React.FC = ({}) => {
   const [refetchUsers] = useLazySearchUserQuery();
 
   useEffect(() => {
-    if (!search) {
+    if (!debauncedSearch) {
       setTracks([]);
       return;
     }
     setIsLoading(true);
 
     if (currentFilter === 'playlists') {
-      refetchPlaylist(search)
+      refetchPlaylist(debauncedSearch)
         .then((res: any) => {
           if (!res.data || res.data.length === 0) setPlaylists([]);
           else {
@@ -63,7 +66,7 @@ const Search: React.FC = ({}) => {
           // console.log(err);
         });
     } else if (currentFilter === 'users') {
-      refetchUsers(search)
+      refetchUsers(debauncedSearch)
         .then((res: any) => {
           if (!res.data || res.data.length === 0) setUsers([]);
           else {
@@ -80,7 +83,7 @@ const Search: React.FC = ({}) => {
         });
     } else
       fetch(
-        `https://api.spotify.com/v1/search?q=${search}&type=track,album,artist`,
+        `https://api.spotify.com/v1/debauncedSearch?q=${debauncedSearch}&type=track,album,artist`,
         {
           method: 'GET',
           headers: {
@@ -96,7 +99,7 @@ const Search: React.FC = ({}) => {
           setAlbums(data.albums.items);
           setIsLoading(false);
         });
-  }, [search, currentFilter]);
+  }, [debauncedSearch, currentFilter]);
 
   return (
     <div className="h-full">

@@ -7,6 +7,7 @@ import { getIdFromUri, millisToMinutesAndSeconds } from '../../utils';
 import LikeTrack from './LikeTrack';
 import { BsThreeDots } from 'react-icons/bs';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 const TrackCardSortable: React.FC<{
   track: TrackItem;
@@ -28,7 +29,7 @@ const TrackCardSortable: React.FC<{
   handleClosing,
 }) => {
   const [hover, setHover] = React.useState(false);
-  const { username } = useSelector((state: any) => state.user);
+  const { username } = useSelector((state: RootState) => state.user);
   const ref = React.useRef<any>(null);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
