@@ -83,7 +83,7 @@ const Search: React.FC = ({}) => {
         });
     } else
       fetch(
-        `https://api.spotify.com/v1/debauncedSearch?q=${debauncedSearch}&type=track,album,artist`,
+        `https://api.spotify.com/v1/search?q=${debauncedSearch}&type=track,album,artist`,
         {
           method: 'GET',
           headers: {
