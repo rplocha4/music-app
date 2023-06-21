@@ -83,13 +83,17 @@ const SortTracks: React.FC<{
   const [sortAscending, setSortAscending] = React.useState(true);
   const [sortType, setSortType] = React.useState('Date');
   const [hover, setHover] = React.useState(false);
+  const ref = React.useRef<any>(null);
   const sortedTracks = useMemo(() => {
     const sorted = sortTracks(sortType, sortAscending, tracks);
     return sorted;
   }, [sortType, sortAscending, tracks]);
-  onSort(sortedTracks);
 
-  const ref = React.useRef<any>(null);
+  useEffect(() => {
+    onSort(sortedTracks);
+  }, [sortedTracks]);
+
+  
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target)) {

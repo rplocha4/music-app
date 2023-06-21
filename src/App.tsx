@@ -12,10 +12,14 @@ const App: React.FC = () => {
     localStorage.getItem('accessToken')
   );
   const [newAccessToken, setNewAccessToken] = useState(useAuth(code));
+
+
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     setAccessToken(token);
   }, [localStorage.getItem('accessToken')]);
+
+
   useEffect(() => {
     if (!localStorage.getItem('expiresAt')) return;
     const timeout = setTimeout(
@@ -45,17 +49,9 @@ const App: React.FC = () => {
     return () => clearTimeout(timeout);
   }, [localStorage.getItem('expiresAt')]);
 
-  // useEffect(() => {
-  //   if (accessToken !== null && accessToken !== undefined) {
-  //     return;
-  //   } else {
-  //     setAccessToken(localStorage.getItem('accessToken'));
-  //   }
-  // }, [localStorage.getItem('accessToken'), code]);
 
   return (
     <div className="min-h-screen bg-slate-100">
-      {/* {accessToken ? <WebPlayback /> : <Login />} */}
       {!accessToken && !code ? (
         <SpotifyAuth />
       ) : !accessToken ? (
@@ -63,7 +59,6 @@ const App: React.FC = () => {
       ) : (
         <Layout />
       )}
-      {/* {!code ? <Login /> : <Layout code={code} />} */}
     </div>
   );
 };

@@ -12,13 +12,6 @@ function Lyricks() {
   );
   const [loading, setLoading] = useState(false);
 
-  if (playerSelector.current_song.name === '')
-    return (
-      <div className="flex h-full items-center justify-center ">
-        <h1 className="text-center text-2xl text-white  ">No song playing</h1>
-      </div>
-    );
-
   useEffect(() => {
     if (playerSelector.current_song.name === '') return;
     let lyricksId = '';
@@ -69,6 +62,14 @@ function Lyricks() {
         console.error(error);
       });
   }, [playerSelector.current_song.name]);
+
+  if (playerSelector.current_song.name === '')
+    return (
+      <div className="flex h-full items-center justify-center ">
+        <h1 className="text-center text-2xl text-white  ">No song playing</h1>
+      </div>
+    );
+
   return (
     <>
       {playerSelector.current_song.name !== '' &&

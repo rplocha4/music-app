@@ -41,7 +41,7 @@ const Navbar = () => {
     // },
     {
       name: 'Liked Songs',
-      path: `/likedSongs/${username}`,
+      path: `/likedSongs`,
       icon: (
         <AiFillHeart
           style={{
