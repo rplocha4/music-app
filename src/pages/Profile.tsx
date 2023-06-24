@@ -124,10 +124,10 @@ function Profile() {
           <p>Profile</p>
           <p className="text-7xl font-bold">{user?.user.username}</p>
           <div className="flex items-center gap-1 font-semibold">
-            <p>{user?.user.followers.length} followers</p>
+            {/* <p>{user?.user.followers.length} followers</p>
             <p className="font-extrabold">·</p>
 
-            <p>{user?.user.followingUsers.length} following</p>
+            <p>{user?.user.followingUsers.length} following</p> */}
           </div>
         </div>
       </div>
