@@ -48,7 +48,7 @@ const UserButton: React.FC = ({}) => {
         onClick={() => setIsExpanded((prev) => !prev)}
       >
         <span className="flex items-center justify-center gap-2 ">
-          {avatar ? (
+          {avatar && avatar !== null ? (
             <img
               src={avatar}
               alt="profile pic"
