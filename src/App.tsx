@@ -8,12 +8,15 @@ import SpotifyAuth from './pages/SpotifyAuth';
 const code = new URLSearchParams(window.location.search).get('code') as string;
 
 const App: React.FC = () => {
-  const [accessToken, setAccessToken] = useState(useAuth(code));
+  const [accessToken, setAccessToken] = useState(
+    localStorage.getItem('accessToken')
+  );
+  const [newAccessToken, setNewAccessToken] = useState(useAuth(code));
 
-  const renderContent = () => {
-    if (!accessToken) return <SpotifyAuth />;
-    return <Layout />;
-  };
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    setAccessToken(token);
+  }, [localStorage.getItem('accessToken')]);
 
   useEffect(() => {
     if (!localStorage.getItem('expiresAt')) return;
@@ -46,14 +49,13 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-100">
-      {/* {!accessToken && !code ? (
+      {!accessToken && !code ? (
         <SpotifyAuth />
       ) : !accessToken ? (
         <SpotifyAuth />
       ) : (
         <Layout />
-      )} */}
-      {renderContent()}
+      )}
     </div>
   );
 };
