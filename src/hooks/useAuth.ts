@@ -19,12 +19,12 @@ const useAuth = (code: string) => {
           // console.log(Date.now() + res.data.expiresIn * 1000);
 
         setAccessToken(res.data.accessToken);
+        setRefreshToken(res.data.refreshToken);
+        setExpiresIn(res.data.expiresIn);
         localStorage.setItem('accessToken', res.data.accessToken);
         localStorage.setItem("expiresAt", `${Date.now() + res.data.expiresIn * 1000}`);
         localStorage.setItem("refreshToken", res.data.refreshToken);
-        setRefreshToken(res.data.refreshToken);
-        setExpiresIn(res.data.expiresIn);
-        window.history.pushState({}, '', '/');
+        // window.history.pushState({}, '', '/');
       })
       .catch((err) => {
         // console.log(err);
