@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const useAuth = (code: string) => {
   const [accessToken, setAccessToken] = React.useState();
   const [refreshToken, setRefreshToken] = React.useState();
   const [expiresIn, setExpiresIn] = React.useState();
 
+  const navigate = useNavigate();
 
   
 
@@ -24,6 +26,7 @@ const useAuth = (code: string) => {
         localStorage.setItem('accessToken', res.data.accessToken);
         localStorage.setItem("expiresAt", `${Date.now() + res.data.expiresIn * 1000}`);
         localStorage.setItem("refreshToken", res.data.refreshToken);
+        navigate('/home');
         // window.history.pushState({}, '', '/');
       })
       .catch((err) => {
