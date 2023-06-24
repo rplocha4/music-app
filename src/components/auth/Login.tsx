@@ -56,7 +56,9 @@ export default function Login() {
           localStorage.setItem('TOKEN', data.token);
           localStorage.setItem('USERNAME', data.username);
           localStorage.setItem('ID', data._id);
-          localStorage.setItem('avatar', data.profilePicture);
+          if (data.profilePicture) {
+            localStorage.setItem('avatar', data.profilePicture);
+          }
           dispatch(setUsername(data.username));
           dispatch(hideLogin());
           dispatch(showInfo(data.message));
