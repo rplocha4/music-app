@@ -63,7 +63,7 @@ const Volume: React.FC<{
         type="range"
         min={0}
         max={1}
-        step={0.05}
+        step={0.01}
         value={playerSelector.volume}
         onChange={(event) => {
           // setVolume(event.target.value);
