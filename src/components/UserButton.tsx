@@ -12,7 +12,7 @@ const UserButton: React.FC = ({}) => {
   const ref = useRef<any>(null);
   const { username } = useSelector((state: RootState) => state.user);
   const [token, setToken] = useState(localStorage.getItem('TOKEN'));
-  const avatar = localStorage.getItem('avatar');
+  const avatar = localStorage.getItem('avatar') || null;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
