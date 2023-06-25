@@ -68,6 +68,23 @@ class SongQueue {
   public overrideQueue(queue: Song[]) {
     this.queue = queue;
   }
+  public playNext() {
+    const song = this.queue.shift();
+    if (song) {
+      this.previousQueue.push(this.currentSong!);
+      this.currentSong = song;
+    }
+    return song;
+  }
+  public playRandom() {
+    const randomIndex = Math.floor(Math.random() * this.queue.length);
+    const song = this.queue[randomIndex];
+    this.queue.splice(randomIndex, 1);
+    this.previousQueue.push(this.currentSong!);
+    this.currentSong = song;
+    return song;
+  }
+  
 
   public containsSong(uri:string){
     return this.queue.some(song => song.uri === uri)
@@ -109,7 +126,15 @@ export const playerSlice = createSlice({
   reducers: {
  
     playNext(state) {
-      state.current_song = state.queue.dequeue() || state.current_song;
+      // if shuffle is on, play a random song from the queue
+      if (state.shuffle) {
+        const randomIndex = Math.floor(Math.random() * state.queue.queue.length);
+        state.current_song = state.queue.queue[randomIndex];
+        state.queue.queue.splice(randomIndex, 1);
+      } else {
+        state.current_song = state.queue.dequeue() || state.current_song;
+      }
+
     },
     playPrevious(state) {
       state.current_song = state.queue.playPrevious() || state.current_song;
