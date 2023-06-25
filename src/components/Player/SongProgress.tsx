@@ -11,7 +11,7 @@ import { millisToMinutesAndSeconds } from '../../utils';
 import {
   useGetSongStateQuery,
   usePlaySongsMutation,
-  useSeekToPositionMutation,
+useSeekToPositionMutation,
 } from '../../store/features/SpotifyApi';
 
 const SongProgress: React.FC = () => {
@@ -32,8 +32,13 @@ const SongProgress: React.FC = () => {
     setProgress(data.progress_ms);
     dispatch(setSongPosition(data.progress_ms));
 
-    if (data.progress_ms + 1000 >= data.item.duration_ms)
-      playSong([playerSelector.queue.dequeue()?.uri]);
+    if (data.progress_ms + 1000 >= data.item.duration_ms) {
+      playSong([
+        playerSelector.shuffle
+          ? playerSelector.queue.playRandom()?.uri
+          : playerSelector.queue.playNext()?.uri,
+      ]);
+    }
   }, [data?.progress_ms]);
 
   // useEffect(() => {

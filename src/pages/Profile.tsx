@@ -31,6 +31,7 @@ function Profile() {
     isLoading,
     refetch: refetchUser,
   } = useGetUserQuery(usernameFromParams);
+  // console.log(user);
 
   const [followUser] = useFollowUserMutation();
   const [unfollowUser] = useUnfollowUserMutation();

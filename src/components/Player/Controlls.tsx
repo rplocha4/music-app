@@ -67,7 +67,12 @@ const Controlls: React.FC = () => {
         className="cursor-pointer active:scale-90"
         onClick={() => {
           !playerSelector.queue.isEmpty()
-            ? playSong([playerSelector.queue.dequeue()?.uri])
+            ? // play random if shuffle is on
+              playSong([
+                playerSelector.shuffle
+                  ? playerSelector.queue.playRandom()?.uri
+                  : playerSelector.queue.playNext()?.uri,
+              ])
             : dispatch(showInfo('Queue is empty'));
         }}
       />
