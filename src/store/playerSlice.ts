@@ -59,17 +59,10 @@ class SongQueue {
   public isEmpty() {
     return this.queue.length === 0;
   }
-  public makeQueue(queue: Song[], current_song: Song) {
-    this.currentSong = current_song;
-
-    queue.forEach((song) => {
-      if (song.id !== current_song.id) {
-        this.queue.push(song);
-      }
-    }
-    );
-
-
+  public makeQueue(queue: Song[]) {
+    this.currentSong = queue[0];
+    if(queue.length > 2)
+      this.queue = queue.slice(1);
 
   }
 
@@ -184,7 +177,7 @@ export const playerSlice = createSlice({
     },
 
     makeQueue(state, action) {
-      state.queue.makeQueue(action.payload, state.current_song);
+      state.queue.makeQueue(action.payload);
 
     },
     overrideQueue(state, action) {
