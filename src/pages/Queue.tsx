@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TrackCard from '../components/Tracks/TrackCard';
-import { Song, overrideQueue, setCurrentSong } from '../store/playerSlice';
+import {
+  PlayerState,
+  Song,
+  overrideQueue,
+  setCurrentSong,
+} from '../store/playerSlice';
 import TrackResults from '../components/Tracks/TrackResults';
 import { Reorder, AnimatePresence } from 'framer-motion';
 import { makeQueue } from '../store/playerSlice';
@@ -10,9 +15,12 @@ import { useGetUserPlaylistsQuery } from '../store/features/ServerApi';
 import { RootState } from '../store/store';
 const Queue = () => {
   const { queue: q } = useSelector((state: RootState) => state.player);
+  const playerSelector = useSelector<RootState, PlayerState>(
+    (state) => state.player
+  );
   const [queue, setQueue] = useState(q.queue);
 
-  const current_song = q.currentSong as Song;
+  const current_song = playerSelector.current_song;
   const [openTrackIndex, setOpenTrackIndex] = useState(-1);
   const { data: playlists, refetch } = useGetUserPlaylistsQuery('', {
     skip: localStorage.getItem('USERNAME') ? false : true,
@@ -22,8 +30,8 @@ const Queue = () => {
   const dispatch = useDispatch();
 
   // useEffect(() => {
-  //   setCurrentSong(q.currentSong || {});
-  // }, [q.currentSong]);
+  //   setCurrentSong(playerSelector.current_song || {});
+  // }, [playerSelector.current_song]);
 
   // useEffect(() => {
   //   setQueue(queue.queue);
@@ -43,7 +51,7 @@ const Queue = () => {
     <div className="flex flex-col gap-2 p-5 text-white">
       <h1 className="bold text-3xl">Queue</h1>
       <>
-        {q.currentSong?.uri && (
+        {playerSelector.current_song?.uri && (
           <h2 className="text-xl text-gray-500">Now Playing</h2>
         )}
         <div>
@@ -51,7 +59,9 @@ const Queue = () => {
             <TrackResults
               showInfo={false}
               // tracks={[...queue.toArray(queue.head).slice(0, 1)]}
-              tracks={current_song.uri ? [q.currentSong as Song] : []}
+              tracks={
+                current_song.uri ? [playerSelector.current_song as Song] : []
+              }
             />
           )}
         </div>
