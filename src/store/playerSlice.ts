@@ -59,22 +59,13 @@ class SongQueue {
   public isEmpty() {
     return this.queue.length === 0;
   }
-  public makeQueue(queue: Song[], shuffle: boolean) {
-    if (shuffle) {
-      this.shuffle(queue);
-    } else {  
+  public makeQueue(queue: Song[]) {
     this.currentSong = queue[0];
     if(queue.length > 2)
       this.queue = queue.slice(1);
-    }
 
   }
-  public shuffle(queue: Song[]) {
-    const randomIndex = Math.floor(Math.random() * queue.length);
-    this.currentSong = queue[randomIndex];
-    queue.splice(randomIndex, 1);
-    this.queue = queue;
-  }
+
 
   public overrideQueue(queue: Song[]) {
     this.queue = queue;
@@ -186,7 +177,7 @@ export const playerSlice = createSlice({
     },
 
     makeQueue(state, action) {
-      state.queue.makeQueue(action.payload, state.shuffle);
+      state.queue.makeQueue(action.payload);
 
     },
     overrideQueue(state, action) {

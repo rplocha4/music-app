@@ -4,7 +4,10 @@ import { GoPlay } from 'react-icons/go';
 import { useDispatch } from 'react-redux';
 import { Song, makeQueue } from '../../store/playerSlice';
 import classes from '../Playlist/Modal.module.css';
-import { usePlayContextMutation } from '../../store/features/SpotifyApi';
+import {
+  usePlayContextMutation,
+  usePlaySongsMutation,
+} from '../../store/features/SpotifyApi';
 const AlbumCard: React.FC<{
   name: string;
   image: string;
@@ -18,6 +21,7 @@ const AlbumCard: React.FC<{
   const [hoverButton, setHoverButton] = React.useState(false);
   const dispatch = useDispatch();
   const [playContext, result] = usePlayContextMutation();
+  const [playSongs] = usePlaySongsMutation();
 
   const setAlbumQueue = async () => {
     const res = await fetch(`https://api.spotify.com/v1/albums/${id}/tracks`, {
@@ -37,6 +41,7 @@ const AlbumCard: React.FC<{
         duration_ms: song.duration_ms,
       };
     });
+
     playContext(albumUri);
     dispatch(makeQueue(songs));
   };
